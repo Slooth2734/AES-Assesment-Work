@@ -1,0 +1,16 @@
+C:\Users\robbo\source\repos\AssessmentApp\AssessmentApp\bin\Debug\net6.0-windows\AssessmentApp.exe
+C:\Users\robbo\source\repos\AssessmentApp\AssessmentApp\bin\Debug\net6.0-windows\AssessmentApp.deps.json
+C:\Users\robbo\source\repos\AssessmentApp\AssessmentApp\bin\Debug\net6.0-windows\AssessmentApp.runtimeconfig.json
+C:\Users\robbo\source\repos\AssessmentApp\AssessmentApp\bin\Debug\net6.0-windows\AssessmentApp.dll
+C:\Users\robbo\source\repos\AssessmentApp\AssessmentApp\bin\Debug\net6.0-windows\AssessmentApp.pdb
+C:\Users\robbo\source\repos\AssessmentApp\AssessmentApp\obj\Debug\net6.0-windows\AssessmentApp.Form1.resources
+C:\Users\robbo\source\repos\AssessmentApp\AssessmentApp\obj\Debug\net6.0-windows\AssessmentApp.csproj.GenerateResource.cache
+C:\Users\robbo\source\repos\AssessmentApp\AssessmentApp\obj\Debug\net6.0-windows\AssessmentApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\robbo\source\repos\AssessmentApp\AssessmentApp\obj\Debug\net6.0-windows\AssessmentApp.AssemblyInfoInputs.cache
+C:\Users\robbo\source\repos\AssessmentApp\AssessmentApp\obj\Debug\net6.0-windows\AssessmentApp.AssemblyInfo.cs
+C:\Users\robbo\source\repos\AssessmentApp\AssessmentApp\obj\Debug\net6.0-windows\AssessmentApp.csproj.CoreCompileInputs.cache
+C:\Users\robbo\source\repos\AssessmentApp\AssessmentApp\obj\Debug\net6.0-windows\AssessmentApp.dll
+C:\Users\robbo\source\repos\AssessmentApp\AssessmentApp\obj\Debug\net6.0-windows\refint\AssessmentApp.dll
+C:\Users\robbo\source\repos\AssessmentApp\AssessmentApp\obj\Debug\net6.0-windows\AssessmentApp.pdb
+C:\Users\robbo\source\repos\AssessmentApp\AssessmentApp\obj\Debug\net6.0-windows\AssessmentApp.genruntimeconfig.cache
+C:\Users\robbo\source\repos\AssessmentApp\AssessmentApp\obj\Debug\net6.0-windows\ref\AssessmentApp.dll
