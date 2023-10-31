@@ -6,26 +6,23 @@ using System.Threading.Tasks;
 
 namespace AssessmentApp
 {
-    public class Shape
+    public abstract class Shape
     {
-        Form form = new Form1();
-        public Brush DeafultBrush = Brushes.Black;
-        public Point DeafultPosition = new Point();
-        public Point Position {  get; set; }
-        public int height;
-        public int width;
+        public Point DeafultPoint = new Point(0, 0);
+        public Point CurrentPoint {  get; set; }
 
-        public Shape() { }
-
-        public void Draw(Graphics graphics) { }
-
-        public void Fill(Graphics graphics) { }
-
-        public void Render(Graphics graphics) { }
-
+        public Shape() {    }
         public Shape(Point position) 
         {
-            Position = position;
+            CurrentPoint = position;
         }
+
+        public abstract void Draw(Graphics graphics);
+
+        public abstract void Fill(Graphics graphics);
+
+        //public abstract void Render(Graphics graphics);
+
+        
     }
 }

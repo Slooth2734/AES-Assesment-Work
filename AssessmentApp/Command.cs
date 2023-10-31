@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,101 +17,106 @@ namespace AssessmentApp
         Move,
         Clear,
         Reset,
+        Pen,
+        On,
+        Off,
         None
     }
-     public enum Colors
+    public enum Colors
     {
-        AliceBlue,
-        AntiqueWhite,
-        Aqua,
-        Aquamarine,
-        Azure,
         Beige,
-        Bisque,
         Black,
-        BlanchedAlmond,
         Blue,
-        BlueViolet,
         Brown,
-        BurlyWood,
-        CadetBlue,
-        Chartreuse,
-        Chocolate,
-        Coral,
-        Crimson,
-        Cyan,
-        DarkBlue,
-        DarkCyan,
-        DarkGray,
-        DarkGreen,
-        DarkRed,
-        DeepPink,
-        DodgerBlue,
-        ForestGreen,
-        Fuchsia,
         Gold,
         Gray,
         Green,
-        Honeydew,
-        HotPink,
-        Indigo,
-        Ivory,
-        Khaki,
-        Lavender,
-        LightBlue,
-        LimeGreen,
-        Magenta,
-        Maroon,
-        MidnightBlue,
-        Moccasin,
-        Navy,
-        Olive,
         Orange,
-        PaleGreen,
-        Peru,
         Pink,
-        Plum,
-        PowderBlue,
         Purple,
         Red,
-        RoyalBlue,
-        Salmon,
-        Sienna,
         Silver,
-        SkyBlue,
-        Snow,
-        Tan,
-        Teal,
-        Thistle,
-        Tomato,
-        Turquoise,
-        Violet,
         White,
         Yellow
     }
 
-    internal class Command
+    public class Command
     {
+        private Graphics graphics;
+        private Parser Parser;
         internal Action Action {  get; set; }
-        internal IEnumerable<int> Coordinates { get; set; }
+        internal Colors Color { get; set; }
+        internal int[] Coordinates { get; set; }
 
-        public Command (Action action)
+        public Command(Action action, Graphics graphics)
         {
             Action = action;
-        }
+            this.graphics = graphics;
+            if ("Rectangle".Equals(action.ToString()))
+            {
+                    Rectangle r = new Rectangle();
+                    r.Draw(graphics);
+            }
+            else if ("Circle".Equals(action.ToString()))
+            {
+                Circle c = new Circle();
+                c.Draw(graphics);
+            }
+            else if ("Square".Equals(action.ToString()))
+            {
+                Square s = new Square();
+                s.Draw(graphics);
+            }
+            else if ("clear".Equals(action))
+            {
+                
+            }
+            else if ("Reset".Equals(action))
+            {
 
-        public Command(Action action, IEnumerable<int> coordinates) 
-        {
-            Action = action; 
-            Coordinates = coordinates;
-        }
+            }
+            else if ("fill".Equals(action))
+            {
 
-        public Command(Action action, IEnumerable<int> coordinates, Color color, bool? onOff) 
+            }
+            else if ("draw".Equals(action))
+            {
+
+            }
+        }
+        public Command(Action action, Colors color)
         {
-            Action = action;
+            this.graphics = graphics;
+            if ("Pen".Equals(action.ToString()))
+            {
+
+            }
+        }
+        public Command(Action action, int[] coordinates, Graphics graphics) 
+        {
             Coordinates = coordinates;
-            Color color1 = color;
-            bool? bool1 = onOff;
+            this.graphics = graphics;
+            if ("Rectangle".Equals(action.ToString()))
+            {
+                Rectangle r = new Rectangle();
+                coordinates[0] = r.CurrentPoint.X;
+                coordinates[1] = r.CurrentPoint.Y;
+                r.Draw(graphics);
+            }
+            else if ("Circle".Equals(action.ToString()))
+            {
+                Circle c = new Circle();
+                coordinates[0] = c.CurrentPoint.X;
+                coordinates[1] = c.CurrentPoint.Y;
+                c.Draw(graphics);
+            }
+            else if ("Square".Equals(action.ToString()))
+            {
+                Square s = new Square();
+                coordinates[0] = s.CurrentPoint.X;
+                coordinates[1] = s.CurrentPoint.Y;
+                s.Draw(graphics);
+            }
         }
     }
 }

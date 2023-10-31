@@ -6,15 +6,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace AssessmentApp
-{
+{/*
     internal class Cursor
     {
         internal static readonly Cursor cursor = new Cursor();
         public static Color DeafultColour = Color.Red;
         internal static readonly int DeafultHeight = 3;
         internal static readonly int DeafultWidth = 3;
-        internal static int DeafultX = 10;
-        internal static int DeafultY = 10;
 
         public SolidBrush Brush { get; }
         public bool FillShape { get; set; }
@@ -23,7 +21,14 @@ namespace AssessmentApp
 
         public void Draw(Graphics graphics)
         {
-            graphics.DrawRectangle(Pen, DeafultX, DeafultY, DeafultWidth, DeafultHeight);
+            if (FillShape == true)
+            {
+                graphics.FillRectangle(Brush, Positiion, DeafultWidth, DeafultHeight);
+            }
+            else
+            {
+                graphics.DrawRectangle(Pen, Position, DeafultWidth, DeafultHeight);
+            }
         }
 
         public void Fill(Graphics graphics)
@@ -50,5 +55,5 @@ namespace AssessmentApp
             Instance;
         }
 
-    }
+   }*/ 
 }
