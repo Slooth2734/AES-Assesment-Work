@@ -6,16 +6,25 @@ using System.Threading.Tasks;
 
 namespace AssessmentApp
 {
-    public abstract class Shape
+    abstract class Shape
     {
-        public Point DeafultPoint = new Point(0, 0);
-        public Point CurrentPoint {  get; set; }
+        //public Point DeafultPoint = new Point(0, 0);
+        //public Point CurrentPoint {  get; set; }
 
-        public Shape() {    }
-        public Shape(Point position) 
+        protected Color colour;
+        public int x, y;
+        public bool? onOff;
+
+        public Shape(Color colour, int x, int y) 
         {
-            CurrentPoint = position;
+            this.colour = colour;
+            this.x = x;
+            this.y = y;
         }
+        //public Shape(Point position) 
+        //{
+        //    CurrentPoint = position;
+        //}
 
         public abstract void Draw(Graphics graphics);
 

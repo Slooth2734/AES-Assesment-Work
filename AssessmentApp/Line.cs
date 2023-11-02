@@ -8,7 +8,7 @@ namespace AssessmentApp
 {
     internal class Line : Shape
     {
-        public Line() { }
+        public Line(Color colour, int x, int y) : base(colour, x, y) { }
 
         public override void Draw(Graphics graphics)
         {

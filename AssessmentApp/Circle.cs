@@ -8,16 +8,16 @@ using System.Windows.Forms;
 
 namespace AssessmentApp
 {
-    public class Circle : Shape
+    class Circle : Shape
     {
-        public static readonly int DeafultRadius = 30;
+        protected int DeafultRadius = 30;
         internal int Radius { get; set; }
 
-        public Circle() : this(DeafultRadius) 
+        public Circle(Color colour, int x, int y, int radius) : base(colour, x, y) 
         { 
-            Radius = DeafultRadius;
+            this.Radius = Radius;
         }
-
+        /*
         public Circle(int radius)
         {
             Radius = radius;
@@ -29,38 +29,30 @@ namespace AssessmentApp
             position.Y = (base.CurrentPoint.Y);
             Radius = radius;
         }
-
+        
         public Circle(IEnumerator<int> arguments)
         {
             //check if there are 1 or 3 ints
             //set the first tow ints to the position
             //set the second int to the radius
         }
-
+        */
         public override void Draw(Graphics graphics)
         {
-            Pen pen = new Pen(Color.Black, 2);
+            Pen p = new Pen(Color.Black, 2);
             if (Radius == 0 )
-            {
-                graphics.DrawEllipse(pen, CurrentPoint.X, CurrentPoint.Y, DeafultRadius, DeafultRadius);
-            }
+            { graphics.DrawEllipse(p, x, y, DeafultRadius * 2, DeafultRadius * 2); }
             else
-            {
-                graphics.DrawEllipse(pen, CurrentPoint.X, CurrentPoint.Y, Radius, Radius);
-            }
+            { graphics.DrawEllipse(p, x, y, Radius * 2, Radius * 2); }
         }
 
         public override void Fill(Graphics graphics)
         {
-            SolidBrush brush = new SolidBrush(Color.Black);
+            SolidBrush b = new SolidBrush(Color.Black);
             if (Radius == 0)
-            {
-                graphics.FillEllipse(brush, CurrentPoint.X, CurrentPoint.Y, DeafultRadius, DeafultRadius);
-            }
+            { graphics.FillEllipse(b, x, y, DeafultRadius * 2, DeafultRadius * 2); }
             else
-            {
-                graphics.FillEllipse(brush, CurrentPoint.X, CurrentPoint.Y, Radius, Radius);
-            }
+            { graphics.FillEllipse(b, x, y, Radius * 2, Radius * 2); }
         }
     }
 }

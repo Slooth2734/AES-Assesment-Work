@@ -6,16 +6,17 @@ using System.Threading.Tasks;
 
 namespace AssessmentApp
 {
-    public class Square : Shape
+    class Square : Shape
     {
         public static readonly int DeafultSide = 30;
         internal int Side { get; set; }
 
-        public Square() : this(DeafultSide)
+        public Square(Color colour, int x, int y, int side) : base(colour, x, y)
         {
-            Side = DeafultSide;
+            this.Side = side;
         }
 
+        /*
         public Square(int side)
         {
             Side = side;
@@ -27,37 +28,32 @@ namespace AssessmentApp
             position.Y = (base.CurrentPoint.Y);
             Side = side;
         }
+        */
 
         public override void Draw(Graphics graphics)
         {
-            Pen pen = new Pen(Color.Black, 2);
+            Pen p = new Pen(Color.Black, 2);
             if (Side == 0)
-            {
-                graphics.DrawRectangle(pen, CurrentPoint.X, CurrentPoint.Y, DeafultSide, DeafultSide);
-            }
+            { graphics.DrawRectangle(p, x, y, DeafultSide, DeafultSide); }
             else
-            {
-                graphics.DrawRectangle(pen, CurrentPoint.X, CurrentPoint.Y, Side, Side);
-            }
+            { graphics.DrawRectangle(p, x, y, Side, Side); }
         }
 
         public override void Fill(Graphics graphics)
         {
-            SolidBrush brush = new SolidBrush(Color.Black);
+            SolidBrush b = new SolidBrush(Color.Black);
             if (Side == 0)
-            {
-                graphics.FillRectangle(brush, CurrentPoint.X, CurrentPoint.Y, DeafultSide, DeafultSide);
-            }
+            { graphics.FillRectangle(b, x, y, DeafultSide, DeafultSide); }
             else
-            {
-                graphics.FillRectangle(brush, CurrentPoint.X, CurrentPoint.Y, Side, Side);
-            }
+            { graphics.FillRectangle(b, x, y, Side, Side); }   
         }
+        /*        
         public Square(IEnumerable<int> arguments)
         {
             //check if there are 1 or 3 ints
             //set the first two int to the position
             //set the last int to the side length
         }
+        */
     }
 }
