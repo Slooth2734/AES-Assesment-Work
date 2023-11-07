@@ -13,30 +13,31 @@ namespace AssessmentApp
         protected int DeafultRadius = 30;
         internal int Radius { get; set; }
 
-        public Circle(Color colour, int x, int y, int radius) : base(colour, x, y) 
+        /// <summary>
+        ///     The circle object that is created as a template for future
+        ///     cirlces to created in line with.
+        /// </summary>
+        /// <param name="colour"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="radius"></param>
+        public Circle(Color color, int x, int y, int radius) : base(color, x, y) 
         { 
+            this.color = color;
             this.Radius = Radius;
         }
-        /*
-        public Circle(int radius)
-        {
-            Radius = radius;
-        }
 
-        public Circle(Point position, int radius) : base(position) 
-        {
-            position.X = (base.CurrentPoint.X);
-            position.Y = (base.CurrentPoint.Y);
-            Radius = radius;
-        }
-        
-        public Circle(IEnumerator<int> arguments)
-        {
-            //check if there are 1 or 3 ints
-            //set the first tow ints to the position
-            //set the second int to the radius
-        }
-        */
+        /// <summary>
+        ///     Draw command for the cirlce shape class.
+        ///     If no size peramiters are specified, the outline of a deafult 
+        ///     sized circle will be drawn at the given coordiantes. If no
+        ///     coordinates are specified it will be drawn at the last saved 
+        ///     value of x and y, if these have not been set yet they will 
+        ///     automatically be 0, 0.
+        ///     If a radius is given, the circle will be drawn using the given
+        ///     radius rather than the deafult.
+        /// </summary>
+        /// <param name="graphics"></param>
         public override void Draw(Graphics graphics)
         {
             Pen p = new Pen(Color.Black, 2);
@@ -46,6 +47,17 @@ namespace AssessmentApp
             { graphics.DrawEllipse(p, x, y, Radius * 2, Radius * 2); }
         }
 
+        /// <summary>
+        ///     Fill command for the cirlce shape class.
+        ///     If no size peramiters are specified, a solid filled, deafult 
+        ///     sized circle will be drawn at the given coordiantes. If no
+        ///     coordinates are specified it will be drawn at the last saved 
+        ///     value of x and y, if these have not been set yet they will 
+        ///     automatically be 0, 0.
+        ///     If a radius is given, the circle will be drawn using the given
+        ///     radius rather than the deafult.
+        /// </summary>
+        /// <param name="graphics"></param>
         public override void Fill(Graphics graphics)
         {
             SolidBrush b = new SolidBrush(Color.Black);

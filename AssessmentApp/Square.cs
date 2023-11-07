@@ -11,25 +11,32 @@ namespace AssessmentApp
         public static readonly int DeafultSide = 30;
         internal int Side { get; set; }
 
-        public Square(Color colour, int x, int y, int side) : base(colour, x, y)
+        /// <summary>
+        ///     The square object that is created as a template for future
+        ///     square to created in line with.
+        /// </summary>
+        /// <param name="colour"></param>
+        /// <param name="x">X coordinate of the top left corner</param>
+        /// <param name="y">Y coordinate of the top left corner</param>
+        /// <param name="width">Width of the rectnagle</param>
+        /// <param name="height">Height of the rectnagle</param>
+        public Square(Color color, int x, int y, int side) : base(color, x, y)
         {
+            this.color = color;
             this.Side = side;
         }
 
-        /*
-        public Square(int side)
-        {
-            Side = side;
-        }
-
-        public Square(Point position, int side) : base(position)
-        {
-            position.X = (base.CurrentPoint.X);
-            position.Y = (base.CurrentPoint.Y);
-            Side = side;
-        }
-        */
-
+        /// <summary>
+        ///     Draw command for the square shape class.
+        ///     If no size peramiters are specified, the outline of a deafult 
+        ///     sized square will be drawn at the given coordiantes. If no
+        ///     coordinates are specified it will be drawn at the last saved 
+        ///     value of x and y, if these have not been set yet they will 
+        ///     automatically be 0, 0.
+        ///     If the side length is given, the square will be drawn using the 
+        ///     given side length rather than the deafult.
+        /// </summary>
+        /// <param name="graphics"></param>
         public override void Draw(Graphics graphics)
         {
             Pen p = new Pen(Color.Black, 2);
@@ -39,6 +46,17 @@ namespace AssessmentApp
             { graphics.DrawRectangle(p, x, y, Side, Side); }
         }
 
+        /// <summary>
+        ///     Fill command for the square shape class.
+        ///     If no size peramiters are specified, a solid filled, deafult 
+        ///     sized rectangle will be drawn at the given coordiantes. If no
+        ///     coordinates are specified it will be drawn at the last saved 
+        ///     value of x and y, if these have not been set yet they will 
+        ///     automatically be 0, 0.
+        ///     If the side length is given, the square will be drawn 
+        ///     using the given side length rather than the deafult.
+        /// </summary>
+        /// <param name="graphics"></param>
         public override void Fill(Graphics graphics)
         {
             SolidBrush b = new SolidBrush(Color.Black);
@@ -47,13 +65,5 @@ namespace AssessmentApp
             else
             { graphics.FillRectangle(b, x, y, Side, Side); }   
         }
-        /*        
-        public Square(IEnumerable<int> arguments)
-        {
-            //check if there are 1 or 3 ints
-            //set the first two int to the position
-            //set the last int to the side length
-        }
-        */
     }
 }

@@ -8,26 +8,38 @@ namespace AssessmentApp
 {
     abstract class Shape
     {
-        //public Point DeafultPoint = new Point(0, 0);
-        //public Point CurrentPoint {  get; set; }
-
-        protected Color colour;
+        public Color color;
         public int x, y;
         public bool? onOff;
 
-        public Shape(Color colour, int x, int y) 
+        /// <summary>
+        ///     A shape constructer that specifies, all shapes
+        ///     that inherit from this need to have these three
+        ///     parameters as a minimum
+        /// </summary>
+        /// <param name="colour"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        public Shape(Color color, int x, int y) 
         {
-            this.colour = colour;
+            this.color = color;
             this.x = x;
             this.y = y;
         }
-        //public Shape(Point position) 
-        //{
-        //    CurrentPoint = position;
-        //}
 
+        /// <summary>
+        ///     A mehtod that will be used to draw an outline of
+        ///     each shape that inherits from the shape class
+        /// </summary>
+        /// <param name="graphics"></param>
         public abstract void Draw(Graphics graphics);
 
+        /// <summary>
+        ///     A mehtod that will be used to draw a solid filled
+        ///     version of each shape that inherits from the shape 
+        ///     class
+        /// </summary>
+        /// <param name="graphics"></param>
         public abstract void Fill(Graphics graphics);
 
         //public abstract void Render(Graphics graphics);

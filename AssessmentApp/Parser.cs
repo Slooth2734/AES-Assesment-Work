@@ -10,6 +10,7 @@ namespace AssessmentApp
     public class Parser
     {
         private Graphics graphics;
+
         /// <summary>
         ///     Parses a single line input into the textbox1 on the form
         /// </summary>
@@ -41,14 +42,16 @@ namespace AssessmentApp
         /// </summary>
         /// <param name="input">The user's input</param>
         /// <returns>The build command wiht the action and the peramiters split up</returns>
-        internal Command BuildCommand(string input)
+        public Command BuildCommand(string input)
         {
             IEnumerable<string> token = input.Trim().ToLower().Split(' ').ToList();
             var action = ExtractAction(token);
             var color = ExtractColor(token);
             var onoff = ExtractOnOff(token);
             var numbers = ExtractNumbers(token);
-            return new Command(action, numbers, graphics);
+            return new Command(action, numbers, color, onoff, graphics);
+
+            
         }
 
         /// <summary>
@@ -59,7 +62,7 @@ namespace AssessmentApp
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        public  Action ExtractAction(IEnumerable<string> tokens) 
+        public Action ExtractAction(IEnumerable<string> tokens) 
         {
             var actions = Enum.GetNames(typeof(Action));
             var firstAction = tokens.Select(TitleCase).FirstOrDefault(token => actions.Contains(token));
@@ -104,36 +107,54 @@ namespace AssessmentApp
         public Color ExtractColor(IEnumerable<string> token)
         {
             var color = Enum.GetNames(typeof(Colors));
-            var firstColor = token.Select(TitleCase)
-                .FirstOrDefault(token => color.Contains(token));
+            var firstColor = token.Select(TitleCase).FirstOrDefault(token => color.Contains(token));
             return string.IsNullOrEmpty(firstColor) ? Color.Black : (Color)Enum.Parse(typeof(Color), firstColor);
         }
 
-        public bool? ExtractOnOff(IEnumerable<string> tokens)
+        /// <summary>
+        ///     Gets the corrent value for the bool onOff which will determine if the drawing 
+        ///     will be filled solide or jsut the outline is drawn
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public bool ExtractOnOff(IEnumerable<string> token)
         {
-            bool? result = null;
-            if (tokens.Equals("On"))
+            bool result;
+            if ("On".Equals(token) || "Fill".Equals(token))
             {
                 result = true;
-                return result;
             }
-            else if (tokens.Equals("Off"))
+            else if ("Off".Equals(token) || "Draw".Equals(token))
             {
                 result = false;
-                return result;
             }
-            else { return null; }
+            else
+            {
+                result = false;
+            }
+            return result;
         }
-        /*
-        public IEnumerable<Command> ParseProgram(string input)
+        
+        /// <summary>
+        ///     Take the ipuyt from the multi line text box on the form and split the input up
+        ///     by each line and then execute each line as if they were input one after anopther
+        ///     in the single line text box
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="graphics"></param>
+        /// <returns></returns>
+        internal IEnumerable<Command> ParseProgram(string input, Graphics graphics)
         {
+            this.graphics = graphics;
             string[] lines = input.Split('\n');
+            List<Command> commands = new List<Command>();
             foreach (var line in lines)
             {
-                Command command = ParseLine(line);
-                return command;
+                Command command = ParseLine(line, graphics);
+                commands.Add(command);
             }
+            return commands;
         }
-        */
+        
     }
 }

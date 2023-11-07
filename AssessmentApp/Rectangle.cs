@@ -14,15 +14,33 @@ namespace AssessmentApp
         internal int Height { get; set; }
         internal int Width { get; set; }
 
-        public Rectangle(Color colour, int x, int y, int width, int height) : base(colour, x, y)
+        /// <summary>
+        ///     The rectangle object that is created as a template for future
+        ///     rectangles to created in line with.
+        /// </summary>
+        /// <param name="colour"></param>
+        /// <param name="x">X coordinate of the top left corner</param>
+        /// <param name="y">Y coordinate of the top left corner</param>
+        /// <param name="width">Width of the rectnagle</param>
+        /// <param name="height">Height of the rectnagle</param>
+        public Rectangle(Color color, int x, int y, int width, int height) : base(color, x, y)
         {
+            this.color = color;
             this.Width = width;
             this.Height = height;
-            //check if there are 2 or 4 ints
-            //set the first int to the width
-            //set the second int to the heihgt
         }
 
+        /// <summary>
+        ///     Draw command for the rectangle shape class.
+        ///     If no size peramiters are specified, the outline of a deafult 
+        ///     sized rectangle will be drawn at the given coordiantes. If no
+        ///     coordinates are specified it will be drawn at the last saved 
+        ///     value of x and y, if these have not been set yet they will 
+        ///     automatically be 0, 0.
+        ///     If the width and heigh are given, the rectangle will be drawn 
+        ///     using the given width and heigh rather than the deafult.
+        /// </summary>
+        /// <param name="graphics"></param>
         public override void Draw(Graphics graphics)
         {
             Pen p = new Pen(Color.Black, 2);
@@ -32,6 +50,17 @@ namespace AssessmentApp
             { graphics.DrawRectangle(p, x, y, Width, Height); }
         }
 
+        /// <summary>
+        ///     Fill command for the rectangle shape class.
+        ///     If no size peramiters are specified, a solid filled, deafult 
+        ///     sized rectangle will be drawn at the given coordiantes. If no
+        ///     coordinates are specified it will be drawn at the last saved 
+        ///     value of x and y, if these have not been set yet they will 
+        ///     automatically be 0, 0.
+        ///     If the width and heigh are given, the rectangle will be drawn 
+        ///     using the given width and heigh rather than the deafult.
+        /// </summary>
+        /// <param name="graphics"></param>
         public override void Fill(Graphics graphics)
         {
             SolidBrush b = new SolidBrush(Color.Black);
