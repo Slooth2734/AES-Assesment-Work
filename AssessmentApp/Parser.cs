@@ -215,6 +215,82 @@ namespace AssessmentApp
         }
 
         /// <summary>
+        ///     Used by the syntax button and checks to see that the passed action has the 
+        ///     a valid number of paramters passed with it. If any commmand is attempted to
+        ///     be passed with too many or too little number paramaters, the syntax will fail
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public bool IncorrecNumberOfNumbers(IEnumerable<string> input)
+        {
+            bool incorrecNumberOfNumbers = false;
+            var action = ExtractAction(input);
+            var color = ExtractColor(input);
+            var numbers = ExtractNumbers(input);
+            if ("Rectangle".Equals(action.ToString()))
+            {
+                if (numbers.Length == 1 || numbers.Length == 3 || numbers.Length > 4) 
+                {
+                    incorrecNumberOfNumbers = true;
+                    throw new ArgumentException($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
+                }
+                else { incorrecNumberOfNumbers = false; }
+            }
+            else if ("Square".Equals(action.ToString()))
+            {
+                if (numbers.Length == 2 || numbers.Length > 3)
+                {
+                    incorrecNumberOfNumbers = true;
+                    throw new ArgumentException($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
+                }
+                else { incorrecNumberOfNumbers = false; }
+
+            }
+            else if ("Circle".Equals(action.ToString()))
+            {
+                if (numbers.Length == 2 || numbers.Length > 3)
+                {
+                    incorrecNumberOfNumbers = true;
+                    throw new ArgumentException($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
+                }
+                else { incorrecNumberOfNumbers = false; }
+
+            }
+            else if ("Triangle".Equals(action.ToString()))
+            {
+                if (numbers.Length == 2 || numbers.Length > 3)
+                {
+                    incorrecNumberOfNumbers = true;
+                    throw new ArgumentException($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
+                }
+                else { incorrecNumberOfNumbers = false; }
+
+            }
+            else if ("Line".Equals(action.ToString()))
+            {
+                if (numbers.Length != 4)
+                {
+                    incorrecNumberOfNumbers = true;
+                    throw new ArgumentException($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
+                }
+                else { incorrecNumberOfNumbers = false; }
+
+            }
+            else if ("Drawto".Equals(action.ToString()))
+            {
+                if (numbers.Length != 4)
+                {
+                    incorrecNumberOfNumbers = true;
+                    throw new ArgumentException($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
+                }
+                else { incorrecNumberOfNumbers = false; }
+
+            }
+            return incorrecNumberOfNumbers;
+        }
+
+        /// <summary>
         ///     Uses the three syntax checking methods to check that all of them
         ///     pass when the syntax button is clicked on the form. The result is
         ///     then passed back to the form where the syntax is repoted correct
@@ -229,7 +305,8 @@ namespace AssessmentApp
             var isInvalidAction = IsValidAction(token);
             //var isValidColor = IsValidColor(token);
             var isOutOfRanges = NumbersIsOutOfRange(token);
-            if (isInvalidAction == false /*&& isValidColor == true*/ && isOutOfRanges == false)
+            var incorrectNumber = IncorrecNumberOfNumbers(token);
+            if (isInvalidAction == false /*&& isValidColor == true*/ && isOutOfRanges == false && incorrectNumber == true)
             {
                 isInvalidSyntax = true;
             }

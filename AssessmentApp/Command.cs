@@ -118,11 +118,13 @@ namespace AssessmentApp
                 onOff = false;
                 return;
             }
+            /*
             else if (numbers.Length == 2 && action == Action.None)
             {
                 shape.x = numbers[0];
                 shape.y = numbers[1];
             }
+            */
 
             if ("Black".Equals(color.ToString()))
             {
@@ -204,16 +206,16 @@ namespace AssessmentApp
                         }
                         else if (numbers.Length == 2)
                         {
-                            r.x = numbers[0];
-                            r.y = numbers[1];
+                            r.Width = numbers[0];
+                            r.Height = numbers[1];
                             r.Fill(graphics);
                         }
                         else if (numbers.Length == 4)
                         {
-                            r.x = numbers[0];
-                            r.y = numbers[1];
-                            r.Width = numbers[2];
-                            r.Height = numbers[3];
+                            r.Width = numbers[0];
+                            r.Height = numbers[1];
+                            r.x = numbers[2];
+                            r.y = numbers[3];
                             r.Fill(graphics);
                         }
                     }
@@ -225,17 +227,16 @@ namespace AssessmentApp
                             x = 0; y = 0;
                             c.Fill(graphics);
                         }
-                        else if (numbers.Length == 2)
+                        else if (numbers.Length == 1)
                         {
-                            c.x = numbers[0];
-                            c.y = numbers[1];
+                            c.Radius = numbers[0];
                             c.Fill(graphics);
                         }
                         else if (numbers.Length == 3)
                         {
-                            c.x = numbers[0];
-                            c.y = numbers[1];
-                            c.Radius = numbers[2];
+                            c.Radius = numbers[0];
+                            c.x = numbers[1];
+                            c.y = numbers[2];
                             c.Fill(graphics);
                         }
 
@@ -248,17 +249,16 @@ namespace AssessmentApp
                             x = 0; y = 0;
                             s.Fill(graphics);
                         }
-                        else if (numbers.Length == 2)
+                        else if (numbers.Length == 1)
                         {
-                            s.x = numbers[0];
-                            s.y = numbers[1];
+                            s.Side = numbers[0];
                             s.Fill(graphics);
                         }
                         else if (numbers.Length == 3)
                         {
-                            s.x = numbers[0];
-                            s.y = numbers[1];
-                            s.Side = numbers[2];
+                            s.Side = numbers[0];
+                            s.x = numbers[1];
+                            s.y = numbers[2];
                             s.Fill(graphics);
                         }
                     }
@@ -279,17 +279,16 @@ namespace AssessmentApp
                             x = 0; y = 0;
                             t.Fill(graphics);
                         }
-                        else if (numbers.Length == 2)
+                        else if (numbers.Length == 1)
                         {
-                            t.x = numbers[0];
-                            t.y = numbers[1];
+                            t.Side = numbers[0];
                             t.Fill(graphics);
                         }
                         else if (numbers.Length == 3)
                         {
-                            t.x = numbers[0];
-                            t.y = numbers[1];
-                            t.Side = numbers[2];
+                            t.Side = numbers[0];
+                            t.x = numbers[1];
+                            t.y = numbers[2];
                             t.Fill(graphics);
                         }
                     }
@@ -342,16 +341,16 @@ namespace AssessmentApp
                         }
                         else if (numbers.Length == 2)
                         {
-                            r.x = numbers[0];
-                            r.y = numbers[1];
+                            r.Width = numbers[0];
+                            r.Height = numbers[1];
                             r.Draw(graphics);
                         }
                         else if (numbers.Length == 4)
                         {
-                            r.x = numbers[0];
-                            r.y = numbers[1];
-                            r.Width = numbers[2];
-                            r.Height = numbers[3];
+                            r.Width = numbers[0];
+                            r.Height = numbers[1];
+                            r.x = numbers[2];
+                            r.y = numbers[3];
                             r.Draw(graphics);
                         }
 
@@ -364,17 +363,16 @@ namespace AssessmentApp
                             x = 0; y = 0;
                             c.Draw(graphics);
                         }
-                        else if (numbers.Length == 2)
+                        else if (numbers.Length == 1)
                         {
-                            c.x = numbers[0];
-                            c.y = numbers[1];
+                            c.Radius = numbers[0];
                             c.Draw(graphics);
                         }
                         else if (numbers.Length == 3)
                         {
-                            c.x = numbers[0];
-                            c.y = numbers[1];
-                            c.Radius = numbers[2];
+                            c.Radius = numbers[0];
+                            c.x = numbers[1];
+                            c.y = numbers[2];
                             c.Draw(graphics);
                         }
 
@@ -387,17 +385,16 @@ namespace AssessmentApp
                             x = 0; y = 0;
                             s.Draw(graphics);
                         }
-                        else if (numbers.Length == 2)
+                        else if (numbers.Length == 1)
                         {
-                            s.x = numbers[0];
-                            s.y = numbers[1];
+                            s.Side = numbers[0];
                             s.Draw(graphics);
                         }
                         else if (numbers.Length == 3)
                         {
-                            s.x = numbers[0];
-                            s.y = numbers[1];
-                            s.Side = numbers[2];
+                            s.Side = numbers[0];
+                            s.x = numbers[1];
+                            s.y = numbers[2];
                             s.Draw(graphics);
                         }
                     }
@@ -418,17 +415,16 @@ namespace AssessmentApp
                             x = 0; y = 0;
                             t.Draw(graphics);
                         }
-                        else if (numbers.Length == 2)
+                        else if (numbers.Length == 1)
                         {
-                            t.x = numbers[0];
-                            t.y = numbers[1];
+                            t.Side = numbers[0];
                             t.Draw(graphics);
                         }
                         else if (numbers.Length == 3)
                         {
-                            t.x = numbers[0];
-                            t.y = numbers[1];
-                            t.Side = numbers[2];
+                            t.Side = numbers[0];
+                            t.x = numbers[1];
+                            t.y = numbers[2];
                             t.Draw(graphics);
                         }
                     }

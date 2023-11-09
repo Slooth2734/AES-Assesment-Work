@@ -18,6 +18,12 @@ namespace AssessmentApp
         private readonly Parser parser;
         public bool onOff;
         public int currentX, currentY;
+
+        /// <summary>
+        ///     The maine form object that is used to instialize the form
+        ///     to be used by the user
+        /// </summary>
+        /// <param name="parser"></param>
         public Form1(Parser parser)
         {
             this.parser = parser;
@@ -26,12 +32,6 @@ namespace AssessmentApp
             if (pictureBox1.Image == null)
             { pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height); }
             graphics = Graphics.FromImage(pictureBox1.Image);
-        }
-
-        private void OutputWindow_Paint(object sender, PaintEventArgs e)
-        {
-            var graphics = e.Graphics;
-            graphics.DrawImageUnscaled(pictureBox1.Image, 0, 0);
         }
 
         /// <summary>
@@ -111,11 +111,16 @@ namespace AssessmentApp
                 try
                 {
                     bool syntax = parser.CheckSyntax(textBox2.Text);
+                    if (syntax == true)
+                    {
+                        textBox3.Text = "";
+                        textBox3.Text = (lineTyped + ": Is valid syntax");
+                    }
                 }
                 catch (Exception ex)
                 {
                     textBox2.Text = "";
-                    textBox2.Text = (programTyped + ": " + ex.Message);
+                    textBox3.Text = (programTyped + ": " + ex.Message);
                 }
             }
             // When text is entered in the single-line box
@@ -123,26 +128,40 @@ namespace AssessmentApp
             {
                 try
                 {
-                    bool invalidSyntax = parser.CheckSyntax(textBox1.Text);
+                    bool syntax = parser.CheckSyntax(textBox1.Text);
+                    if (syntax == true)
+                    {
+                        textBox3.Text = "";
+                        textBox3.Text = (lineTyped + ": Is valid syntax");
+                    }
                 }
                 catch (Exception ex)
                 {
                     textBox1.Text = "";
-                    textBox1.Text = (lineTyped + ": " + ex.Message);
+                    textBox3.Text = (lineTyped + ": " + ex.Message);
                 }
             }
         }
 
+        // Single line text box
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
 
         }
 
+        // Mulit-line text box
         private void textBox2_TextChanged(object sender, EventArgs e)
         {
 
         }
 
+        // Output text box
+        private void textBox3_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        // main drawing picture box
         private void pictureBox1_Click(object sender, EventArgs e)
         {
 
@@ -166,7 +185,21 @@ namespace AssessmentApp
             pictureBox1.Image = null;
             textBox1.Text = "";
             textBox2.Text = "";
+            textBox3.Text = "";
             Refresh();
+        }
+
+        /// <summary>
+        ///     This is the code for the help button on the form. This is used to launch
+        ///     the help form that will inform users of how to use the initial drwaing 
+        ///     form
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button6_Click(object sender, EventArgs e)
+        {
+            Form2 helpForm = new Form2();
+            helpForm.ShowDialog();
         }
 
         /// <summary>

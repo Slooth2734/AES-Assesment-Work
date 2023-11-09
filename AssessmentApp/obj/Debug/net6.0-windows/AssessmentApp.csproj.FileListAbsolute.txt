@@ -14,3 +14,4 @@ C:\Users\robbo\source\repos\AssessmentApp\AssessmentApp\obj\Debug\net6.0-windows
 C:\Users\robbo\source\repos\AssessmentApp\AssessmentApp\obj\Debug\net6.0-windows\AssessmentApp.pdb
 C:\Users\robbo\source\repos\AssessmentApp\AssessmentApp\obj\Debug\net6.0-windows\AssessmentApp.genruntimeconfig.cache
 C:\Users\robbo\source\repos\AssessmentApp\AssessmentApp\obj\Debug\net6.0-windows\ref\AssessmentApp.dll
+C:\Users\robbo\source\repos\AssessmentApp\AssessmentApp\obj\Debug\net6.0-windows\AssessmentApp.Form2.resources
