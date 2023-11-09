@@ -105,8 +105,8 @@ namespace AssessmentApp
             Action = action;
             this.numbers = numbers;
             this.graphics = graphics;
-            shape.color = color;
-            shape.onOff = onoff;
+            //shape.color = color;
+            //shape.onOff = onoff;
 
             if ("Fill".Equals(action.ToString()) || "On".Equals(action.ToString()))
             {

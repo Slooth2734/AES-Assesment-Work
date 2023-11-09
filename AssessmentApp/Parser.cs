@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -49,9 +51,7 @@ namespace AssessmentApp
             var color = ExtractColor(token);
             var onoff = ExtractOnOff(token);
             var numbers = ExtractNumbers(token);
-            return new Command(action, numbers, color, onoff, graphics);
-
-            
+            return new Command(action, numbers, color, onoff, graphics); 
         }
 
         /// <summary>
@@ -82,20 +82,7 @@ namespace AssessmentApp
                 .Where(token => int.TryParse(token, out _))
                 .Select(token => int.Parse(token));
             return numberToken.ToArray();
-        }
-
-        public bool IsVariableDeclaration(string line)
-        {
-          throw new NotImplementedException();
-        }
-        public IEnumerable<int> ExtractVariables(IEnumerable<string> tokens)
-        {
-            throw new NotImplementedException();
-        }
-        public bool ExtractVariableAssignment(string line)
-        {
-            throw new NotImplementedException();
-        }
+        }        
 
         /// <summary>
         ///     Gets the enum of colours, and checks to see if this colour given is in that 
@@ -134,7 +121,7 @@ namespace AssessmentApp
             }
             return result;
         }
-        
+
         /// <summary>
         ///     Take the ipuyt from the multi line text box on the form and split the input up
         ///     by each line and then execute each line as if they were input one after anopther
@@ -155,6 +142,117 @@ namespace AssessmentApp
             }
             return commands;
         }
-        
+        /// <summary>
+        ///     Is ued by the syntaxt button to check that the numbers passed are within the range
+        ///     of the set values of what is allowed
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public bool NumbersIsOutOfRange(IEnumerable<string> input)
+        {
+            bool isOutOfRange = false;
+            var action = ExtractAction(input);
+            var color = ExtractColor(input);
+            var numbers = ExtractNumbers(input);
+            foreach (int number in numbers)
+            {
+                if (number < 0 || number > 1000)
+                {
+                    isOutOfRange = true;
+                    throw new ArgumentException($"Number specified out of range: {number}");
+                    break;
+                }
+            }
+            return isOutOfRange;
+        }
+        /// <summary>
+        ///     Used by the syntax button and checks to see that the passed action is valid.
+        ///     Because the ExtractAction method will return "None" if the passed value is
+        ///     not in the Action enum, this checks to see if "None" has been returned
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public bool IsValidAction(IEnumerable<string> input)
+        {
+            bool isInvalidAction = false;
+            var action = ExtractAction(input);
+            var color = ExtractColor(input);
+            var numbers = ExtractNumbers(input);
+            if (!typeof(Action).IsEnum)
+            {
+                throw new ArgumentException("ERROR: Enumerated type not used");
+            }
+            else if ("None".Equals(action.ToString()))
+            {
+                isInvalidAction = false;
+                throw new ArgumentException($"Invalid action resulted in action: {action}");
+            }
+            return isInvalidAction;
+        }
+
+        public bool IsValidColor(IEnumerable<string> input)
+        {
+            bool isValidColor = false;
+            var action = ExtractAction(input);
+            var color = ExtractColor(input);
+            var numbers = ExtractNumbers(input);
+            if (!typeof(Colors).IsEnum)
+            {
+                throw new ArgumentException("ERROR: Enumerated type not used");
+            }
+            else if (Enum.IsDefined(typeof(Colors), color))
+            {
+                isValidColor = true;
+            }
+            else
+            {
+                isValidColor = false;
+                throw new ArgumentException($"Invalid color: {color}");
+            }
+            return isValidColor;
+        }
+
+        /// <summary>
+        ///     Uses the three syntax checking methods to check that all of them
+        ///     pass when the syntax button is clicked on the form. The result is
+        ///     then passed back to the form where the syntax is repoted correct
+        ///     or faulty
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public bool CheckSyntax(string input)
+        {
+            bool isInvalidSyntax = false;
+            IEnumerable<string> token = input.Trim().ToLower().Split(' ').ToList();
+            var isInvalidAction = IsValidAction(token);
+            //var isValidColor = IsValidColor(token);
+            var isOutOfRanges = NumbersIsOutOfRange(token);
+            if (isInvalidAction == false /*&& isValidColor == true*/ && isOutOfRanges == false)
+            {
+                isInvalidSyntax = true;
+            }
+            else
+            {
+                isInvalidSyntax = false;
+            }
+            return isInvalidSyntax;
+        }
+
+        /*
+        public bool IsVariableDeclaration(string input)
+        {
+            throw new NotImplementedException();
+        }
+        public IEnumerable<int> ExtractVariables(IEnumerable<string> tokens)
+        {
+            throw new NotImplementedException();
+        }
+        public bool ExtractVariableAssignment(string line)
+        {
+            throw new NotImplementedException();
+        }
+        */
     }
 }

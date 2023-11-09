@@ -60,58 +60,76 @@ namespace AssessmentApp
             var lineTyped = textBox1.Text.Trim().ToLower();
             var programTyped = textBox2.Text.Trim().ToLower();
 
+            // When text is entered in the mulit-line box
             if (lineTyped == null || lineTyped == "")
             {
                 try
                 {
                     IEnumerable<Command> command = parser.ParseProgram(textBox2.Text, graphics);
                 }
-                catch 
+                catch (Exception ex)
                 {
-                    throw new IOException();
+                    textBox2.Text = "There was a syntax error. Perhaps check syntax before running the program";
                 }
             }
+            // When text is entered in the single-line box
             else if (programTyped == null || programTyped == "")
             {
                 try
                 {
                     Command coammand = parser.ParseLine(textBox1.Text, graphics);
                 }
-                catch 
+                catch (Exception ex)
                 {
-                    throw new IOException();
+                    textBox1.Text = "There was a syntax error. Perhaps check syntax before running the program";
                 }
             }
             else if (programTyped != null || programTyped != "" && lineTyped != null || lineTyped != "")
             {
                 throw new IOException($"ERROR: Both text boxes cannot contian commands at the same time");
             }
-
             textBox1.Text = "";
             Refresh();
         }
 
-        // Syntax button
+        /// <summary>
+        ///     Syntaxt buttone that uses syntax checking methods to see if the
+        ///     proposed command is valid in every form adn repost back if it is
+        ///     or not.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <exception cref="Exception"></exception>
         private void button2_Click(object sender, EventArgs e)
         {
             var lineTyped = textBox1.Text.Trim().ToLower();
             var programTyped = textBox2.Text.Trim().ToLower();
 
+            // When text is entered in the mulit-line box
             if (lineTyped == null || lineTyped == "")
             {
                 try
                 {
-                    IEnumerable<Command> command = parser.ParseProgram(textBox2.Text, graphics);
+                    bool syntax = parser.CheckSyntax(textBox2.Text);
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    textBox2.Text = "";
+                    textBox2.Text = (programTyped + ": " + ex.Message);
+                }
             }
+            // When text is entered in the single-line box
             else if (programTyped == null || programTyped == "")
             {
                 try
                 {
-                    Command coammand = parser.ParseLine(textBox1.Text, graphics);
+                    bool invalidSyntax = parser.CheckSyntax(textBox1.Text);
                 }
-                catch { }
+                catch (Exception ex)
+                {
+                    textBox1.Text = "";
+                    textBox1.Text = (lineTyped + ": " + ex.Message);
+                }
             }
         }
 

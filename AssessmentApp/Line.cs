@@ -15,14 +15,14 @@ namespace AssessmentApp
         ///     The line object that is created as a template for future
         ///     lines to created in line with.
         /// </summary>
-        /// <param name="colour"></param>
+        /// <param name="color"></param>
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="otherX"></param>
         /// <param name="otherY"></param>
-        public Line(Color colour, int x, int y, int otherX, int otherY) : base(colour, x, y)
+        public Line(Color color, int x, int y, int otherX, int otherY) : base(color, x, y)
         {
-            this.colour = colour;
+            this.color = color;
             this.otherX = otherX;
             this.otherY = otherY;
         }
