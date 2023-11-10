@@ -41,7 +41,8 @@ namespace AssessmentApp
         /// <param name="graphics"></param>
         public override void Draw(Graphics graphics)
         {
-            Pen p = new Pen(Color.Black, 2);
+            GraphicsHandler graphicsHandler = new GraphicsHandler();
+            Pen p = new Pen(graphicsHandler.color, 2);
             if (Side == 0)
             {
                 Point vertex1 = new Point(x, y - DeafultSide);

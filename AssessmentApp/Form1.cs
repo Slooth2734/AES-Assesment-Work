@@ -86,7 +86,11 @@ namespace AssessmentApp
             }
             else if (programTyped != null || programTyped != "" && lineTyped != null || lineTyped != "")
             {
-                throw new IOException($"ERROR: Both text boxes cannot contian commands at the same time");
+                textBox3.Text = ($"ERROR: Both text boxes cannot contian commands at the same time");
+            }
+            else
+            {
+                textBox3.Text = "Try entering a command and then hitting run to see what it does! If your not sure how to draw something, try hitting the help button.";
             }
             textBox1.Text = "";
             Refresh();

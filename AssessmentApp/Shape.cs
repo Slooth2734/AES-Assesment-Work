@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace AssessmentApp
 {
-    abstract class Shape
+    abstract class Shape : GraphicsHandler
     {
-        public Color color;
-        public int x, y;
-        public bool? onOff;
-
         /// <summary>
         ///     A shape constructer that specifies, all shapes
         ///     that inherit from this need to have these three
@@ -20,7 +16,7 @@ namespace AssessmentApp
         /// <param name="colour"></param>
         /// <param name="x"></param>
         /// <param name="y"></param>
-        public Shape(Color color, int x, int y) 
+        public Shape(Color color, int x, int y)
         {
             this.color = color;
             this.x = x;

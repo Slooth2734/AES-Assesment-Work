@@ -6,6 +6,8 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing;
+
 
 namespace AssessmentApp
 {
@@ -48,6 +50,7 @@ namespace AssessmentApp
         public Color color;
         int x, y, otherX, otherY, width, height, radius, side;
         int currentX, currentY;
+        GraphicsHandler graphicsHandler;
         bool onOff;
         internal Action Action {  get; set; }
         internal Colors Color { get; set; }
@@ -104,27 +107,18 @@ namespace AssessmentApp
         {
             Action = action;
             this.numbers = numbers;
-            this.graphics = graphics;
-            //shape.color = color;
-            //shape.onOff = onoff;
+            this.graphics = graphics;;
 
             if ("Fill".Equals(action.ToString()) || "On".Equals(action.ToString()))
             {
-                onOff = true;
+                graphicsHandler.setOn();
                 return;
             }
             else if ("Draw".Equals(action.ToString()) || "Off".Equals(action.ToString()))
             {
-                onOff = false;
+                graphicsHandler.setOff();
                 return;
             }
-            /*
-            else if (numbers.Length == 2 && action == Action.None)
-            {
-                shape.x = numbers[0];
-                shape.y = numbers[1];
-            }
-            */
 
             if ("Black".Equals(color.ToString()))
             {
@@ -152,7 +146,6 @@ namespace AssessmentApp
             }
             else if ("Red".Equals(color.ToString()))
             {
-
             }
             else if ("Yellow".Equals(color.ToString()))
             {
@@ -183,16 +176,15 @@ namespace AssessmentApp
                         Triangle t = new Triangle(color, x, y, side);
                         t.Draw(graphics);
                     }
-                    else if ("clear".Equals(action))
+                    else if ("clear".Equals(action.ToString()))
                     {
 
                     }
-                    else if ("Reset".Equals(action))
+                    else if ("Reset".Equals(action.ToString()))
                     {
                         x = 0;
                         y = 0;
                     }
-                    
                 }
                 else if (numbers.Length > 0)
                 {
@@ -319,11 +311,11 @@ namespace AssessmentApp
                         Triangle t = new Triangle(color, x, y, side);
                         t.Draw(graphics);
                     }
-                    else if ("clear".Equals(action))
+                    else if ("clear".Equals(action.ToString()))
                     {
                         
                     }
-                    else if ("Reset".Equals(action))
+                    else if ("Reset".Equals(action.ToString()))
                     {
                         shape.x = 0;
                         shape.y = 0;

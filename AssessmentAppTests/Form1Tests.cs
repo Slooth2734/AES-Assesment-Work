@@ -12,13 +12,19 @@ namespace AssessmentApp.Tests
     public class Form1Tests
     {
         [TestMethod()]
-        public void Form1Test()
+        public void WriteOneLineToFile()
         {
             Assert.Fail();
         }
 
         [TestMethod()]
-        public void button1_ClickTest()
+        public void WriteThreeLinesToFile()
+        {
+            Assert.Fail();
+        }
+
+        [TestMethod()]
+        public void WriteToFile_withStreamWriterNotAvailable_throwsIOException()
         {
             Assert.Fail();
         }

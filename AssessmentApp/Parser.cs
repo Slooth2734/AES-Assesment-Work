@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace AssessmentApp
 {
@@ -31,7 +32,7 @@ namespace AssessmentApp
         /// </summary>
         /// <param name="input">User input</param>
         /// <returns>User's input in title string</returns>
-        internal String TitleCase(string input)
+        public String TitleCase(string input)
         {
             return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(input.ToLower());
         }
@@ -48,7 +49,7 @@ namespace AssessmentApp
         {
             IEnumerable<string> token = input.Trim().ToLower().Split(' ').ToList();
             var action = ExtractAction(token);
-            var color = ExtractColor(token);
+            Color color = ExtractColor(token);
             var onoff = ExtractOnOff(token);
             var numbers = ExtractNumbers(token);
             return new Command(action, numbers, color, onoff, graphics); 
@@ -95,7 +96,8 @@ namespace AssessmentApp
         {
             var color = Enum.GetNames(typeof(Colors));
             var firstColor = token.Select(TitleCase).FirstOrDefault(token => color.Contains(token));
-            return string.IsNullOrEmpty(firstColor) ? Color.Black : (Color)Enum.Parse(typeof(Color), firstColor);
+            return string.IsNullOrEmpty(firstColor) ? Color.Black : (Color)Enum.Parse(typeof(Colors), firstColor);
+            //return ColorTranslator.FromHtml(firstColor);
         }
 
         /// <summary>
@@ -106,13 +108,17 @@ namespace AssessmentApp
         /// <returns></returns>
         public bool ExtractOnOff(IEnumerable<string> token)
         {
+            GraphicsHandler graphicsHandler = new GraphicsHandler();
             bool result;
-            if ("On".Equals(token) || "Fill".Equals(token))
+            var onOff = ExtractAction(token);
+            if ("On".Equals(onOff))
             {
+                graphicsHandler.setOn();
                 result = true;
             }
-            else if ("Off".Equals(token) || "Draw".Equals(token))
+            else if ("Off".Equals(onOff))
             {
+                graphicsHandler.setOff();
                 result = false;
             }
             else
@@ -188,6 +194,10 @@ namespace AssessmentApp
             {
                 isInvalidAction = false;
                 throw new ArgumentException($"Invalid action resulted in action: {action}");
+            }
+            else if (Enum.IsDefined(typeof(Action), action))
+            {
+                isInvalidAction = true;
             }
             return isInvalidAction;
         }
@@ -302,17 +312,17 @@ namespace AssessmentApp
         {
             bool isInvalidSyntax = false;
             IEnumerable<string> token = input.Trim().ToLower().Split(' ').ToList();
-            var isInvalidAction = IsValidAction(token);
+            var isValidAction = IsValidAction(token);
             //var isValidColor = IsValidColor(token);
             var isOutOfRanges = NumbersIsOutOfRange(token);
             var incorrectNumber = IncorrecNumberOfNumbers(token);
-            if (isInvalidAction == false /*&& isValidColor == true*/ && isOutOfRanges == false && incorrectNumber == true)
+            if (isValidAction == true /*&& isValidColor == true*/ && isOutOfRanges == false && incorrectNumber == false)
             {
-                isInvalidSyntax = true;
+                isInvalidSyntax = false;
             }
             else
             {
-                isInvalidSyntax = false;
+                isInvalidSyntax = true;
             }
             return isInvalidSyntax;
         }
