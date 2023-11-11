@@ -111,14 +111,14 @@ namespace AssessmentApp
             GraphicsHandler graphicsHandler = new GraphicsHandler();
             bool result;
             var onOff = ExtractAction(token);
-            if ("On".Equals(onOff))
+            if ("On".Equals(onOff.ToString()))
             {
-                graphicsHandler.setOn();
+                graphicsHandler.onOff = true;
                 result = true;
             }
-            else if ("Off".Equals(onOff))
+            else if ("Off".Equals(onOff.ToString()))
             {
-                graphicsHandler.setOff();
+                graphicsHandler.onOff = false;
                 result = false;
             }
             else
@@ -192,12 +192,12 @@ namespace AssessmentApp
             }
             else if ("None".Equals(action.ToString()))
             {
-                isInvalidAction = false;
+                isInvalidAction = true;
                 throw new ArgumentException($"Invalid action resulted in action: {action}");
             }
             else if (Enum.IsDefined(typeof(Action), action))
             {
-                isInvalidAction = true;
+                isInvalidAction = false;
             }
             return isInvalidAction;
         }
@@ -312,11 +312,11 @@ namespace AssessmentApp
         {
             bool isInvalidSyntax = false;
             IEnumerable<string> token = input.Trim().ToLower().Split(' ').ToList();
-            var isValidAction = IsValidAction(token);
+            var isInvalidAction = IsValidAction(token);
             //var isValidColor = IsValidColor(token);
             var isOutOfRanges = NumbersIsOutOfRange(token);
             var incorrectNumber = IncorrecNumberOfNumbers(token);
-            if (isValidAction == true /*&& isValidColor == true*/ && isOutOfRanges == false && incorrectNumber == false)
+            if (isInvalidAction == true /*&& isValidColor == true*/ && isOutOfRanges == false && incorrectNumber == false)
             {
                 isInvalidSyntax = false;
             }

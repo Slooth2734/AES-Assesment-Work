@@ -42,7 +42,7 @@ namespace AssessmentApp
         public override void Draw(Graphics graphics)
         {
             GraphicsHandler graphicsHandler = new GraphicsHandler();
-            Pen p = new Pen(graphicsHandler.color, 2);
+            Pen p = new Pen(Color.Black, 2);
             if (Side == 0)
             {
                 Point vertex1 = new Point(x, y - DeafultSide);

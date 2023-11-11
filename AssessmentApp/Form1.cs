@@ -109,6 +109,8 @@ namespace AssessmentApp
             var lineTyped = textBox1.Text.Trim().ToLower();
             var programTyped = textBox2.Text.Trim().ToLower();
 
+            textBox3.Text = "";
+
             // When text is entered in the mulit-line box
             if (lineTyped == null || lineTyped == "")
             {
@@ -190,6 +192,8 @@ namespace AssessmentApp
             textBox1.Text = "";
             textBox2.Text = "";
             textBox3.Text = "";
+            pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+            graphics = Graphics.FromImage(pictureBox1.Image);
             Refresh();
         }
 
