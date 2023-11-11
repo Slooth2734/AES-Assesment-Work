@@ -254,7 +254,7 @@ namespace AssessmentApp
                             s.Fill(graphics);
                         }
                     }
-                    else if ("Line".Equals(action.ToString()) || "Drawto".Equals(action.ToString()))
+                    else if ("Line".Equals(action.ToString()))
                     {
                         Line l = new Line(color, x, y, otherX, otherY);
                         l.x = numbers[0];
@@ -262,6 +262,15 @@ namespace AssessmentApp
                         l.otherX = numbers[2];
                         l.otherY = numbers[3];
                         l.Fill(graphics);
+                    }
+                    else if ("Drawto".Equals(action.ToString()))
+                    {
+                        Line l = new Line(color, x, y, otherX, otherY);
+                        l.x = 0;
+                        l.y = 0;
+                        l.otherX = numbers[0];
+                        l.otherY = numbers[1];
+                        l.Draw(graphics);
                     }
                     else if ("Triangle".Equals(action.ToString()))
                     {
@@ -390,13 +399,22 @@ namespace AssessmentApp
                             s.Draw(graphics);
                         }
                     }
-                    else if ("Line".Equals(action.ToString()) || "Drawto".Equals(action.ToString()))
+                    else if ("Line".Equals(action.ToString()))
                     {
                         Line l = new Line(color, x, y, otherX, otherY);
                         l.x = numbers[0]; 
                         l.y = numbers[1];
                         l.otherX = numbers[2];
                         l.otherY = numbers[3];
+                        l.Draw(graphics);
+                    }
+                    else if ("Drawto".Equals(action.ToString()))
+                    {
+                        Line l = new Line(color, x, y, otherX, otherY);
+                        l.x = 0;
+                        l.y = 0;
+                        l.otherX = numbers[0];
+                        l.otherY = numbers[1];
                         l.Draw(graphics);
                     }
                     else if ("Triangle".Equals(action.ToString()))

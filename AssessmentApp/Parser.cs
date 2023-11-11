@@ -20,7 +20,7 @@ namespace AssessmentApp
         /// <param name="input">The user input form the form</param>
         /// <returns>The command that has been build from the input that 
         /// will be used to do something on the form's picturebox</returns>
-        internal Command ParseLine(string input, Graphics graphics)
+        public Command ParseLine(string input, Graphics graphics)
         {
             this.graphics = graphics;
             return BuildCommand(input);
@@ -289,7 +289,7 @@ namespace AssessmentApp
             }
             else if ("Drawto".Equals(action.ToString()))
             {
-                if (numbers.Length != 4)
+                if (numbers.Length != 2)
                 {
                     incorrecNumberOfNumbers = true;
                     throw new ArgumentException($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");

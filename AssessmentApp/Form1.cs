@@ -97,7 +97,7 @@ namespace AssessmentApp
         }
 
         /// <summary>
-        ///     Syntaxt buttone that uses syntax checking methods to see if the
+        ///     Syntax button that uses syntax checking methods to see if the
         ///     proposed command is valid in every form adn repost back if it is
         ///     or not.
         /// </summary>
@@ -270,7 +270,7 @@ namespace AssessmentApp
         /// <param name="writer">The writer of the file</param>
         /// <param name="text">The contents of the multi-line text box</param>
         /// <exception cref="IOException">If the file is unable to be written, the exception is thrown</exception>
-        internal void WriteToFile(StreamWriter writer, string text)
+        public void WriteToFile(StreamWriter writer, string text)
         {
             try
             {

@@ -23,8 +23,11 @@ namespace AssessmentApp.Tests
             public void ExtractActionTest_withLowerCaseString_retrunsCorrectAction()
             {
                 var parser = new Parser();
+                //arrange
                 var input = new List<string> { "rectangle" };
+                //act
                 var result = parser.ExtractAction(input);
+                //assert
                 Assert.AreEqual(Action.Rectangle, result);
             }
             /// <summary>
@@ -35,8 +38,11 @@ namespace AssessmentApp.Tests
             public void ExtractActionTest_withUpperCaseString_retrunsCorrectAction()
             {
                 var parser = new Parser();
+                //arrange
                 var input = new List<string> { "RECTANGLE" };
+                //act
                 var result = parser.ExtractAction(input);
+                //assert
                 Assert.AreEqual(Action.Rectangle, result);
             }
             /// <summary>
@@ -47,8 +53,11 @@ namespace AssessmentApp.Tests
             public void ExtractActionTest_withMixedCaseString_retrunsCorrectAction()
             {
                 var parser = new Parser();
+                //arrange
                 var input = new List<string> { "RecTanGlE" };
+                //act
                 var result = parser.ExtractAction(input);
+                //assert
                 Assert.AreEqual(Action.Rectangle, result);
             }
             /// <summary>
@@ -61,8 +70,11 @@ namespace AssessmentApp.Tests
             public void ExtractActionTest_withOnlyOneMatchingString_retrunsCorrectAction()
             {
                 var parser = new Parser();
+                //arrange
                 var input = new List<string> { "tango", "ROMEO", "RECtanGle" };
+                //act
                 var result = parser.ExtractAction(input);
+                //assert
                 Assert.AreEqual(Action.Rectangle, result);
 
             }
@@ -76,8 +88,11 @@ namespace AssessmentApp.Tests
             public void ExtractActionTest_withTwoMachingStrings_retrunsCorrectAction()
             {
                 var parser = new Parser();
+                //arrange
                 var input = new List<string> { "rectangle", "cirlce" };
+                //act
                 var result = parser.ExtractAction(input);
+                //assert
                 Assert.AreEqual(Action.Rectangle, result);
 
             }
@@ -87,11 +102,14 @@ namespace AssessmentApp.Tests
             ///     Action.None.
             /// </summary>
             [TestMethod()]
-            public void ExtractAction_withTwoMachingStrings_throwsException()
+            public void ExtractAction_withTwoMachingStrings_returnsNone()
             {
                 var parser = new Parser();
+                //arrange
                 var input = new List<string> { "eggs", "milk", "bread", "fruit" };
+                //act
                 var result = parser.ExtractAction(input);
+                //assert
                 Assert.AreEqual(Action.None, result);
             }
             /// <summary>
@@ -100,11 +118,14 @@ namespace AssessmentApp.Tests
             ///     in the Action enum.
             /// </summary>
             [TestMethod()]
-            public void ExtractAction_withEmptyStrings_throwsException()
+            public void ExtractAction_withEmptyStrings_returnsNone()
             {
                 var parser = new Parser();
+                //arrange
                 var input = new List<string> { "" };
+                //act
                 var result = parser.ExtractAction(input);
+                //assert
                 Assert.AreEqual(Action.None, result);
             }
         }
@@ -120,8 +141,11 @@ namespace AssessmentApp.Tests
             public void ExtractNumbersTest_listOfStringsIsConvertedToArrayOfInts_returnsCorrectAction()
             {
                 var parser = new Parser();
+                //arrange
                 var input = new List<string> { "20", "500", "350", "400" };
+                //act
                 var result = parser.ExtractNumbers(input);
+                //assert
                 Assert.IsTrue(typeof(Array).IsAssignableFrom(result.GetType()));
             }
             /// <summary>
@@ -133,8 +157,11 @@ namespace AssessmentApp.Tests
             public void ExtractNumbersTest_listOfIntsLengthIsCountedCorrectly_returnsCorrectAction()
             {
                 var parser = new Parser();
+                //arrange
                 var input = new List<string> { "51", "123", "462" };
+                //act
                 var result = parser.ExtractNumbers(input);
+                //assert
                 Assert.AreEqual(3, result.Count());
             }
             /// <summary>
@@ -145,8 +172,11 @@ namespace AssessmentApp.Tests
             public void ExtractNumbersTest_noNumbersAreInputAndArrayLengthIsCountedCorrectly_returnsCorrectAction()
             {
                 var parser = new Parser();
+                //arrange
                 var input = new List<string> { "" };
+                //act
                 var result = parser.ExtractNumbers(input);
+                //assert
                 Assert.AreEqual(0, result.Count());
             }
         }
@@ -162,8 +192,11 @@ namespace AssessmentApp.Tests
             public void ExtractOnOffTest_setToOff_returnsCorrect()
             {
                 var parser = new Parser();
+                //arrange
                 var input = new List<string> { "off" };
+                //act
                 var result = parser.ExtractOnOff(input);
+                //assert
                 Assert.AreEqual(false, result);
             }
             /// <summary>
@@ -174,8 +207,11 @@ namespace AssessmentApp.Tests
             public void ExtractOnOffTest_setToDraw_returnsCorrect()
             {
                 var parser = new Parser();
+                //arrange
                 var input = new List<string> { "dRaW" };
+                //act
                 var result = parser.ExtractOnOff(input);
+                //assert
                 Assert.AreEqual(false, result);
             }
         }
@@ -191,8 +227,11 @@ namespace AssessmentApp.Tests
             public void TitleCaseTest_allLowerString_returnsCorrect()
             {
                 var parser = new Parser();
+                //arrange
                 var input = "circle";
+                //act
                 var result = parser.TitleCase(input);
+                //assert
                 Assert.AreEqual("Circle", result);
 
             }
@@ -204,8 +243,11 @@ namespace AssessmentApp.Tests
             public void TitleCaseTest_allUpperString_returnsCorrect()
             {
                 var parser = new Parser();
+                //arrange
                 var input = "TRIANGLE";
+                //act
                 var result = parser.TitleCase(input);
+                //assert
                 Assert.AreEqual("Triangle", result);
 
             }
@@ -218,8 +260,11 @@ namespace AssessmentApp.Tests
             public void TitleCaseTest_MixedCaseString_returnsCorrect()
             {
                 var parser = new Parser();
+                //arrange
                 var input = "sQUarE";
+                //act
                 var result = parser.TitleCase(input);
+                //assert
                 Assert.AreEqual("Square", result);
 
             }
@@ -232,11 +277,55 @@ namespace AssessmentApp.Tests
             public void BuildCommandTest_singleWordCommand_returnsCorrect()
             {
                 var parser = new Parser();
+                //arrange
                 var input = "cricle";
+                //act
                 var result = parser.BuildCommand(input);
+                //assert
                 Assert.IsNotNull(result);
                 Assert.IsInstanceOfType(result, typeof(Command));
-                Assert.AreEqual(Action.Circle, result);
+                Assert.IsTrue(!result.numbers.Any());
+            }
+            [TestMethod()]
+            public void BuildCommandTest_singleWordCommand_withOneNumbers_returnsCorrect()
+            {
+                var parser = new Parser();
+                //arrange
+                var input = "cricle 10";
+                //act
+                var result = parser.BuildCommand(input);
+                //assert
+                Assert.IsNotNull(result);
+                Assert.IsInstanceOfType(result, typeof(Command));
+                Assert.IsTrue(result.numbers.Contains(10));
+            }
+            [TestMethod()]
+            public void BuildCommandTest_singleWordCommand_withThreeNumbers_returnsCorrect()
+            {
+                var parser = new Parser();
+                //arrange
+                var input = "cricle 30 200 150";
+                //act
+                var result = parser.BuildCommand(input);
+                //assert
+                Assert.IsNotNull(result);
+                Assert.IsInstanceOfType(result, typeof(Command));
+                Assert.IsTrue(result.numbers.Count() == 3);
+                Assert.IsTrue(result.numbers.Contains(30));
+                Assert.IsTrue(result.numbers.Contains(200));
+                Assert.IsTrue(result.numbers.Contains(150));
+            }
+            [TestMethod()]
+            public void BuildCommandTest_emptyString_returnsNone()
+            {
+                var parser = new Parser();
+                //arrange
+                var input = "";
+                //act
+                var result = parser.BuildCommand(input);
+                //assert
+                Assert.IsNotNull(result);
+                Assert.IsInstanceOfType(result, typeof(Command));
                 Assert.IsTrue(!result.numbers.Any());
             }
         }
@@ -253,8 +342,11 @@ namespace AssessmentApp.Tests
             public void NumbersIsOutOfRangeTest_numbresInRange_returnsTrue()
             {
                 var parser = new Parser();
+                //arrange
                 var input = new List<string> { "350" };
+                //act
                 var result = parser.NumbersIsOutOfRange(input);
+                //assert
                 Assert.IsFalse(result);
             }
             /// <summary>
@@ -266,7 +358,9 @@ namespace AssessmentApp.Tests
             public void NumbersIsOutOfRangeTest_numbresInNotRange_throwsArgumentException()
             {
                 var parser = new Parser();
+                //arrange
                 var input = new List<string> { "3000000" };
+                //assert
                 Assert.ThrowsException<ArgumentException>(() => parser.NumbersIsOutOfRange(input));
             }
         }
@@ -282,8 +376,11 @@ namespace AssessmentApp.Tests
             public void IsValidActionTest_validAction_returnsTrue() 
             {
                 var parser = new Parser();
+                //arrange
                 var input = new List<string> { "Triangle" };
+                //act
                 var result = parser.IsValidAction(input);
+                //assert
                 Assert.IsTrue(result);
 
             }
@@ -298,7 +395,9 @@ namespace AssessmentApp.Tests
             public void IsValidActionTest_invalidAction_throwsArgumentException()
             {
                 var parser = new Parser();
+                //arrange
                 var input = new List<string> { "Donkey" };
+                //assert
                 Assert.ThrowsException<ArgumentException>(() => parser.IsValidAction(input));
 
             }
@@ -317,8 +416,11 @@ namespace AssessmentApp.Tests
             public void IncorrectNumberOfNumbersTest_correctNumberOfNumbers_forCircleCommand_returnsTrue() 
             {
                 var parser = new Parser();
+                //arrange
                 var input = new List<string> { "Circle 100" };
+                //act
                 var result = parser.IncorrecNumberOfNumbers(input);
+                //assert
                 Assert.IsFalse(result);
             }
             /// <summary>
@@ -331,8 +433,11 @@ namespace AssessmentApp.Tests
             public void IncorrectNumberOfNumbersTest_correctNumberOfNumbers_forCircleCommand_ThrowArgumentException()
             {
                 var parser = new Parser();
+                //arrange
                 var input = new List<string> { "Circle 100 20 30" };
+                //act
                 var result = parser.IncorrecNumberOfNumbers(input);
+                //assert
                 Assert.IsFalse(result);
             }
             /// <summary>
@@ -342,10 +447,12 @@ namespace AssessmentApp.Tests
             ///     should be thrown.
             /// </summary>
             [TestMethod()]
-            public void IncorrectNumberOfNumbersTest_moreNumbersThanRequired_forSquareCommand_ThrowsArgumentException()
+            public void IncorrectNumberOfNumbersTest_moreNumbersThanRequired_forCircleCommand_ThrowsArgumentException()
             {
                 var parser = new Parser();
-                var input = new List<string> { "Square 100 30 200 75" };
+                //arrange
+                var input = new List<string> { "Circle 100 30 200 75" };
+                //assert
                 Assert.ThrowsException<Exception>(() => parser.IncorrecNumberOfNumbers(input));
             }
             /// <summary>
@@ -358,8 +465,11 @@ namespace AssessmentApp.Tests
             public void IncorrectNumberOfNumbersTest_noNumbers_forTriangleCommand_returnsCorrect()
             {
                 var parser = new Parser();
+                //arrange
                 var input = new List<string> { "Triangle" };
+                //act
                 var result = parser.IncorrecNumberOfNumbers(input);
+                //assert
                 Assert.IsFalse(result);
             }
         }
@@ -378,8 +488,11 @@ namespace AssessmentApp.Tests
             public void CheckSyntaxTest_correctSyntax_forSingleWordRectangleCommand_returnsFlase()
             {
                 var parser = new Parser();
+                //arrange
                 var input = "Rectangle";
+                //act
                 var result = parser.CheckSyntax(input);
+                //assert
                 Assert.IsFalse(result);
             }
             /// <summary>
@@ -394,8 +507,11 @@ namespace AssessmentApp.Tests
             public void CheckSyntaxTest_correctSyntax_forSizeSpecifiedSquareCommand_returnsTrue()
             {
                 var parser = new Parser();
+                //arrange
                 var input = "Square 20";
+                //act
                 var result = parser.CheckSyntax(input);
+                //assert
                 Assert.IsFalse(result);
             }
             /// <summary>
@@ -410,8 +526,11 @@ namespace AssessmentApp.Tests
             public void CheckSyntaxTest_correctSyntax_forSizeAndCoordinatesSpecifiedCircleCommand_returnsFlase()
             {
                 var parser = new Parser();
+                //arrange
                 var input = "Circle 30 10 20";
+                //act
                 var result = parser.CheckSyntax(input);
+                //assert
                 Assert.IsFalse(result);
             }
             /// <summary>
@@ -427,7 +546,9 @@ namespace AssessmentApp.Tests
             public void CheckSyntaxTest_incorrectSyntax_forTriangleCommand_throwsException()
             {
                 var parser = new Parser();
+                //arrange
                 var input = "Triangle 30 10";
+                //assert
                 Assert.ThrowsException<ArgumentException>(() => parser.CheckSyntax(input));
             }
             /// <summary>
@@ -442,7 +563,9 @@ namespace AssessmentApp.Tests
             public void CheckSyntaxTest_incorrectSyntax_forNotOptionalCommand_throwsException()
             {
                 var parser = new Parser();
+                //arrange
                 var input = "Wombats";
+                //assert
                 Assert.ThrowsException<ArgumentException>(() => parser.CheckSyntax(input));
             }
         }
