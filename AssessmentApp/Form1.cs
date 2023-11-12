@@ -117,7 +117,7 @@ namespace AssessmentApp
                 try
                 {
                     bool syntax = parser.CheckSyntax(textBox2.Text);
-                    if (syntax == true)
+                    if (syntax == false)
                     {
                         textBox3.Text = "";
                         textBox3.Text = (lineTyped + ": Is valid syntax");
@@ -135,7 +135,7 @@ namespace AssessmentApp
                 try
                 {
                     bool syntax = parser.CheckSyntax(textBox1.Text);
-                    if (syntax == true)
+                    if (syntax == false)
                     {
                         textBox3.Text = "";
                         textBox3.Text = (lineTyped + ": Is valid syntax");
@@ -282,7 +282,7 @@ namespace AssessmentApp
             }
             catch (Exception ex)
             {
-                throw new IOException($"An error occurred while savoing the program to file system: {ex.Message}");
+                throw new IOException($"An error occurred while saving the program to file system: {ex.Message}");
             }
             finally
             {

@@ -102,7 +102,7 @@ namespace AssessmentApp
 
         /// <summary>
         ///     Gets the corrent value for the bool onOff which will determine if the drawing 
-        ///     will be filled solide or jsut the outline is drawn
+        ///     will be filled solid or jsut the outline is drawn
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
@@ -129,8 +129,8 @@ namespace AssessmentApp
         }
 
         /// <summary>
-        ///     Take the ipuyt from the multi line text box on the form and split the input up
-        ///     by each line and then execute each line as if they were input one after anopther
+        ///     Take the input from the multi line text box on the form and split the input up
+        ///     by each line and then execute each line as if they were input one after another
         ///     in the single line text box
         /// </summary>
         /// <param name="input"></param>
@@ -180,7 +180,7 @@ namespace AssessmentApp
         /// <param name="input"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public bool IsValidAction(IEnumerable<string> input)
+        public bool IsInvalidAction(IEnumerable<string> input)
         {
             bool isInvalidAction = false;
             var action = ExtractAction(input);
@@ -312,11 +312,11 @@ namespace AssessmentApp
         {
             bool isInvalidSyntax = false;
             IEnumerable<string> token = input.Trim().ToLower().Split(' ').ToList();
-            var isInvalidAction = IsValidAction(token);
+            var isInvalidAction = IsInvalidAction(token);
             //var isValidColor = IsValidColor(token);
             var isOutOfRanges = NumbersIsOutOfRange(token);
             var incorrectNumber = IncorrecNumberOfNumbers(token);
-            if (isInvalidAction == true /*&& isValidColor == true*/ && isOutOfRanges == false && incorrectNumber == false)
+            if (isInvalidAction == false /*&& isValidColor == true*/ && isOutOfRanges == false && incorrectNumber == false)
             {
                 isInvalidSyntax = false;
             }

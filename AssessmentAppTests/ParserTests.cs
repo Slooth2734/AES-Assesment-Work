@@ -89,7 +89,7 @@ namespace AssessmentApp.Tests
             {
                 var parser = new Parser();
                 //arrange
-                var input = new List<string> { "rectangle", "cirlce" };
+                var input = new List<string> { "rectangle", "circle" };
                 //act
                 var result = parser.ExtractAction(input);
                 //assert
@@ -102,7 +102,7 @@ namespace AssessmentApp.Tests
             ///     Action.None.
             /// </summary>
             [TestMethod()]
-            public void ExtractAction_withTwoMachingStrings_returnsNone()
+            public void ExtractAction_withNoMachingStrings_returnsNone()
             {
                 var parser = new Parser();
                 //arrange
@@ -113,7 +113,7 @@ namespace AssessmentApp.Tests
                 Assert.AreEqual(Action.None, result);
             }
             /// <summary>
-            ///     Test of the extract action method ussing an empty input. The action
+            ///     Test of the extract action method using an empty input. The action
             ///     should be returned as Action.None as the input doesn't match anything
             ///     in the Action enum.
             /// </summary>
@@ -273,6 +273,12 @@ namespace AssessmentApp.Tests
         [TestClass]
         public class BuildCommandTests
         {
+            /// <summary>
+            ///     Test of the build command method using a single word command
+            ///     with no parameters specified. Should return correct when 
+            ///     the command is created as a type of command correctly, it is
+            ///     not null and the command does not have any numbers with it
+            /// </summary>
             [TestMethod()]
             public void BuildCommandTest_singleWordCommand_returnsCorrect()
             {
@@ -286,6 +292,13 @@ namespace AssessmentApp.Tests
                 Assert.IsInstanceOfType(result, typeof(Command));
                 Assert.IsTrue(!result.numbers.Any());
             }
+            /// <summary>
+            ///     Test of the build command method using a single word command
+            ///     with 1 parameter specified. Should return correct when 
+            ///     the command is created as a type of command correctly, it is
+            ///     not null and the command's numbers array contains the same
+            ///     as that specified
+            /// </summary>
             [TestMethod()]
             public void BuildCommandTest_singleWordCommand_withOneNumbers_returnsCorrect()
             {
@@ -299,6 +312,13 @@ namespace AssessmentApp.Tests
                 Assert.IsInstanceOfType(result, typeof(Command));
                 Assert.IsTrue(result.numbers.Contains(10));
             }
+            /// <summary>
+            ///     Test of the build command method using a single word command
+            ///     with 3 parameter specified. Should return correct when 
+            ///     the command is created as a type of command correctly, it is
+            ///     not null and the command's numbers array contains the same
+            ///     as those specified and the array is counted correctly
+            /// </summary>
             [TestMethod()]
             public void BuildCommandTest_singleWordCommand_withThreeNumbers_returnsCorrect()
             {
@@ -315,6 +335,12 @@ namespace AssessmentApp.Tests
                 Assert.IsTrue(result.numbers.Contains(200));
                 Assert.IsTrue(result.numbers.Contains(150));
             }
+            /// <summary>
+            ///     Test of the build command method using an empty string. 
+            ///     Should return correct when the command is created as a 
+            ///     type of command correctly and the command's numbers 
+            ///     array does not contain anything
+            /// </summary>
             [TestMethod()]
             public void BuildCommandTest_emptyString_returnsNone()
             {
@@ -379,9 +405,9 @@ namespace AssessmentApp.Tests
                 //arrange
                 var input = new List<string> { "Triangle" };
                 //act
-                var result = parser.IsValidAction(input);
+                var result = parser.IsInvalidAction(input);
                 //assert
-                Assert.IsTrue(result);
+                Assert.IsFalse(result);
 
             }
             /// <summary>
@@ -398,8 +424,7 @@ namespace AssessmentApp.Tests
                 //arrange
                 var input = new List<string> { "Donkey" };
                 //assert
-                Assert.ThrowsException<ArgumentException>(() => parser.IsValidAction(input));
-
+                Assert.ThrowsException<ArgumentException>(() => parser.IsInvalidAction(input));
             }
         }
 

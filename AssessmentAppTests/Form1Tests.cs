@@ -12,7 +12,7 @@ namespace AssessmentApp.Tests
     public class Form1Tests
     {
         /// <summary>
-        ///     Test of the write to a file method from th form class.
+        ///     Test of the write to a file method from the form class.
         ///     This test attempts to save one line to a file and 
         ///     compares what is saved to what the input is once it
         ///     has been processed through the method. Passes if the
