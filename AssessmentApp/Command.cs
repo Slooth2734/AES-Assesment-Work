@@ -48,10 +48,10 @@ namespace AssessmentApp
         private Parser Parser;
         private Shape shape;
         public Color color;
+        private GraphicsHandler graphicsHandler;
+        bool onOff;
         int x, y, otherX, otherY, width, height, radius, side;
         int currentX, currentY;
-        GraphicsHandler graphicsHandler = new GraphicsHandler() ;
-        bool onOff;
         internal Action Action {  get; set; }
         internal Colors Color { get; set; }
         public int[] numbers { get; set; }
@@ -71,59 +71,54 @@ namespace AssessmentApp
             this.numbers = numbers;
             this.graphics = graphics;
 
-            /*
+            if (graphicsHandler == null)
+            {
+                graphicsHandler = GraphicsHandler.getInstance();
+            }
+
+            
             if ("Fill".Equals(action.ToString()) || "On".Equals(action.ToString()))
             {
-                graphicsHandler = new GraphicsHandler();
                 graphicsHandler.onOff = true;
                 return;
             }
             else if ("Draw".Equals(action.ToString()) || "Off".Equals(action.ToString()))
             {
-                graphicsHandler = new GraphicsHandler();
                 graphicsHandler.onOff = false;
                 return;
             }
-            */
+            
 
             if ("Black".Equals(color.ToString()))
             {
-                graphicsHandler = new GraphicsHandler();
                 graphicsHandler.color = System.Drawing.Color.Black;
             }
             else if ("Blue".Equals(color.ToString()))
             {
-                graphicsHandler = new GraphicsHandler();
                 graphicsHandler.color = System.Drawing.Color.Blue;
             }
             else if ("Green".Equals(color.ToString()))
             {
-                graphicsHandler = new GraphicsHandler();
                 graphicsHandler.color = System.Drawing.Color.Black;
             }
             else if ("Orange".Equals(color.ToString()))
             {
-                graphicsHandler = new GraphicsHandler();
                 graphicsHandler.color = System.Drawing.Color.Orange;
             }
             else if ("Pink".Equals(color.ToString()))
             {
-                graphicsHandler = new GraphicsHandler();
                 graphicsHandler.color = System.Drawing.Color.Pink;
             }
             else if ("Purple".Equals(color.ToString()))
             {
-                graphicsHandler = new GraphicsHandler();
                 graphicsHandler.color = System.Drawing.Color.Purple;
             }
             else if ("Red".Equals(color.ToString()))
             {
-                graphicsHandler = new GraphicsHandler();
                 graphicsHandler.color = System.Drawing.Color.Red;
             }
             else if ("Yellow".Equals(color.ToString()))
             {
-                graphicsHandler = new GraphicsHandler();
                 graphicsHandler.color = System.Drawing.Color.Yellow;
             }
            
@@ -136,8 +131,6 @@ namespace AssessmentApp
                     if ("Rectangle".Equals(action.ToString()))
                     {
                         Rectangle r = new Rectangle(color, x, y, width, height);
-                        r.x = graphicsHandler.x;
-                        r.y = graphicsHandler.y;
                         r.Fill(graphics);
                     }
                     // Default Circle
@@ -156,8 +149,6 @@ namespace AssessmentApp
                     else if ("Triangle".Equals(action.ToString()))
                     {
                         Triangle t = new Triangle(color, x, y, side);
-                        t.x = 30;
-                        t.y = 30;
                         t.Draw(graphics);
                     }
                     // Reset position to 0, 0
@@ -177,14 +168,12 @@ namespace AssessmentApp
                         // Rectangle with size parameters
                         if (numbers.Length == 2)
                         {
-                            r.x = graphicsHandler.x;
-                            r.y = graphicsHandler.y;
                             r.Width = numbers[0];
                             r.Height = numbers[1];
                             r.Fill(graphics);
                         }
                         // Rectangle with size and location parameters
-                        else if (numbers.Length == 4)
+                        /*else if (numbers.Length == 4)
                         {
                             r.Width = numbers[0];
                             r.Height = numbers[1];
@@ -192,6 +181,7 @@ namespace AssessmentApp
                             r.y = numbers[3];
                             r.Fill(graphics);
                         }
+                        */
                     }
                     // Circle with parameters
                     else if ("Circle".Equals(action.ToString()))
@@ -204,13 +194,14 @@ namespace AssessmentApp
                             c.Fill(graphics);
                         }
                         // Cirlce with size and location parameters
-                        else if (numbers.Length == 3)
+                        /*else if (numbers.Length == 3)
                         {
                             c.Radius = numbers[0];
                             c.x = numbers[1];
                             c.y = numbers[2];
                             c.Fill(graphics);
                         }
+                        */
                     }
                     // Square with parameters
                     else if ("Square".Equals(action.ToString()))
@@ -223,30 +214,27 @@ namespace AssessmentApp
                             s.Fill(graphics);
                         }
                         // Square with size and location parameters
-                        else if (numbers.Length == 3)
+                        /*else if (numbers.Length == 3)
                         {
                             s.Side = numbers[0];
                             s.x = numbers[1];
                             s.y = numbers[2];
                             s.Fill(graphics);
                         }
+                        */
                     }
                     // Line with origin and destination parameters
                     else if ("Line".Equals(action.ToString()))
                     {
                         Line l = new Line(color, x, y, otherX, otherY);
-                        l.x = numbers[0];
-                        l.y = numbers[1];
-                        l.otherX = numbers[2];
-                        l.otherY = numbers[3];
+                        l.otherX = numbers[0];
+                        l.otherY = numbers[1];
                         l.Fill(graphics);
                     }
                     // Line with just destination parameters
                     else if ("Drawto".Equals(action.ToString()))
                     {
                         Line l = new Line(color, x, y, otherX, otherY);
-                        l.x = 0;
-                        l.y = 0;
                         l.otherX = numbers[0];
                         l.otherY = numbers[1];
                         l.Draw(graphics);
@@ -259,16 +247,17 @@ namespace AssessmentApp
                         if (numbers.Length == 1)
                         {
                             t.Side = numbers[0];
-                            t.Fill(graphics);
+                            t.Draw(graphics);
                         }
                         // Triangle with size and location parameters
-                        else if (numbers.Length == 3)
+                        /*else if (numbers.Length == 3)
                         {
                             t.Side = numbers[0];
                             t.x = numbers[1];
                             t.y = numbers[2];
                             t.Fill(graphics);
                         }
+                        */
                     }
                     // Move starting position
                     else if ("Moveto".Equals(action.ToString()))
@@ -288,8 +277,6 @@ namespace AssessmentApp
                     if ("Rectangle".Equals(action.ToString()))
                     {
                         Rectangle r = new Rectangle(color, x, y, width, height);
-                        r.x = graphicsHandler.x;
-                        r.y = graphicsHandler.y;
                         r.Draw(graphics);
                     }
                     // Default Circle
@@ -308,8 +295,6 @@ namespace AssessmentApp
                     else if ("Triangle".Equals(action.ToString()))
                     {
                         Triangle t = new Triangle(color, x, y, side);
-                        t.x = 30;
-                        t.y = 30;
                         t.Draw(graphics);
                     }
                     // Reset position to 0, 0
@@ -334,7 +319,7 @@ namespace AssessmentApp
                             r.Draw(graphics);
                         }
                         // Rectangle with size and location parameters
-                        else if (numbers.Length == 4)
+                        /*else if (numbers.Length == 4)
                         {
                             r.Width = numbers[0];
                             r.Height = numbers[1];
@@ -342,7 +327,7 @@ namespace AssessmentApp
                             r.y = numbers[3];
                             r.Draw(graphics);
                         }
-
+                        */
                     }
                     // Circle with parameters
                     else if ("Circle".Equals(action.ToString()))
@@ -355,13 +340,14 @@ namespace AssessmentApp
                             c.Draw(graphics);
                         }
                         // Circle with size and location parameater
-                        else if (numbers.Length == 3)
+                        /*else if (numbers.Length == 3)
                         {
                             c.Radius = numbers[0];
                             c.x = numbers[1];
                             c.y = numbers[2];
                             c.Draw(graphics);
                         }
+                        */
                     }
                     // Square with parameters
                     else if ("Square".Equals(action.ToString()))
@@ -374,30 +360,27 @@ namespace AssessmentApp
                             s.Draw(graphics);
                         }
                         // Square with size and location parameters
-                        else if (numbers.Length == 3)
+                        /*else if (numbers.Length == 3)
                         {
                             s.Side = numbers[0];
                             s.x = numbers[1];
                             s.y = numbers[2];
                             s.Draw(graphics);
                         }
+                        */
                     }
                     // Line with origin and destination parameters
                     else if ("Line".Equals(action.ToString()))
                     {
                         Line l = new Line(color, x, y, otherX, otherY);
-                        l.x = numbers[0]; 
-                        l.y = numbers[1];
-                        l.otherX = numbers[2];
-                        l.otherY = numbers[3];
+                        l.otherX = numbers[0];
+                        l.otherY = numbers[1];
                         l.Draw(graphics);
                     }
                     // Line with just destination parameters
                     else if ("Drawto".Equals(action.ToString()))
                     {
                         Line l = new Line(color, x, y, otherX, otherY);
-                        l.x = 0;
-                        l.y = 0;
                         l.otherX = numbers[0];
                         l.otherY = numbers[1];
                         l.Draw(graphics);
@@ -413,13 +396,14 @@ namespace AssessmentApp
                             t.Draw(graphics);
                         }
                         // Triangle with size and location parameters
-                        else if (numbers.Length == 3)
+                        /*else if (numbers.Length == 3)
                         {
                             t.Side = numbers[0];
                             t.x = numbers[1];
                             t.y = numbers[2];
                             t.Draw(graphics);
                         }
+                        */
                     }
                     // Move starting position
                     else if ("Moveto".Equals(action.ToString()))

@@ -8,6 +8,7 @@ namespace AssessmentApp
 {
     internal class Triangle : Shape
     {
+        GraphicsHandler GraphicsHandlerInstance;
         static int DeafultSide = 30;
         internal int Side { get; set; }
 
@@ -19,9 +20,8 @@ namespace AssessmentApp
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="side"></param>
-        public Triangle(Color color, int x, int y, int side) : base(color, x, y)
+        public Triangle(Color color, int x, int y, int side)
         {
-            this.color = color;
             this.Side = side;
         }
 
@@ -41,13 +41,13 @@ namespace AssessmentApp
         /// <param name="graphics"></param>
         public override void Draw(Graphics graphics)
         {
-            GraphicsHandler graphicsHandler = new GraphicsHandler();
-            Pen p = new Pen(Color.Black, 2);
+            GraphicsHandler graphicsHandler = GraphicsHandler.getInstance();
+            Pen p = new Pen(graphicsHandler.color, 2);
             if (Side == 0)
             {
-                Point vertex1 = new Point(x, y - DeafultSide);
-                Point vertex2 = new Point(x - (int)(DeafultSide * Math.Sqrt(3) / 2), y + DeafultSide / 2);
-                Point vertex3 = new Point(x + (int)(DeafultSide * Math.Sqrt(3) / 2), y + DeafultSide / 2);
+                Point vertex1 = new Point(graphicsHandler.x, graphicsHandler.y - DeafultSide);
+                Point vertex2 = new Point(graphicsHandler.x - (int)(DeafultSide * Math.Sqrt(3) / 2), graphicsHandler.y + DeafultSide / 2);
+                Point vertex3 = new Point(graphicsHandler.x + (int)(DeafultSide * Math.Sqrt(3) / 2), graphicsHandler.y + DeafultSide / 2);
 
                 graphics.DrawLine(p, vertex1, vertex2);
                 graphics.DrawLine(p, vertex2, vertex3);
@@ -55,9 +55,9 @@ namespace AssessmentApp
             }
             else
             {
-                Point vertex1 = new Point(x, y - Side);
-                Point vertex2 = new Point(x - (int)(Side * Math.Sqrt(3) / 2), y + Side / 2);
-                Point vertex3 = new Point(x + (int)(Side * Math.Sqrt(3) / 2), y + Side / 2);
+                Point vertex1 = new Point(graphicsHandler.x, graphicsHandler.y - Side);
+                Point vertex2 = new Point(graphicsHandler.x - (int)(Side * Math.Sqrt(3) / 2), graphicsHandler.y + Side / 2);
+                Point vertex3 = new Point(graphicsHandler.x + (int)(Side * Math.Sqrt(3) / 2), graphicsHandler.y + Side / 2);
 
                 graphics.DrawLine(p, vertex1, vertex2);
                 graphics.DrawLine(p, vertex2, vertex3);

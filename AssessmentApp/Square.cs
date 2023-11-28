@@ -8,6 +8,7 @@ namespace AssessmentApp
 {
     class Square : Shape
     {
+        GraphicsHandler GraphicsHandlerInstance;
         public static readonly int DeafultSide = 30;
         internal int Side { get; set; }
 
@@ -20,9 +21,8 @@ namespace AssessmentApp
         /// <param name="y">Y coordinate of the top left corner</param>
         /// <param name="width">Width of the rectnagle</param>
         /// <param name="height">Height of the rectnagle</param>
-        public Square(Color color, int x, int y, int side) : base(color, x, y)
+        public Square(Color color, int x, int y, int side)
         {
-            this.color = color;
             this.Side = side;
         }
 
@@ -39,11 +39,12 @@ namespace AssessmentApp
         /// <param name="graphics"></param>
         public override void Draw(Graphics graphics)
         {
-            Pen p = new Pen(Color.Black, 2);
+            GraphicsHandler graphicsHandler = GraphicsHandler.getInstance();
+            Pen p = new Pen(graphicsHandler.color, 2);
             if (Side == 0)
-            { graphics.DrawRectangle(p, x, y, DeafultSide, DeafultSide); }
+            { graphics.DrawRectangle(p, graphicsHandler.x, graphicsHandler.y, DeafultSide, DeafultSide); }
             else
-            { graphics.DrawRectangle(p, x, y, Side, Side); }
+            { graphics.DrawRectangle(p, graphicsHandler.x, graphicsHandler.y, Side, Side); }
         }
 
         /// <summary>
@@ -59,11 +60,12 @@ namespace AssessmentApp
         /// <param name="graphics"></param>
         public override void Fill(Graphics graphics)
         {
-            SolidBrush b = new SolidBrush(Color.Black);
+            GraphicsHandler graphicsHandler = GraphicsHandler.getInstance();
+            SolidBrush b = new SolidBrush(graphicsHandler.color);
             if (Side == 0)
-            { graphics.FillRectangle(b, x, y, DeafultSide, DeafultSide); }
+            { graphics.FillRectangle(b, graphicsHandler.x, graphicsHandler.y, DeafultSide, DeafultSide); }
             else
-            { graphics.FillRectangle(b, x, y, Side, Side); }   
+            { graphics.FillRectangle(b, graphicsHandler.x, graphicsHandler.y, Side, Side); }   
         }
     }
 }

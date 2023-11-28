@@ -10,6 +10,7 @@ namespace AssessmentApp
 {
     class Circle : Shape
     {
+        GraphicsHandler GraphicsHandlerInstance;
         protected int DeafultRadius = 30;
         internal int Radius { get; set; }
 
@@ -21,9 +22,8 @@ namespace AssessmentApp
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="radius"></param>
-        public Circle(Color color, int x, int y, int radius) : base(color, x, y) 
+        public Circle(Color color, int x, int y, int radius)
         { 
-            this.color = color;
             this.Radius = Radius;
         }
 
@@ -40,11 +40,12 @@ namespace AssessmentApp
         /// <param name="graphics"></param>
         public override void Draw(Graphics graphics)
         {
-            Pen p = new Pen(Color.Black, 2);
+            GraphicsHandler graphicsHandler = GraphicsHandler.getInstance();
+            Pen p = new Pen(graphicsHandler.color, 2);
             if (Radius == 0 )
-            { graphics.DrawEllipse(p, x, y, DeafultRadius * 2, DeafultRadius * 2); }
+            { graphics.DrawEllipse(p, graphicsHandler.x, graphicsHandler.y, DeafultRadius * 2, DeafultRadius * 2); }
             else
-            { graphics.DrawEllipse(p, x, y, Radius * 2, Radius * 2); }
+            { graphics.DrawEllipse(p, graphicsHandler.x, graphicsHandler.y, Radius * 2, Radius * 2); }
         }
 
         /// <summary>
@@ -60,11 +61,12 @@ namespace AssessmentApp
         /// <param name="graphics"></param>
         public override void Fill(Graphics graphics)
         {
-            SolidBrush b = new SolidBrush(Color.Black);
+            GraphicsHandler graphicsHandler = GraphicsHandler.getInstance();
+            SolidBrush b = new SolidBrush(graphicsHandler.color);
             if (Radius == 0)
-            { graphics.FillEllipse(b, x, y, DeafultRadius * 2, DeafultRadius * 2); }
+            { graphics.FillEllipse(b, graphicsHandler.x, graphicsHandler.y, DeafultRadius * 2, DeafultRadius * 2); }
             else
-            { graphics.FillEllipse(b, x, y, Radius * 2, Radius * 2); }
+            { graphics.FillEllipse(b, graphicsHandler.x, graphicsHandler.y, Radius * 2, Radius * 2); }
         }
     }
 }

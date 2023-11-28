@@ -8,6 +8,7 @@ namespace AssessmentApp
 {
     internal class Line : Shape
     {
+        GraphicsHandler GraphicsHandlerInstance;
         internal int otherX { get; set; }
         internal int otherY { get; set; }
 
@@ -20,9 +21,8 @@ namespace AssessmentApp
         /// <param name="y"></param>
         /// <param name="otherX"></param>
         /// <param name="otherY"></param>
-        public Line(Color color, int x, int y, int otherX, int otherY) : base(color, x, y)
+        public Line(Color color, int x, int y, int otherX, int otherY)
         {
-            this.color = color;
             this.otherX = otherX;
             this.otherY = otherY;
         }
@@ -37,8 +37,9 @@ namespace AssessmentApp
         /// <param name="graphics"></param>
         public override void Draw(Graphics graphics)
         {
-            Pen p = new Pen(Color.Black, 2);
-            graphics.DrawLine(p, x, y, otherX, otherY);
+            GraphicsHandler graphicsHandler = GraphicsHandler.getInstance();
+            Pen p = new Pen(graphicsHandler.color, 2);
+            graphics.DrawLine(p, graphicsHandler.x, graphicsHandler.y, otherX, otherY);
         }
 
         /// <summary>
@@ -54,8 +55,9 @@ namespace AssessmentApp
         /// <exception cref="NotImplementedException"></exception>
         public override void Fill(Graphics graphics)
         {
-            Pen p = new Pen(Color.Black, 7);
-            graphics.DrawLine(p, x, y, otherX, otherY);
+            GraphicsHandler graphicsHandler = GraphicsHandler.getInstance();
+            Pen p = new Pen(graphicsHandler.color, 7);
+            graphics.DrawLine(p, graphicsHandler.x, graphicsHandler.y, otherX, otherY);
         }
     }
 }

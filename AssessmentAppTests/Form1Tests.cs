@@ -90,7 +90,7 @@ namespace AssessmentApp.Tests
                 //simulate and ecxception during writing
                 writer.BaseStream.Close();
                 //assert
-                Assert.ThrowsException<IOException>(() => form.WriteToFile(writer, text));
+                Assert.ThrowsException<ObjectDisposedException>(() => form.WriteToFile(writer, text));
 
             }
         }

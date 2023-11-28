@@ -9,6 +9,7 @@ namespace AssessmentApp
 {
     class Rectangle : Shape
     {
+        GraphicsHandler GraphicsHandlerInstance;
         static int DeafultHeight = 50;
         static int DeafultWidth = 30;
         internal int Height { get; set; }
@@ -23,9 +24,8 @@ namespace AssessmentApp
         /// <param name="y">Y coordinate of the top left corner</param>
         /// <param name="width">Width of the rectnagle</param>
         /// <param name="height">Height of the rectnagle</param>
-        public Rectangle(Color color, int x, int y, int width, int height) : base(color, x, y)
+        public Rectangle(Color color, int x, int y, int width, int height)
         {
-            this.color = color;
             this.Width = width;
             this.Height = height;
         }
@@ -43,11 +43,12 @@ namespace AssessmentApp
         /// <param name="graphics"></param>
         public override void Draw(Graphics graphics)
         {
-            Pen p = new Pen(Color.Black, 2);
+            GraphicsHandler graphicsHandler = GraphicsHandler.getInstance();
+            Pen p = new Pen(graphicsHandler.color, 2);
             if (Height == 0 || Width == 0)
-            { graphics.DrawRectangle(p, x, y, DeafultWidth, DeafultHeight);   }
+            { graphics.DrawRectangle(p, graphicsHandler.x, graphicsHandler.y, DeafultWidth, DeafultHeight); }
             else
-            { graphics.DrawRectangle(p, x, y, Width, Height); }
+            { graphics.DrawRectangle(p, graphicsHandler.x, graphicsHandler.y, Width, Height); }
         }
 
         /// <summary>
@@ -63,11 +64,12 @@ namespace AssessmentApp
         /// <param name="graphics"></param>
         public override void Fill(Graphics graphics)
         {
-            SolidBrush b = new SolidBrush(Color.Black);
+            GraphicsHandler graphicsHandler = GraphicsHandler.getInstance();
+            SolidBrush b = new SolidBrush(graphicsHandler.color);
             if (Height == 0 || Width == 0)
-            { graphics.FillRectangle(b, x, y, DeafultWidth, DeafultHeight); }
+            { graphics.FillRectangle(b, graphicsHandler.x, graphicsHandler.y, DeafultWidth, DeafultHeight); }
             else
-            { graphics.FillRectangle(b, x, y, Width, Height); }
+            { graphics.FillRectangle(b, graphicsHandler.x, graphicsHandler.y, Width, Height); }
         }
     }
 }

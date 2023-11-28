@@ -108,7 +108,7 @@ namespace AssessmentApp
         /// <returns></returns>
         public bool ExtractOnOff(IEnumerable<string> token)
         {
-            GraphicsHandler graphicsHandler = new GraphicsHandler();
+            GraphicsHandler graphicsHandler = GraphicsHandler.getInstance();
             bool result;
             var onOff = ExtractAction(token);
             if ("On".Equals(onOff.ToString()))
