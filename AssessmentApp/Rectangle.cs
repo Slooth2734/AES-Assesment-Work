@@ -9,9 +9,8 @@ namespace AssessmentApp
 {
     class Rectangle : Shape
     {
-        GraphicsHandler GraphicsHandlerInstance;
-        static int DeafultHeight = 50;
-        static int DeafultWidth = 30;
+        static readonly int DeafultHeight = 50;
+        static readonly int DeafultWidth = 30;
         internal int Height { get; set; }
         internal int Width { get; set; }
 
@@ -24,7 +23,7 @@ namespace AssessmentApp
         /// <param name="y">Y coordinate of the top left corner</param>
         /// <param name="width">Width of the rectnagle</param>
         /// <param name="height">Height of the rectnagle</param>
-        public Rectangle(Color color, int x, int y, int width, int height)
+        public Rectangle(int width, int height)
         {
             this.Width = width;
             this.Height = height;
@@ -44,7 +43,7 @@ namespace AssessmentApp
         public override void Draw(Graphics graphics)
         {
             GraphicsHandler graphicsHandler = GraphicsHandler.getInstance();
-            Pen p = new Pen(graphicsHandler.color, 2);
+            Pen p = new(graphicsHandler.color, 2);
             if (Height == 0 || Width == 0)
             { graphics.DrawRectangle(p, graphicsHandler.x, graphicsHandler.y, DeafultWidth, DeafultHeight); }
             else
@@ -65,7 +64,7 @@ namespace AssessmentApp
         public override void Fill(Graphics graphics)
         {
             GraphicsHandler graphicsHandler = GraphicsHandler.getInstance();
-            SolidBrush b = new SolidBrush(graphicsHandler.color);
+            SolidBrush b = new(graphicsHandler.color);
             if (Height == 0 || Width == 0)
             { graphics.FillRectangle(b, graphicsHandler.x, graphicsHandler.y, DeafultWidth, DeafultHeight); }
             else

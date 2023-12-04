@@ -162,7 +162,7 @@ namespace AssessmentApp.Tests
                 //act
                 var result = parser.ExtractNumbers(input);
                 //assert
-                Assert.AreEqual(3, result.Count());
+                Assert.AreEqual(3, result.Length);
             }
             /// <summary>
             ///     Test of the extract numbers method using an empty input to see if
@@ -177,7 +177,7 @@ namespace AssessmentApp.Tests
                 //act
                 var result = parser.ExtractNumbers(input);
                 //assert
-                Assert.AreEqual(0, result.Count());
+                Assert.AreEqual(0, result.Length);
             }
         }
 
@@ -200,6 +200,21 @@ namespace AssessmentApp.Tests
                 Assert.AreEqual(false, result);
             }
             /// <summary>
+            ///     Test of the extrct onOff method using the input "on". Result 
+            ///     shoudl be true.
+            /// </summary>
+            [TestMethod()]
+            public void ExtractOnOffTest_setToOn_returnsCorrect()
+            {
+                var parser = new Parser();
+                //arrange
+                var input = new List<string> { "on" };
+                //act
+                var result = parser.ExtractOnOff(input);
+                //assert
+                Assert.AreEqual(true, result);
+            }
+            /// <summary>
             ///     Test of the extrct onOff method using the input "dRaW". Result 
             ///     shoudl be false.
             /// </summary>
@@ -214,9 +229,78 @@ namespace AssessmentApp.Tests
                 //assert
                 Assert.AreEqual(false, result);
             }
+            /// <summary>
+            ///     Test of the extrct onOff method using the input "FILL". Result 
+            ///     shoudl be false.
+            /// </summary>
+            [TestMethod()]
+            public void ExtractOnOffTest_setTofill_returnsCorrect()
+            {
+                var parser = new Parser();
+                //arrange
+                var input = new List<string> { "FILL" };
+                //act
+                var result = parser.ExtractOnOff(input);
+                //assert
+                Assert.AreEqual(true, result);
+            }
         }
 
         [TestClass]
+        public class ExtractColorTests
+        {
+            /// <summary>
+            ///     Test of the extract color method using a lower case string.
+            ///     Output should result in the color being returned as the
+            ///     object Color with the type Red (Color.Red)
+            /// </summary>
+            [TestMethod()]
+            public void ExtractColorTest_setToRed_returnsCorrect()
+            {
+                var parser = new Parser();
+                //arrange
+                var input = new List<string> { "red" };
+                //act
+                var result = parser.ExtractColor(input);
+                //assert
+                Assert.AreEqual(Color.Red, result);
+            }
+            /// <summary>
+            ///     Test of the extract color method using an upper case string.
+            ///     Output should result in the color being returned as the
+            ///     object Color with the type Yellow (Color.Yellow)
+            /// </summary>
+            [TestMethod()]
+            public void ExtractColorTest_setToYellow_returnsCorrect()
+            {
+                var parser = new Parser();
+                //arrange
+                var input = new List<string> { "YELLOW" };
+                //act
+                var result = parser.ExtractColor(input);
+                //assert
+                Assert.AreEqual(Color.Yellow, result);
+            }
+            /// <summary>
+            ///     Test of the extract color method using a string that is
+            ///     not a color. Output should result in the color being 
+            ///     returned as the the default black (Color.Black)
+            /// </summary>
+            [TestMethod()]
+            public void ExtractColorTest_setToNonColor_returnsDefaultBlack()
+            {
+                var parser = new Parser();
+                //arrange
+                var input = new List<string> { "Tripod" };
+                //act
+                var result = parser.ExtractColor(input);
+                //assert
+                Assert.AreEqual(Color.Black, result);
+            }
+        }
+    
+
+    [TestClass]
         public class TitleCaseTests
         { 
             /// <summary>
@@ -230,7 +314,7 @@ namespace AssessmentApp.Tests
                 //arrange
                 var input = "circle";
                 //act
-                var result = parser.TitleCase(input);
+                var result = Parser.TitleCase(input);
                 //assert
                 Assert.AreEqual("Circle", result);
 
@@ -246,7 +330,7 @@ namespace AssessmentApp.Tests
                 //arrange
                 var input = "TRIANGLE";
                 //act
-                var result = parser.TitleCase(input);
+                var result = Parser.TitleCase(input);
                 //assert
                 Assert.AreEqual("Triangle", result);
 
@@ -263,7 +347,7 @@ namespace AssessmentApp.Tests
                 //arrange
                 var input = "sQUarE";
                 //act
-                var result = parser.TitleCase(input);
+                var result = Parser.TitleCase(input);
                 //assert
                 Assert.AreEqual("Square", result);
 
@@ -290,7 +374,7 @@ namespace AssessmentApp.Tests
                 //assert
                 Assert.IsNotNull(result);
                 Assert.IsInstanceOfType(result, typeof(Command));
-                Assert.IsTrue(!result.numbers.Any());
+                Assert.IsTrue(!result.Numbers.Any());
             }
             /// <summary>
             ///     Test of the build command method using a single word command
@@ -310,7 +394,7 @@ namespace AssessmentApp.Tests
                 //assert
                 Assert.IsNotNull(result);
                 Assert.IsInstanceOfType(result, typeof(Command));
-                Assert.IsTrue(result.numbers.Contains(10));
+                Assert.IsTrue(result.Numbers.Contains(10));
             }
             /// <summary>
             ///     Test of the build command method using a single word command
@@ -330,10 +414,10 @@ namespace AssessmentApp.Tests
                 //assert
                 Assert.IsNotNull(result);
                 Assert.IsInstanceOfType(result, typeof(Command));
-                Assert.IsTrue(result.numbers.Count() == 3);
-                Assert.IsTrue(result.numbers.Contains(30));
-                Assert.IsTrue(result.numbers.Contains(200));
-                Assert.IsTrue(result.numbers.Contains(150));
+                Assert.IsTrue(result.Numbers.Length == 3);
+                Assert.IsTrue(result.Numbers.Contains(30));
+                Assert.IsTrue(result.Numbers.Contains(200));
+                Assert.IsTrue(result.Numbers.Contains(150));
             }
             /// <summary>
             ///     Test of the build command method using an empty string. 
@@ -352,7 +436,7 @@ namespace AssessmentApp.Tests
                 //assert
                 Assert.IsNotNull(result);
                 Assert.IsInstanceOfType(result, typeof(Command));
-                Assert.IsTrue(!result.numbers.Any());
+                Assert.IsTrue(!result.Numbers.Any());
             }
         }
 
@@ -476,7 +560,7 @@ namespace AssessmentApp.Tests
             {
                 var parser = new Parser();
                 //arrange
-                var input = new List<string> { "Circle 100 30 200 75" };
+                var input = new List<string> { "Circle 100 30" };
                 //assert
                 Assert.ThrowsException<Exception>(() => parser.IncorrecNumberOfNumbers(input));
             }
@@ -574,7 +658,7 @@ namespace AssessmentApp.Tests
                 //arrange
                 var input = "Triangle 30 10";
                 //assert
-                Assert.ThrowsException<ArgumentException>(() => parser.CheckSyntax(input));
+                Assert.ThrowsException<Exception>(() => parser.CheckSyntax(input));
             }
             /// <summary>
             ///     Test of the check syntax method that combines the other syntax

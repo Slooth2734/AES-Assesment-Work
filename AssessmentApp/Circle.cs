@@ -10,7 +10,6 @@ namespace AssessmentApp
 {
     class Circle : Shape
     {
-        GraphicsHandler GraphicsHandlerInstance;
         protected int DeafultRadius = 30;
         internal int Radius { get; set; }
 
@@ -22,9 +21,9 @@ namespace AssessmentApp
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="radius"></param>
-        public Circle(Color color, int x, int y, int radius)
+        public Circle(int radius)
         { 
-            this.Radius = Radius;
+            this.Radius = radius;
         }
 
         /// <summary>

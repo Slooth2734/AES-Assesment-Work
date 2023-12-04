@@ -8,7 +8,6 @@ namespace AssessmentApp
 {
     internal class Line : Shape
     {
-        GraphicsHandler GraphicsHandlerInstance;
         internal int otherX { get; set; }
         internal int otherY { get; set; }
 
@@ -21,7 +20,7 @@ namespace AssessmentApp
         /// <param name="y"></param>
         /// <param name="otherX"></param>
         /// <param name="otherY"></param>
-        public Line(Color color, int x, int y, int otherX, int otherY)
+        public Line(int otherX, int otherY)
         {
             this.otherX = otherX;
             this.otherY = otherY;

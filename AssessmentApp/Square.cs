@@ -8,7 +8,6 @@ namespace AssessmentApp
 {
     class Square : Shape
     {
-        GraphicsHandler GraphicsHandlerInstance;
         public static readonly int DeafultSide = 30;
         internal int Side { get; set; }
 
@@ -21,7 +20,7 @@ namespace AssessmentApp
         /// <param name="y">Y coordinate of the top left corner</param>
         /// <param name="width">Width of the rectnagle</param>
         /// <param name="height">Height of the rectnagle</param>
-        public Square(Color color, int x, int y, int side)
+        public Square(int side)
         {
             this.Side = side;
         }

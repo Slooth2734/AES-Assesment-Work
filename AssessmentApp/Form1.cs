@@ -13,8 +13,6 @@ namespace AssessmentApp
     public partial class Form1 : Form
     {
         Graphics graphics;
-        Pen p = new Pen(Color.Black, 2);
-        Brush b = new SolidBrush(Color.Black);
         private readonly Parser parser;
         public bool onOff;
         public int currentX, currentY;
@@ -29,8 +27,7 @@ namespace AssessmentApp
             this.parser = parser;
             InitializeComponent();
 
-            if (pictureBox1.Image == null)
-            { pictureBox1.Image = new Bitmap(pictureBox1.Width, pictureBox1.Height); }
+            pictureBox1.Image ??= new Bitmap(pictureBox1.Width, pictureBox1.Height);
             graphics = Graphics.FromImage(pictureBox1.Image);
         }
 

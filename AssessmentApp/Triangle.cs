@@ -8,8 +8,7 @@ namespace AssessmentApp
 {
     internal class Triangle : Shape
     {
-        GraphicsHandler GraphicsHandlerInstance;
-        static int DeafultSide = 30;
+        static readonly int DeafultSide = 30;
         internal int Side { get; set; }
 
         /// <summary>
@@ -20,7 +19,7 @@ namespace AssessmentApp
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <param name="side"></param>
-        public Triangle(Color color, int x, int y, int side)
+        public Triangle(int side)
         {
             this.Side = side;
         }

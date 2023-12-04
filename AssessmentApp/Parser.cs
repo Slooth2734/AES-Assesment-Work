@@ -12,7 +12,7 @@ namespace AssessmentApp
 {
     public class Parser
     {
-        private Graphics graphics;
+        private Graphics? graphics;
 
         /// <summary>
         ///     Parses a single line input into the textbox1 on the form
@@ -32,7 +32,7 @@ namespace AssessmentApp
         /// </summary>
         /// <param name="input">User input</param>
         /// <returns>User's input in title string</returns>
-        public String TitleCase(string input)
+        public static String TitleCase(string input)
         {
             return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(input.ToLower());
         }
@@ -49,7 +49,7 @@ namespace AssessmentApp
         {
             IEnumerable<string> token = input.Trim().ToLower().Split(' ').ToList();
             var action = ExtractAction(token);
-            Color color = ExtractColor(token);
+            var color = ExtractColor(token);
             var onoff = ExtractOnOff(token);
             var numbers = ExtractNumbers(token);
             return new Command(action, numbers, color, onoff, graphics); 
@@ -96,8 +96,7 @@ namespace AssessmentApp
         {
             var color = Enum.GetNames(typeof(Colors));
             var firstColor = token.Select(TitleCase).FirstOrDefault(token => color.Contains(token));
-            return string.IsNullOrEmpty(firstColor) ? Color.Black : (Color)Enum.Parse(typeof(Colors), firstColor);
-            //return ColorTranslator.FromHtml(firstColor);
+            return string.IsNullOrEmpty(firstColor) ? Color.Black : Color.FromName(firstColor);
         }
 
         /// <summary>
@@ -109,20 +108,16 @@ namespace AssessmentApp
         public bool ExtractOnOff(IEnumerable<string> token)
         {
             GraphicsHandler graphicsHandler = GraphicsHandler.getInstance();
-            bool result;
+            bool result = false;
             var onOff = ExtractAction(token);
-            if ("On".Equals(onOff.ToString()))
+            if ("On".Equals(onOff.ToString()) || "Fill".Equals(onOff.ToString()))
             {
                 graphicsHandler.onOff = true;
                 result = true;
             }
-            else if ("Off".Equals(onOff.ToString()))
+            else if ("Off".Equals(onOff.ToString()) || "Draw".Equals(onOff.ToString()))
             {
                 graphicsHandler.onOff = false;
-                result = false;
-            }
-            else
-            {
                 result = false;
             }
             return result;
@@ -158,8 +153,6 @@ namespace AssessmentApp
         public bool NumbersIsOutOfRange(IEnumerable<string> input)
         {
             bool isOutOfRange = false;
-            var action = ExtractAction(input);
-            var color = ExtractColor(input);
             var numbers = ExtractNumbers(input);
             foreach (int number in numbers)
             {
@@ -167,7 +160,6 @@ namespace AssessmentApp
                 {
                     isOutOfRange = true;
                     throw new ArgumentException($"Number specified out of range: {number}");
-                    break;
                 }
             }
             return isOutOfRange;
@@ -184,8 +176,6 @@ namespace AssessmentApp
         {
             bool isInvalidAction = false;
             var action = ExtractAction(input);
-            var color = ExtractColor(input);
-            var numbers = ExtractNumbers(input);
             if (!typeof(Action).IsEnum)
             {
                 throw new ArgumentException("ERROR: Enumerated type not used");
@@ -202,26 +192,25 @@ namespace AssessmentApp
             return isInvalidAction;
         }
 
-        public bool IsValidColor(IEnumerable<string> input)
+        public bool IsInvalidColor(IEnumerable<string> input)
         {
-            bool isValidColor = false;
+            bool isInvalidColor = false;
             var action = ExtractAction(input);
             var color = ExtractColor(input);
-            var numbers = ExtractNumbers(input);
             if (!typeof(Colors).IsEnum)
             {
                 throw new ArgumentException("ERROR: Enumerated type not used");
             }
+            else if ("None".Equals(color.ToString()))
+            {
+                isInvalidColor = true;
+                throw new ArgumentException($"Invalid action resulted in action: {action}");
+            }
             else if (Enum.IsDefined(typeof(Colors), color))
             {
-                isValidColor = true;
+                isInvalidColor = false;
             }
-            else
-            {
-                isValidColor = false;
-                throw new ArgumentException($"Invalid color: {color}");
-            }
-            return isValidColor;
+            return isInvalidColor;
         }
 
         /// <summary>
@@ -236,66 +225,54 @@ namespace AssessmentApp
         {
             bool incorrecNumberOfNumbers = false;
             var action = ExtractAction(input);
-            var color = ExtractColor(input);
             var numbers = ExtractNumbers(input);
             if ("Rectangle".Equals(action.ToString()))
             {
                 if (numbers.Length == 1 || numbers.Length == 3 || numbers.Length > 4) 
                 {
                     incorrecNumberOfNumbers = true;
-                    throw new ArgumentException($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
+                    throw new Exception($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
                 }
-                else { incorrecNumberOfNumbers = false; }
             }
             else if ("Square".Equals(action.ToString()))
             {
                 if (numbers.Length == 2 || numbers.Length > 3)
                 {
                     incorrecNumberOfNumbers = true;
-                    throw new ArgumentException($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
+                    throw new Exception($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
                 }
-                else { incorrecNumberOfNumbers = false; }
-
             }
             else if ("Circle".Equals(action.ToString()))
             {
                 if (numbers.Length == 2 || numbers.Length > 3)
                 {
                     incorrecNumberOfNumbers = true;
-                    throw new ArgumentException($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
+                    throw new Exception($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
                 }
-                else { incorrecNumberOfNumbers = false; }
-
             }
             else if ("Triangle".Equals(action.ToString()))
             {
                 if (numbers.Length == 2 || numbers.Length > 3)
                 {
                     incorrecNumberOfNumbers = true;
-                    throw new ArgumentException($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
+                    throw new Exception($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
                 }
-                else { incorrecNumberOfNumbers = false; }
-
             }
             else if ("Line".Equals(action.ToString()))
             {
                 if (numbers.Length != 4)
                 {
                     incorrecNumberOfNumbers = true;
-                    throw new ArgumentException($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
+                    throw new Exception($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
                 }
-                else { incorrecNumberOfNumbers = false; }
-
             }
             else if ("Drawto".Equals(action.ToString()))
             {
                 if (numbers.Length != 2)
                 {
                     incorrecNumberOfNumbers = true;
-                    throw new ArgumentException($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
+                    throw new Exception($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
                 }
-                else { incorrecNumberOfNumbers = false; }
-
             }
             return incorrecNumberOfNumbers;
         }
@@ -310,13 +287,13 @@ namespace AssessmentApp
         /// <returns></returns>
         public bool CheckSyntax(string input)
         {
-            bool isInvalidSyntax = false;
             IEnumerable<string> token = input.Trim().ToLower().Split(' ').ToList();
             var isInvalidAction = IsInvalidAction(token);
-            //var isValidColor = IsValidColor(token);
+            var isInvalidColor = IsInvalidColor(token);
             var isOutOfRanges = NumbersIsOutOfRange(token);
             var incorrectNumber = IncorrecNumberOfNumbers(token);
-            if (isInvalidAction == false /*&& isValidColor == true*/ && isOutOfRanges == false && incorrectNumber == false)
+            bool isInvalidSyntax;
+            if (isInvalidAction == false && isInvalidColor == true && isOutOfRanges == false && incorrectNumber == false)
             {
                 isInvalidSyntax = false;
             }
