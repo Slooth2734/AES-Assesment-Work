@@ -17,11 +17,8 @@ namespace AssessmentApp
         Square,
         Rectangle,
         Triangle,
-        Line,
         Drawto,
-        Move,
         Moveto,
-        Clear,
         Reset,
         Pen,
         On,
@@ -39,8 +36,7 @@ namespace AssessmentApp
         Pink,
         Purple,
         Red,
-        Yellow,
-        None
+        Yellow
     }
 
     public class Command
@@ -63,7 +59,7 @@ namespace AssessmentApp
         /// <param name="numbers"></param>
         /// <param name="onoff"></param>
         /// <param name="graphics"></param>
-        public Command(Action action, int[] numbers, Color color, bool onoff, Graphics graphics) 
+        public Command(Action action, int[] numbers, Colors color, bool onoff, Graphics graphics) 
         {
             Action = action;
             this.Numbers = numbers;
@@ -82,46 +78,40 @@ namespace AssessmentApp
                 return;
             }
             
-
-            if ("Black".Equals(color.ToString()))
+            if ("Pen".Equals(action.ToString()))
             {
-                graphicsHandler.color = System.Drawing.Color.Black;
-                return;
-            }
-            else if ("Blue".Equals(color.ToString()))
-            {
-                graphicsHandler.color = System.Drawing.Color.Blue;
-                return;
-            }
-            else if ("Green".Equals(color.ToString()))
-            {
-                graphicsHandler.color = System.Drawing.Color.Black;
-                return;
-            }
-            else if ("Orange".Equals(color.ToString()))
-            {
-                graphicsHandler.color = System.Drawing.Color.Orange;
-                return;
-            }
-            else if ("Pink".Equals(color.ToString()))
-            {
-                graphicsHandler.color = System.Drawing.Color.Pink;
-                return;
-            }
-            else if ("Purple".Equals(color.ToString()))
-            {
-                graphicsHandler.color = System.Drawing.Color.Purple;
-                return;
-            }
-            else if ("Red".Equals(color.ToString()))
-            {
-                graphicsHandler.color = System.Drawing.Color.Red;
-                return;
-            }
-            else if ("Yellow".Equals(color.ToString()))
-            {
-                graphicsHandler.color = System.Drawing.Color.Yellow;
-                return;
+                if ("Black".Equals(color.ToString()))
+                {
+                    graphicsHandler.color = System.Drawing.Color.Black;
+                }
+                else if ("Blue".Equals(color.ToString()))
+                {
+                    graphicsHandler.color = System.Drawing.Color.Blue;
+                }
+                else if ("Green".Equals(color.ToString()))
+                {
+                    graphicsHandler.color = System.Drawing.Color.Black;
+                }
+                else if ("Orange".Equals(color.ToString()))
+                {
+                    graphicsHandler.color = System.Drawing.Color.Orange;
+                }
+                else if ("Pink".Equals(color.ToString()))
+                {
+                    graphicsHandler.color = System.Drawing.Color.Pink;
+                }
+                else if ("Purple".Equals(color.ToString()))
+                {
+                    graphicsHandler.color = System.Drawing.Color.Purple;
+                }
+                else if ("Red".Equals(color.ToString()))
+                {
+                    graphicsHandler.color = System.Drawing.Color.Red;
+                }
+                else if ("Yellow".Equals(color.ToString()))
+                {
+                    graphicsHandler.color = System.Drawing.Color.Yellow;
+                }
             }
            
             if (graphicsHandler.onOff == true)
@@ -158,6 +148,8 @@ namespace AssessmentApp
                     {
                         graphicsHandler.x = 0;
                         graphicsHandler.y = 0;
+                        graphicsHandler.color = System.Drawing.Color.Black;
+                        graphicsHandler.onOff = false;
                     }
                 }
                 // Commands with parameters
@@ -226,7 +218,7 @@ namespace AssessmentApp
                         */
                     }
                     // Line with just destination parameters
-                    else if ("Drawto".Equals(action.ToString()) || "Line".Equals(action.ToString()))
+                    else if ("Drawto".Equals(action.ToString()))
                     {
                         Line l = new Line(otherX, otherY);
                         l.otherX = numbers[0];
@@ -295,6 +287,8 @@ namespace AssessmentApp
                     {
                         graphicsHandler.x = 0;
                         graphicsHandler.y = 0;
+                        graphicsHandler.color = System.Drawing.Color.Black;
+                        graphicsHandler.onOff = false;
                     }
                 }
                 // Commands with parameters
@@ -363,7 +357,7 @@ namespace AssessmentApp
                         */
                     }
                     // Line with just destination parameters
-                    else if ("Drawto".Equals(action.ToString()) || "Line".Equals(action.ToString()))
+                    else if ("Drawto".Equals(action.ToString()))
                     {
                         Line l = new Line(otherX, otherY);
                         l.otherX = numbers[0];

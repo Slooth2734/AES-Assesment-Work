@@ -32,7 +32,7 @@ namespace AssessmentApp
         /// </summary>
         /// <param name="input">User input</param>
         /// <returns>User's input in title string</returns>
-        public static String TitleCase(string input)
+        public static string TitleCase(string input)
         {
             return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(input.ToLower());
         }
@@ -86,17 +86,17 @@ namespace AssessmentApp
         }        
 
         /// <summary>
-        ///     Gets the enum of colours, and checks to see if this colour given is in that 
+        ///     Gets the enum of colors, and checks to see if this colour given is in that 
         ///     list by trying to parse it as one of the values in the enum, it returns the 
         ///     given colour if it is in the enum, otherwise it deafults to black
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        public Color ExtractColor(IEnumerable<string> token)
+        public Colors ExtractColor(IEnumerable<string> tokens)
         {
             var color = Enum.GetNames(typeof(Colors));
-            var firstColor = token.Select(TitleCase).FirstOrDefault(token => color.Contains(token));
-            return string.IsNullOrEmpty(firstColor) ? Color.Black : Color.FromName(firstColor);
+            var firstColor = tokens.Select(TitleCase).FirstOrDefault(token => color.Contains(token));
+            return string.IsNullOrEmpty(firstColor) ? Colors.Black : (Colors)Enum.Parse(typeof(Colors), firstColor);
         }
 
         /// <summary>
@@ -228,7 +228,7 @@ namespace AssessmentApp
             var numbers = ExtractNumbers(input);
             if ("Rectangle".Equals(action.ToString()))
             {
-                if (numbers.Length == 1 || numbers.Length == 3 || numbers.Length > 4) 
+                if (numbers.Length == 1 || numbers.Length > 3) 
                 {
                     incorrecNumberOfNumbers = true;
                     throw new Exception($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
@@ -236,7 +236,7 @@ namespace AssessmentApp
             }
             else if ("Square".Equals(action.ToString()))
             {
-                if (numbers.Length == 2 || numbers.Length > 3)
+                if (numbers.Length > 1)
                 {
                     incorrecNumberOfNumbers = true;
                     throw new Exception($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
@@ -244,7 +244,7 @@ namespace AssessmentApp
             }
             else if ("Circle".Equals(action.ToString()))
             {
-                if (numbers.Length == 2 || numbers.Length > 3)
+                if (numbers.Length > 1)
                 {
                     incorrecNumberOfNumbers = true;
                     throw new Exception($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
@@ -252,21 +252,21 @@ namespace AssessmentApp
             }
             else if ("Triangle".Equals(action.ToString()))
             {
-                if (numbers.Length == 2 || numbers.Length > 3)
-                {
-                    incorrecNumberOfNumbers = true;
-                    throw new Exception($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
-                }
-            }
-            else if ("Line".Equals(action.ToString()))
-            {
-                if (numbers.Length != 4)
+                if (numbers.Length > 1)
                 {
                     incorrecNumberOfNumbers = true;
                     throw new Exception($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
                 }
             }
             else if ("Drawto".Equals(action.ToString()))
+            {
+                if (numbers.Length != 2)
+                {
+                    incorrecNumberOfNumbers = true;
+                    throw new Exception($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
+                }
+            }
+            else if ("Moveto".Equals(action.ToString()))
             {
                 if (numbers.Length != 2)
                 {
@@ -293,7 +293,7 @@ namespace AssessmentApp
             var isOutOfRanges = NumbersIsOutOfRange(token);
             var incorrectNumber = IncorrecNumberOfNumbers(token);
             bool isInvalidSyntax;
-            if (isInvalidAction == false && isInvalidColor == true && isOutOfRanges == false && incorrectNumber == false)
+            if (isInvalidAction == false && isInvalidColor == false && isOutOfRanges == false && incorrectNumber == false)
             {
                 isInvalidSyntax = false;
             }

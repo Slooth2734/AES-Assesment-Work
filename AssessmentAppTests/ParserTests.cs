@@ -263,7 +263,7 @@ namespace AssessmentApp.Tests
                 //act
                 var result = parser.ExtractColor(input);
                 //assert
-                Assert.AreEqual(Color.Red, result);
+                Assert.AreEqual(Colors.Red, result);
             }
             /// <summary>
             ///     Test of the extract color method using an upper case string.
@@ -279,7 +279,7 @@ namespace AssessmentApp.Tests
                 //act
                 var result = parser.ExtractColor(input);
                 //assert
-                Assert.AreEqual(Color.Yellow, result);
+                Assert.AreEqual(Colors.Yellow, result);
             }
             /// <summary>
             ///     Test of the extract color method using a string that is
@@ -295,7 +295,7 @@ namespace AssessmentApp.Tests
                 //act
                 var result = parser.ExtractColor(input);
                 //assert
-                Assert.AreEqual(Color.Black, result);
+                Assert.AreEqual(Colors.Black, result);
             }
         }
     
@@ -561,6 +561,8 @@ namespace AssessmentApp.Tests
                 var parser = new Parser();
                 //arrange
                 var input = new List<string> { "Circle 100 30" };
+                //act
+                var result = parser.IncorrecNumberOfNumbers(input);
                 //assert
                 Assert.ThrowsException<Exception>(() => parser.IncorrecNumberOfNumbers(input));
             }
@@ -636,7 +638,7 @@ namespace AssessmentApp.Tests
             {
                 var parser = new Parser();
                 //arrange
-                var input = "Circle 30 10 20";
+                var input = "Circle 30";
                 //act
                 var result = parser.CheckSyntax(input);
                 //assert
