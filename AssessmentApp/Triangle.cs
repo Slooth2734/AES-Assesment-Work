@@ -12,6 +12,16 @@ namespace AssessmentApp
         internal int Side { get; set; }
 
         /// <summary>
+        ///     A blank Triangle constructor that is used by the shape
+        ///     factory. Uses the set default side parameter.
+        /// </summary>
+        public Triangle() : base() 
+        { 
+            Side = DeafultSide;
+        }
+
+
+        /// <summary>
         ///     The triangle object that is created as a template for future
         ///     triangle to created in line with.
         /// </summary>

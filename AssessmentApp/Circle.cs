@@ -14,6 +14,15 @@ namespace AssessmentApp
         internal int Radius { get; set; }
 
         /// <summary>
+        ///     A blank Circle constructor that  is used by the shape
+        ///     factory. Uses the set default radius parameter.
+        /// </summary>
+        public Circle() : base() 
+        { 
+            Radius = DeafultRadius;
+        }
+
+        /// <summary>
         ///     The circle object that is created as a template for future
         ///     cirlces to created in line with.
         /// </summary>

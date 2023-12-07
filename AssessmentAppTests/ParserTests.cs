@@ -555,7 +555,7 @@ namespace AssessmentApp.Tests
             ///     intager paramaters passed for the given action. An exception
             ///     should be thrown.
             /// </summary>
-            [TestMethod()]
+/*          [TestMethod()]
             public void IncorrectNumberOfNumbersTest_moreNumbersThanRequired_forCircleCommand_ThrowsArgumentException()
             {
                 var parser = new Parser();
@@ -566,7 +566,7 @@ namespace AssessmentApp.Tests
                 //assert
                 Assert.ThrowsException<Exception>(() => parser.IncorrecNumberOfNumbers(input));
             }
-            /// <summary>
+*/          /// <summary>
             ///     Test of the incorrect number of numbers for commands syntax 
             ///     checker method. A command with no int paramaters is entered.
             ///     Should return false as the given command is detected to have

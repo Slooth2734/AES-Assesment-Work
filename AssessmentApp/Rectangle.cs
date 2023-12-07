@@ -15,6 +15,16 @@ namespace AssessmentApp
         internal int Width { get; set; }
 
         /// <summary>
+        ///     A blank Rectangle constructor that is used by the shape
+        ///     factory. Uses the set default width and height parameters.
+        /// </summary>
+        public Rectangle() : base() 
+        {
+            Width = DeafultWidth;
+            Height = DeafultHeight;
+        }
+
+        /// <summary>
         ///     The rectangle object that is created as a template for future
         ///     rectangles to created in line with.
         /// </summary>

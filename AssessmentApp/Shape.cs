@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace AssessmentApp
 {
-    abstract class Shape
+    public abstract class Shape
     {
-
         /// <summary>
         ///     A mehtod that will be used to draw an outline of
         ///     each shape that inherits from the shape class

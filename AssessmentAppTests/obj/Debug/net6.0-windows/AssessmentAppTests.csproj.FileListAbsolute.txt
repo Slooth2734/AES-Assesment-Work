@@ -104,3 +104,6 @@ C:\Users\robbo\source\repos\AssessmentApp\AssessmentAppTests\obj\Debug\net6.0-wi
 C:\Users\robbo\source\repos\AssessmentApp\AssessmentAppTests\obj\Debug\net6.0-windows\AssessmentAppTests.genruntimeconfig.cache
 C:\Users\robbo\source\repos\AssessmentApp\AssessmentAppTests\obj\Debug\net6.0-windows\ref\AssessmentAppTests.dll
 C:\Users\robbo\source\repos\AssessmentApp\AssessmentAppTests\obj\Debug\net6.0-windows\AssessmentAppTests.sourcelink.json
+C:\Users\robbo\source\repos\AssessmentApp\AssessmentAppTests\bin\Debug\net6.0-windows\Castle.Core.dll
+C:\Users\robbo\source\repos\AssessmentApp\AssessmentAppTests\bin\Debug\net6.0-windows\Moq.dll
+C:\Users\robbo\source\repos\AssessmentApp\AssessmentAppTests\bin\Debug\net6.0-windows\runtimes\win\lib\net6.0\System.Diagnostics.EventLog.Messages.dll

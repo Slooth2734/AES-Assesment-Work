@@ -12,6 +12,16 @@ namespace AssessmentApp
         internal int Side { get; set; }
 
         /// <summary>
+        ///     A blank Square constructor that is used by the shape
+        ///     factory. Uses the set default side parameter.
+        /// </summary>
+        public Square() : base() 
+        { 
+            Side = DeafultSide;
+        }
+
+
+        /// <summary>
         ///     The square object that is created as a template for future
         ///     square to created in line with.
         /// </summary>

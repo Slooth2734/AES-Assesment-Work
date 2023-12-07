@@ -12,10 +12,10 @@ namespace AssessmentApp
 {
     public partial class Form1 : Form
     {
-        Graphics graphics;
+        private Graphics graphics;
         private readonly Parser parser;
-        public bool onOff;
-        public int currentX, currentY;
+        private readonly IFormService _formService;
+        private readonly ITextBoxAdapter _textBoxAdapter;
 
         /// <summary>
         ///     The maine form object that is used to instialize the form
@@ -111,19 +111,24 @@ namespace AssessmentApp
             // When text is entered in the mulit-line box
             if (lineTyped == null || lineTyped == "")
             {
-                try
+                string[] lines = programTyped.Split('\n');
+                foreach (var line in lines)
                 {
-                    bool syntax = parser.CheckSyntax(textBox2.Text);
-                    if (syntax == false)
+                    try
                     {
-                        textBox3.Text = "";
-                        textBox3.Text = (lineTyped + ": Is valid syntax");
+                        bool syntax = parser.CheckSyntax(line);
+                        if (syntax == false)
+                        {
+                            textBox3.Text = "";
+                            textBox3.Text = ("All program syntax is valid");
+                        }
                     }
-                }
-                catch (Exception ex)
-                {
-                    textBox2.Text = "";
-                    textBox3.Text = (programTyped + ": " + ex.Message);
+                    catch (Exception ex)
+                    {
+                        textBox2.Text = "";
+                        textBox3.Text = "";
+                        textBox3.Text = (line + ": " + ex.Message);
+                    }
                 }
             }
             // When text is entered in the single-line box
@@ -141,6 +146,7 @@ namespace AssessmentApp
                 catch (Exception ex)
                 {
                     textBox1.Text = "";
+                    textBox3.Text = "";
                     textBox3.Text = (lineTyped + ": " + ex.Message);
                 }
             }
