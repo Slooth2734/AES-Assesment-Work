@@ -373,7 +373,7 @@ namespace AssessmentApp.Tests
                 var result = parser.BuildCommand(input);
                 //assert
                 Assert.IsNotNull(result);
-                Assert.IsInstanceOfType(result, typeof(Command));
+                Assert.IsInstanceOfType(result, typeof(Keyword));
                 Assert.IsTrue(!result.Numbers.Any());
             }
             /// <summary>
@@ -393,7 +393,7 @@ namespace AssessmentApp.Tests
                 var result = parser.BuildCommand(input);
                 //assert
                 Assert.IsNotNull(result);
-                Assert.IsInstanceOfType(result, typeof(Command));
+                Assert.IsInstanceOfType(result, typeof(Keyword));
                 Assert.IsTrue(result.Numbers.Contains(10));
             }
             /// <summary>
@@ -413,7 +413,7 @@ namespace AssessmentApp.Tests
                 var result = parser.BuildCommand(input);
                 //assert
                 Assert.IsNotNull(result);
-                Assert.IsInstanceOfType(result, typeof(Command));
+                Assert.IsInstanceOfType(result, typeof(Keyword));
                 Assert.IsTrue(result.Numbers.Length == 3);
                 Assert.IsTrue(result.Numbers.Contains(30));
                 Assert.IsTrue(result.Numbers.Contains(200));
@@ -435,7 +435,7 @@ namespace AssessmentApp.Tests
                 var result = parser.BuildCommand(input);
                 //assert
                 Assert.IsNotNull(result);
-                Assert.IsInstanceOfType(result, typeof(Command));
+                Assert.IsInstanceOfType(result, typeof(Keyword));
                 Assert.IsTrue(!result.Numbers.Any());
             }
         }

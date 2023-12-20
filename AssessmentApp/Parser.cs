@@ -49,10 +49,35 @@ namespace AssessmentApp
         {
             IEnumerable<string> token = input.Trim().ToLower().Split(' ').ToList();
             var action = ExtractAction(token);
-            var color = ExtractColor(token);
-            var onoff = ExtractOnOff(token);
-            var numbers = ExtractNumbers(token);
-            return new Command(action, numbers, color, onoff, graphics); 
+            if ("None".Equals(action))
+            {
+                var operation = ExtractOperation(token);
+                if ("None".Equals(operation))
+                {
+                    var variable = ExtractVariables(token);
+                    if ("None".Equals(variable))
+                    {
+                        throw new ArgumentException($"Invalid command enetered: {input}");
+                    }
+                    else
+                    {
+                        var numbers = ExtractNumbers(token);
+                        return new Command(variable, numbers);
+                    }
+                }
+                else
+                {
+                    var numbers = ExtractNumbers(token);
+                    return new Command (operation, numbers);
+                }
+            }
+            else
+            {
+                var color = ExtractColor(token);
+                var onoff = ExtractOnOff(token);
+                var numbers = ExtractNumbers(token);
+                return new Command(action, numbers, color, onoff, graphics);
+            }
         }
 
         /// <summary>
@@ -63,11 +88,38 @@ namespace AssessmentApp
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
-        public Action ExtractAction(IEnumerable<string> tokens) 
+        public Action ExtractAction(IEnumerable<string> tokens)
         {
             var actions = Enum.GetNames(typeof(Action));
             var firstAction = tokens.Select(TitleCase).FirstOrDefault(token => actions.Contains(token));
             return string.IsNullOrEmpty(firstAction) ? Action.None : (Action)Enum.Parse(typeof(Action), firstAction);
+        }
+
+        /// <summary>
+        ///     Gets the list of Keywords, proccesses the input and then checks to see if the
+        ///     inut is in the Keywords enum. If the input evalutes to be null or empty then
+        ///     the keyword "None" is passed and nothing happens.
+        ///     If not it tries to pass the token as a Keyword form the enum.
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public Operations ExtractOperation(IEnumerable<string> tokens)
+        {
+            var operation = Enum.GetNames(typeof(Operations));
+            var firstOperation = tokens.Select(TitleCase).FirstOrDefault(token => operation.Contains(token));
+            return string.IsNullOrEmpty(firstOperation) ? Operations.None : (Operations)Enum.Parse(typeof(Operations), firstOperation);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tokens"></param>
+        /// <returns></returns>
+        public Variables ExtractVariables(IEnumerable<string> tokens)
+        {
+            var operation = Enum.GetNames(typeof(Variables));
+            var firstVariable = tokens.Select(TitleCase).FirstOrDefault(token => operation.Contains(token));
+            return string.IsNullOrEmpty(firstVariable) ? Variables.None : (Variables)Enum.Parse(typeof(Variables), firstVariable);
         }
 
         /// <summary>
@@ -83,7 +135,7 @@ namespace AssessmentApp
                 .Where(token => int.TryParse(token, out _))
                 .Select(token => int.Parse(token));
             return numberToken.ToArray();
-        }        
+        }
 
         /// <summary>
         ///     Gets the enum of colors, and checks to see if this colour given is in that 
@@ -228,7 +280,7 @@ namespace AssessmentApp
             var numbers = ExtractNumbers(input);
             if ("Rectangle".Equals(action.ToString()))
             {
-                if (numbers.Length == 1 || numbers.Length > 3) 
+                if (numbers.Length == 1 || numbers.Length > 3)
                 {
                     incorrecNumberOfNumbers = true;
                     throw new Exception($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");

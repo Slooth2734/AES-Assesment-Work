@@ -14,8 +14,6 @@ namespace AssessmentApp
     {
         private Graphics graphics;
         private readonly Parser parser;
-        private readonly IFormService _formService;
-        private readonly ITextBoxAdapter _textBoxAdapter;
 
         /// <summary>
         ///     The maine form object that is used to instialize the form

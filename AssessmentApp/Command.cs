@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Security.Policy;
 
 
 namespace AssessmentApp
@@ -38,7 +39,23 @@ namespace AssessmentApp
         Red,
         Yellow
     }
-
+    public enum Operations
+    {
+        Var,
+        If,
+        Endif,
+        While,
+        Endloop,
+        None
+    }
+    public enum Variables
+    {
+        Radius,
+        Width,
+        Height,
+        Side,
+        None
+    }
     public class Command
     {
         private readonly Graphics graphics;
@@ -46,10 +63,12 @@ namespace AssessmentApp
         private readonly GraphicsHandler graphicsHandler;
         readonly bool onOff;
         readonly int otherX, otherY, width, height, radius, side;
-        internal Action Action {  get; set; }
+
+        internal Action Action { get; set; }
         internal Colors Color { get; set; }
         public int[] Numbers { get; set; }
-               
+        internal Operations Operation { get; set; }
+
         /// <summary>
         ///     The main Command passer that takes the input that has been processed
         ///     by the parser class and handles the command based on the variables 
@@ -59,7 +78,7 @@ namespace AssessmentApp
         /// <param name="numbers"></param>
         /// <param name="onoff"></param>
         /// <param name="graphics"></param>
-        public Command(Action action, int[] numbers, Colors color, bool onoff, Graphics graphics) 
+        public Command(Action action, int[] numbers, Colors color, bool onoff, Graphics graphics)
         {
             Action = action;
             this.Numbers = numbers;
@@ -77,7 +96,6 @@ namespace AssessmentApp
                 graphicsHandler.onOff = false;
                 return;
             }
-            
             if ("Pen".Equals(action.ToString()))
             {
                 if ("Black".Equals(color.ToString()))
@@ -113,7 +131,6 @@ namespace AssessmentApp
                     graphicsHandler.color = System.Drawing.Color.Yellow;
                 }
             }
-           
             if (graphicsHandler.onOff == true)
             {
                 // Commands without paramaters
@@ -166,16 +183,6 @@ namespace AssessmentApp
                             r.Height = numbers[1];
                             r.Fill(graphics);
                         }
-                        // Rectangle with size and location parameters
-                        /*else if (numbers.Length == 4)
-                        {
-                            r.Width = numbers[0];
-                            r.Height = numbers[1];
-                            r.x = numbers[2];
-                            r.y = numbers[3];
-                            r.Fill(graphics);
-                        }
-                        */
                     }
                     // Circle with parameters
                     else if ("Circle".Equals(action.ToString()))
@@ -187,15 +194,6 @@ namespace AssessmentApp
                             c.Radius = numbers[0];
                             c.Fill(graphics);
                         }
-                        // Cirlce with size and location parameters
-                        /*else if (numbers.Length == 3)
-                        {
-                            c.Radius = numbers[0];
-                            c.x = numbers[1];
-                            c.y = numbers[2];
-                            c.Fill(graphics);
-                        }
-                        */
                     }
                     // Square with parameters
                     else if ("Square".Equals(action.ToString()))
@@ -207,15 +205,6 @@ namespace AssessmentApp
                             s.Side = numbers[0];
                             s.Fill(graphics);
                         }
-                        // Square with size and location parameters
-                        /*else if (numbers.Length == 3)
-                        {
-                            s.Side = numbers[0];
-                            s.x = numbers[1];
-                            s.y = numbers[2];
-                            s.Fill(graphics);
-                        }
-                        */
                     }
                     // Line with just destination parameters
                     else if ("Drawto".Equals(action.ToString()))
@@ -235,15 +224,6 @@ namespace AssessmentApp
                             t.Side = numbers[0];
                             t.Draw(graphics);
                         }
-                        // Triangle with size and location parameters
-                        /*else if (numbers.Length == 3)
-                        {
-                            t.Side = numbers[0];
-                            t.x = numbers[1];
-                            t.y = numbers[2];
-                            t.Fill(graphics);
-                        }
-                        */
                     }
                     // Move starting position
                     else if ("Moveto".Equals(action.ToString()))
@@ -253,7 +233,7 @@ namespace AssessmentApp
                     }
                 }
             }
-            else if (onOff == false)
+            else if (graphicsHandler.onOff == false)
             {
                 // Commands without paramaters
                 if (numbers.Length == 0)
@@ -305,16 +285,6 @@ namespace AssessmentApp
                             r.Height = numbers[1];
                             r.Draw(graphics);
                         }
-                        // Rectangle with size and location parameters
-                        /*else if (numbers.Length == 4)
-                        {
-                            r.Width = numbers[0];
-                            r.Height = numbers[1];
-                            r.x = numbers[2];
-                            r.y = numbers[3];
-                            r.Draw(graphics);
-                        }
-                        */
                     }
                     // Circle with parameters
                     else if ("Circle".Equals(action.ToString()))
@@ -326,15 +296,6 @@ namespace AssessmentApp
                             c.Radius = numbers[0];
                             c.Draw(graphics);
                         }
-                        // Circle with size and location parameater
-                        /*else if (numbers.Length == 3)
-                        {
-                            c.Radius = numbers[0];
-                            c.x = numbers[1];
-                            c.y = numbers[2];
-                            c.Draw(graphics);
-                        }
-                        */
                     }
                     // Square with parameters
                     else if ("Square".Equals(action.ToString()))
@@ -346,15 +307,6 @@ namespace AssessmentApp
                             s.Side = numbers[0];
                             s.Draw(graphics);
                         }
-                        // Square with size and location parameters
-                        /*else if (numbers.Length == 3)
-                        {
-                            s.Side = numbers[0];
-                            s.x = numbers[1];
-                            s.y = numbers[2];
-                            s.Draw(graphics);
-                        }
-                        */
                     }
                     // Line with just destination parameters
                     else if ("Drawto".Equals(action.ToString()))
@@ -374,15 +326,6 @@ namespace AssessmentApp
                             t.Side = numbers[0];
                             t.Draw(graphics);
                         }
-                        // Triangle with size and location parameters
-                        /*else if (numbers.Length == 3)
-                        {
-                            t.Side = numbers[0];
-                            t.x = numbers[1];
-                            t.y = numbers[2];
-                            t.Draw(graphics);
-                        }
-                        */
                     }
                     // Move starting position
                     else if ("Moveto".Equals(action.ToString()))
@@ -391,7 +334,52 @@ namespace AssessmentApp
                         graphicsHandler.y = numbers[1];
                     }
                 }
-            } 
+            }
+            if ("Var".Equals(action.ToString()))
+            {
+
+            }
         }
-    }
+
+        public Command(Operations operation, int[] numbers)
+        {
+            Operation = operation;
+            this.Numbers = numbers;
+
+            if ("If".Equals(operation.ToString()))
+            {
+
+            }
+            else if ("Endif".Equals(operation.ToString()))
+            {
+
+            }
+            else if ("While".Equals(operation.ToString()))
+            {
+
+            }
+            else if ("Endloop".Equals(operation.ToString()))
+            {
+
+            }
+            else if ("Radius".Equals(operation.ToString()))
+            {
+
+            }
+            else if ("Width".Equals(operation.ToString()))
+            {
+
+            }
+            else if ("Height".Equals(operation.ToString()))
+            {
+
+            }
+            else if ("Side".Equals(operation.ToString()))
+            {
+
+            }
+        }
+        public Command(Variables variable, int[] numbers)
+        {
+        }
 }
