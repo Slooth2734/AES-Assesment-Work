@@ -18,6 +18,7 @@ namespace AssessmentApp
         Square,
         Rectangle,
         Triangle,
+        Polygon,
         Drawto,
         Moveto,
         Reset,
@@ -54,20 +55,35 @@ namespace AssessmentApp
         Width,
         Height,
         Side,
+        Count,
         None
+    }
+    public enum Operators
+    {
+        [StringValue("=")]
+        Assign,
+        [StringValue("==")]
+        Equal,
+        [StringValue("<")]
+        LessThan,
+        [StringValue(">")]
+        GreaterThan
     }
     public class Command
     {
         private readonly Graphics graphics;
         public readonly Color color;
         private readonly GraphicsHandler graphicsHandler;
+        private readonly VariableHandler variableHandler;
         readonly bool onOff;
-        readonly int otherX, otherY, width, height, radius, side;
+        readonly int otherX, otherY, width, height, radius, side, sideCount;
 
         internal Action Action { get; set; }
         internal Colors Color { get; set; }
-        public int[] Numbers { get; set; }
+        internal Variables Variable { get; set; }
         internal Operations Operation { get; set; }
+
+        public int[] Numbers { get; set; }
 
         /// <summary>
         ///     The main Command passer that takes the input that has been processed
@@ -78,7 +94,7 @@ namespace AssessmentApp
         /// <param name="numbers"></param>
         /// <param name="onoff"></param>
         /// <param name="graphics"></param>
-        public Command(Action action, int[] numbers, Colors color, bool onoff, Graphics graphics)
+        public Command(Action action, Variables variable, int[] numbers, Colors color, bool onoff, Graphics graphics)
         {
             Action = action;
             this.Numbers = numbers;
@@ -225,6 +241,25 @@ namespace AssessmentApp
                             t.Draw(graphics);
                         }
                     }
+                    // Polygon with paramaters
+                    else if ("Polygon".Equals(action.ToString()))
+                    {
+                        // Polygon with number of sides specified
+                        if (numbers.Length == 1)
+                        {
+                            Polygon p = new Polygon(side);
+                            p.SideCount = numbers[0];
+                            p.Draw(graphics);
+                        }
+                        // Polygon with number of sides and their length specified
+                        else if (numbers.Length == 2)
+                        {
+                            Polygon p = new Polygon(side, sideCount);
+                            p.SideCount = numbers[0];
+                            p.SideLength = numbers[1];
+                            p.Draw(graphics);
+                        }
+                    }
                     // Move starting position
                     else if ("Moveto".Equals(action.ToString()))
                     {
@@ -327,6 +362,25 @@ namespace AssessmentApp
                             t.Draw(graphics);
                         }
                     }
+                    // Polygon with paramaters
+                    else if ("Polygon".Equals(action.ToString()))
+                    {
+                        // Polygon with number of sides specified
+                        if (numbers.Length == 1)
+                        {
+                            Polygon p = new Polygon(side);
+                            p.SideCount = numbers[0];
+                            p.Draw(graphics);
+                        }
+                        // Polygon with number of sides and their length specified
+                        else if (numbers.Length == 2)
+                        {
+                            Polygon p = new Polygon(side, sideCount);
+                            p.SideCount = numbers[0];
+                            p.SideLength = numbers[1];
+                            p.Draw(graphics);
+                        }
+                    }
                     // Move starting position
                     else if ("Moveto".Equals(action.ToString()))
                     {
@@ -334,10 +388,6 @@ namespace AssessmentApp
                         graphicsHandler.y = numbers[1];
                     }
                 }
-            }
-            if ("Var".Equals(action.ToString()))
-            {
-
             }
         }
 
@@ -381,5 +431,34 @@ namespace AssessmentApp
         }
         public Command(Variables variable, int[] numbers)
         {
+            this.Variable = variable;
+            this.Numbers = numbers;
+            variableHandler ??= VariableHandler.getInstance();
+
+            if ("Radius".Equals(variable.ToString()))
+            {
+                variableHandler.Radius = numbers[0];
+            }
+            else if ("Width".Equals(variable.ToString()))
+            {
+                variableHandler.Width = numbers[0];
+            }
+            else if ("Height".Equals(variable.ToString()))
+            {
+                variableHandler.Height = numbers[0];
+            }
+            else if ("Side".Equals(variable.ToString()))
+            {
+                variableHandler.Side = numbers[0];
+            }
+            else if ("Count".Equals(variable.ToString()))
+            {
+                variableHandler.Count = numbers[0];
+            }
+            else if ("None".Equals(variable.ToString()))
+            {
+                throw new ArgumentException($"Invalid command resulted in process: {variable} ");
+            }
         }
+    }
 }

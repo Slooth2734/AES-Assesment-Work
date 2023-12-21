@@ -51,32 +51,24 @@ namespace AssessmentApp
             var action = ExtractAction(token);
             if ("None".Equals(action))
             {
-                var operation = ExtractOperation(token);
-                if ("None".Equals(operation))
+                var variable = ExtractVariables(token);
+                if ("None".Equals(variable))
                 {
-                    var variable = ExtractVariables(token);
-                    if ("None".Equals(variable))
-                    {
-                        throw new ArgumentException($"Invalid command enetered: {input}");
-                    }
-                    else
-                    {
-                        var numbers = ExtractNumbers(token);
-                        return new Command(variable, numbers);
-                    }
+                    throw new ArgumentException($"Invalid command enetered: {input}");
                 }
                 else
                 {
                     var numbers = ExtractNumbers(token);
-                    return new Command (operation, numbers);
+                    return new Command(variable, numbers);
                 }
             }
             else
             {
+                var variable = ExtractVariables(token);
                 var color = ExtractColor(token);
                 var onoff = ExtractOnOff(token);
                 var numbers = ExtractNumbers(token);
-                return new Command(action, numbers, color, onoff, graphics);
+                return new Command(action, variable, numbers, color, onoff, graphics);
             }
         }
 
@@ -305,6 +297,14 @@ namespace AssessmentApp
             else if ("Triangle".Equals(action.ToString()))
             {
                 if (numbers.Length > 1)
+                {
+                    incorrecNumberOfNumbers = true;
+                    throw new Exception($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
+                }
+            }
+            else if ("Polygon".Equals(action.ToString()))
+            {
+                if (numbers.Length < 1 || numbers.Length > 2)
                 {
                     incorrecNumberOfNumbers = true;
                     throw new Exception($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");

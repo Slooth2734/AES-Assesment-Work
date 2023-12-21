@@ -34,6 +34,8 @@ namespace AssessmentApp
                     return new Square();
                 case "triangle":
                     return new Triangle();
+                case "polygon":
+                    return new Polygon();
                 default:
                     throw new NullReferenceException($"FACTORY ERROR: Invalid shape type, {shapeType}");
             }
