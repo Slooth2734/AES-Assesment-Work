@@ -107,11 +107,13 @@ namespace AssessmentApp
         /// </summary>
         /// <param name="tokens"></param>
         /// <returns></returns>
-        public Variables ExtractVariables(IEnumerable<string> tokens)
+        public Variables[] ExtractVariables(IEnumerable<string> tokens)
         {
-            var operation = Enum.GetNames(typeof(Variables));
-            var firstVariable = tokens.Select(TitleCase).FirstOrDefault(token => operation.Contains(token));
-            return string.IsNullOrEmpty(firstVariable) ? Variables.None : (Variables)Enum.Parse(typeof(Variables), firstVariable);
+            var operations = Enum.GetNames(typeof(Variables));
+            var variables = tokens.Select(TitleCase).Where(token => operations.Contains(token))
+                         .Select(token => (Variables)Enum.Parse(typeof(Variables), token)).ToArray();
+
+            return variables.Length == 0 ? new Variables[] { Variables.None } : variables;
         }
 
         /// <summary>
