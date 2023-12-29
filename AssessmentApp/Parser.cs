@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
@@ -49,32 +50,20 @@ namespace AssessmentApp
         {
             IEnumerable<string> token = input.Trim().ToLower().Split(' ').ToList();
             var action = ExtractAction(token);
-            if ("None".Equals(action))
-            {
-                var variable = ExtractVariables(token);
-                if ("None".Equals(variable))
-                {
-                    throw new ArgumentException($"Invalid command enetered: {input}");
-                }
-                else
-                {
-                    var numbers = ExtractNumbers(token);
-                    return new Command(variable, numbers);
-                }
-            }
-            else
-            {
-                var variable = ExtractVariables(token);
-                var color = ExtractColor(token);
-                var onoff = ExtractOnOff(token);
-                var numbers = ExtractNumbers(token);
-                return new Command(action, variable, numbers, color, onoff, graphics);
-            }
+            var numbers = ExtractNumbers(token);
+            var color = ExtractColor(token);
+            var onoff = ExtractOnOff(token);
+
+            var variable = ExtractVariables(token);
+            var operation = ExtractOperation(token);
+            // var operator = ExtractOperator(token);
+
+            return new Command(action, variable, operation, numbers, color, onoff, graphics);
         }
 
         /// <summary>
         ///     Gets the list of Actions, proccesses the input and then checks to see if the
-        ///     inut is in the Actions enum. If the input evalutes to be null or empty then
+        ///     input is in the Actions enum. If the input evalutes to be null or empty then
         ///     the action "None" is passed and nothing happens.
         ///     If not it tries to pass the token as a Action form the enum.
         /// </summary>
@@ -89,7 +78,7 @@ namespace AssessmentApp
 
         /// <summary>
         ///     Gets the list of Keywords, proccesses the input and then checks to see if the
-        ///     inut is in the Keywords enum. If the input evalutes to be null or empty then
+        ///     input is in the Keywords enum. If the input evalutes to be null or empty then
         ///     the keyword "None" is passed and nothing happens.
         ///     If not it tries to pass the token as a Keyword form the enum.
         /// </summary>
@@ -103,17 +92,21 @@ namespace AssessmentApp
         }
 
         /// <summary>
-        /// 
+        ///     Gets the list of possible Variable names, processes the input and checks to 
+        ///     see if the input is in the Variables enum. The parsed value(s) are then tuned
+        ///     into an array, as there can be multiple variables used in one command. However
+        ///     if the length is found to be 0, then the array will be created with the only 
+        ///     value being "None" and so will not be used for anything.
         /// </summary>
         /// <param name="tokens"></param>
         /// <returns></returns>
-        public Variables[] ExtractVariables(IEnumerable<string> tokens)
+        public Variable[] ExtractVariables(IEnumerable<string> tokens)
         {
-            var operations = Enum.GetNames(typeof(Variables));
+            var operations = Enum.GetNames(typeof(Variable));
             var variables = tokens.Select(TitleCase).Where(token => operations.Contains(token))
-                         .Select(token => (Variables)Enum.Parse(typeof(Variables), token)).ToArray();
+                         .Select(token => (Variable)Enum.Parse(typeof(Variable), token)).ToArray();
 
-            return variables.Length == 0 ? new Variables[] { Variables.None } : variables;
+            return variables.Length == 0 ? new Variable[] { Variable.None } : variables;
         }
 
         /// <summary>
@@ -142,7 +135,7 @@ namespace AssessmentApp
         {
             var color = Enum.GetNames(typeof(Colors));
             var firstColor = tokens.Select(TitleCase).FirstOrDefault(token => color.Contains(token));
-            return string.IsNullOrEmpty(firstColor) ? Colors.Black : (Colors)Enum.Parse(typeof(Colors), firstColor);
+            return string.IsNullOrEmpty(firstColor) ? Colors.None : (Colors)Enum.Parse(typeof(Colors), firstColor);
         }
 
         /// <summary>
@@ -238,24 +231,35 @@ namespace AssessmentApp
             return isInvalidAction;
         }
 
+        /// <summary>
+        ///     Used by the syntax button and checks to see that the passed color is valid.
+        ///     Because the ExtractColor method will return "None" if the passed value is
+        ///     not in the Color enum, this checks to see if "None" has been returned
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public bool IsInvalidColor(IEnumerable<string> input)
         {
             bool isInvalidColor = false;
             var action = ExtractAction(input);
             var color = ExtractColor(input);
-            if (!typeof(Colors).IsEnum)
+            if ("Pen".Equals(action.ToString()))
             {
-                throw new ArgumentException("ERROR: Enumerated type not used");
-            }
-            else if ("None".Equals(color.ToString()))
-            {
-                isInvalidColor = true;
-                throw new ArgumentException($"Invalid action resulted in action: {action}");
-            }
-            else if (Enum.IsDefined(typeof(Colors), color))
-            {
-                isInvalidColor = false;
-            }
+                if (!typeof(Colors).IsEnum)
+                {
+                    throw new ArgumentException("ERROR: Enumerated type not used");
+                }
+                else if ("None".Equals(color.ToString()))
+                {
+                    isInvalidColor = true;
+                    throw new ArgumentException($"Invalid color resulted in color change to: {color} ");
+                }
+                else if (Enum.IsDefined(typeof(Colors), color))
+                {
+                    isInvalidColor = false;
+                }
+            }            
             return isInvalidColor;
         }
 
@@ -277,7 +281,7 @@ namespace AssessmentApp
                 if (numbers.Length == 1 || numbers.Length > 3)
                 {
                     incorrecNumberOfNumbers = true;
-                    throw new Exception($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
+                    throw new ArgumentException($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
                 }
             }
             else if ("Square".Equals(action.ToString()))
@@ -285,7 +289,7 @@ namespace AssessmentApp
                 if (numbers.Length > 1)
                 {
                     incorrecNumberOfNumbers = true;
-                    throw new Exception($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
+                    throw new ArgumentException($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
                 }
             }
             else if ("Circle".Equals(action.ToString()))
@@ -293,7 +297,7 @@ namespace AssessmentApp
                 if (numbers.Length > 1)
                 {
                     incorrecNumberOfNumbers = true;
-                    throw new Exception($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
+                    throw new ArgumentException($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
                 }
             }
             else if ("Triangle".Equals(action.ToString()))
@@ -301,7 +305,7 @@ namespace AssessmentApp
                 if (numbers.Length > 1)
                 {
                     incorrecNumberOfNumbers = true;
-                    throw new Exception($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
+                    throw new ArgumentException($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
                 }
             }
             else if ("Polygon".Equals(action.ToString()))
@@ -309,7 +313,7 @@ namespace AssessmentApp
                 if (numbers.Length < 1 || numbers.Length > 2)
                 {
                     incorrecNumberOfNumbers = true;
-                    throw new Exception($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
+                    throw new ArgumentException($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
                 }
             }
             else if ("Drawto".Equals(action.ToString()))
@@ -317,7 +321,7 @@ namespace AssessmentApp
                 if (numbers.Length != 2)
                 {
                     incorrecNumberOfNumbers = true;
-                    throw new Exception($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
+                    throw new ArgumentException($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
                 }
             }
             else if ("Moveto".Equals(action.ToString()))
@@ -325,7 +329,7 @@ namespace AssessmentApp
                 if (numbers.Length != 2)
                 {
                     incorrecNumberOfNumbers = true;
-                    throw new Exception($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
+                    throw new ArgumentException($"Incorrect number of paramaters specified for that command: {action}: {numbers.Length}");
                 }
             }
             return incorrecNumberOfNumbers;
@@ -346,8 +350,10 @@ namespace AssessmentApp
             var isInvalidColor = IsInvalidColor(token);
             var isOutOfRanges = NumbersIsOutOfRange(token);
             var incorrectNumber = IncorrecNumberOfNumbers(token);
+            var isInvalidVarName = IsInvalidVarName(token);
             bool isInvalidSyntax;
-            if (isInvalidAction == false && isInvalidColor == false && isOutOfRanges == false && incorrectNumber == false)
+            if (isInvalidAction == false && isInvalidColor == false && isOutOfRanges == false 
+                && incorrectNumber == false && isInvalidVarName == false)
             {
                 isInvalidSyntax = false;
             }
@@ -358,19 +364,48 @@ namespace AssessmentApp
             return isInvalidSyntax;
         }
 
-        /*
-        public bool IsVariableDeclaration(string input)
+        /// <summary>
+        ///     Used by the syntax button and checks to see that the passed variable name 
+        ///     is valid. First the method checks to see that the aciton word var is
+        ///     used to initiate the setting of a variable. Then it checks to see that the
+        ///     name specified by the user afterwards is an optional variable name. 
+        ///     Then, if no value is specified, the syntaxt will throw an exception to tell 
+        ///     the user their syntax is correct, but no value was specified so technically 
+        ///     it was wrong as nothing could be done.
+        ///     Lastly, if the formatting of setting a valid variable is correct and one 
+        ///     number is specified, then the syntax is reported as valid.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public bool IsInvalidVarName(IEnumerable<string> input)
         {
-            throw new NotImplementedException();
+            bool isInvalidVarName = false;
+            var action = ExtractAction(input);
+            var variable = ExtractVariables(input);
+            var numbers = ExtractNumbers(input);
+            if ("Var".Equals(action.ToString()))
+            {
+                if (!typeof(Variable).IsEnum)
+                {
+                    throw new ArgumentException("ERROR: Enumerated type not used");
+                }
+                else if ("None".Equals(variable[0].ToString()))
+                {
+                    isInvalidVarName = true;
+                    throw new ArgumentException($"Unable to set value to variable name specified");
+                }
+                else if (Enum.IsDefined(typeof(Variable), variable[0]) && numbers.Length == 0)
+                {
+                    isInvalidVarName = true;
+                    throw new ArgumentException($"Syntax is correct but no value for the variable was specified");
+                }
+                else if (Enum.IsDefined(typeof(Variable), variable[0]) && numbers.Length == 1)
+                {
+                    isInvalidVarName = false;
+                }
+            }            
+            return isInvalidVarName;
         }
-        public IEnumerable<int> ExtractVariables(IEnumerable<string> tokens)
-        {
-            throw new NotImplementedException();
-        }
-        public bool ExtractVariableAssignment(string line)
-        {
-            throw new NotImplementedException();
-        }
-        */
     }
 }

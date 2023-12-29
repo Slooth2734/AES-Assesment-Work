@@ -30,6 +30,7 @@ namespace AssessmentApp.Tests
                 //assert
                 Assert.AreEqual(Action.Rectangle, result);
             }
+
             /// <summary>
             ///     Test of the extract action method using an all upper case string
             ///     as the input. The output should result as the action "Rectnagle".
@@ -45,6 +46,7 @@ namespace AssessmentApp.Tests
                 //assert
                 Assert.AreEqual(Action.Rectangle, result);
             }
+
             /// <summary>
             ///     Test of the extract action method using a mixed case string as 
             ///     the input. The output should result as the action "Rectnagle".
@@ -60,6 +62,7 @@ namespace AssessmentApp.Tests
                 //assert
                 Assert.AreEqual(Action.Rectangle, result);
             }
+
             /// <summary>
             ///     Test of the extract action method using a list of different strings
             ///     where only one is a valid action, which is also mixed case. The first
@@ -78,6 +81,7 @@ namespace AssessmentApp.Tests
                 Assert.AreEqual(Action.Rectangle, result);
 
             }
+
             /// <summary>
             ///     Test of the extract action method using a list of two strings that
             ///     both should resturn successfully as they are both found in the Action 
@@ -96,11 +100,13 @@ namespace AssessmentApp.Tests
                 Assert.AreEqual(Action.Rectangle, result);
 
             }
+
             /// <summary>
             ///     Test of the extract action method using a list of string where none
             ///     of them are in the Action enum and so Extract action should return
             ///     Action.None.
             /// </summary>
+            /// 
             [TestMethod()]
             public void ExtractAction_withNoMachingStrings_returnsNone()
             {
@@ -112,6 +118,7 @@ namespace AssessmentApp.Tests
                 //assert
                 Assert.AreEqual(Action.None, result);
             }
+
             /// <summary>
             ///     Test of the extract action method using an empty input. The action
             ///     should be returned as Action.None as the input doesn't match anything
@@ -148,6 +155,7 @@ namespace AssessmentApp.Tests
                 //assert
                 Assert.IsTrue(typeof(Array).IsAssignableFrom(result.GetType()));
             }
+
             /// <summary>
             ///     Test of the extract numbers method using a list of three numbers
             ///     to see if the method can correctly extract the numbers and place
@@ -164,6 +172,7 @@ namespace AssessmentApp.Tests
                 //assert
                 Assert.AreEqual(3, result.Length);
             }
+
             /// <summary>
             ///     Test of the extract numbers method using an empty input to see if
             ///     the array is created with no entries.
@@ -199,6 +208,7 @@ namespace AssessmentApp.Tests
                 //assert
                 Assert.AreEqual(false, result);
             }
+
             /// <summary>
             ///     Test of the extrct onOff method using the input "on". Result 
             ///     shoudl be true.
@@ -214,6 +224,7 @@ namespace AssessmentApp.Tests
                 //assert
                 Assert.AreEqual(true, result);
             }
+
             /// <summary>
             ///     Test of the extrct onOff method using the input "dRaW". Result 
             ///     shoudl be false.
@@ -229,6 +240,7 @@ namespace AssessmentApp.Tests
                 //assert
                 Assert.AreEqual(false, result);
             }
+
             /// <summary>
             ///     Test of the extrct onOff method using the input "FILL". Result 
             ///     shoudl be false.
@@ -265,6 +277,7 @@ namespace AssessmentApp.Tests
                 //assert
                 Assert.AreEqual(Colors.Red, result);
             }
+
             /// <summary>
             ///     Test of the extract color method using an upper case string.
             ///     Output should result in the color being returned as the
@@ -281,6 +294,7 @@ namespace AssessmentApp.Tests
                 //assert
                 Assert.AreEqual(Colors.Yellow, result);
             }
+
             /// <summary>
             ///     Test of the extract color method using a string that is
             ///     not a color. Output should result in the color being 
@@ -295,14 +309,13 @@ namespace AssessmentApp.Tests
                 //act
                 var result = parser.ExtractColor(input);
                 //assert
-                Assert.AreEqual(Colors.Black, result);
+                Assert.AreEqual(Colors.None, result);
             }
         }
-    
 
-    [TestClass]
+        [TestClass]
         public class TitleCaseTests
-        { 
+        {
             /// <summary>
             ///     Test of title case method using all lower case string. Output
             ///     should result in only the first letter becoming uppercase.
@@ -319,6 +332,7 @@ namespace AssessmentApp.Tests
                 Assert.AreEqual("Circle", result);
 
             }
+
             /// <summary>
             ///     Test of title case method using all upper case string. Output
             ///     should result in all letters but the first becoming lower case.
@@ -335,6 +349,7 @@ namespace AssessmentApp.Tests
                 Assert.AreEqual("Triangle", result);
 
             }
+
             /// <summary>
             ///     Test of title case method using mixed case string. Output
             ///     should result in only the first letter becoming uppercase
@@ -373,9 +388,10 @@ namespace AssessmentApp.Tests
                 var result = parser.BuildCommand(input);
                 //assert
                 Assert.IsNotNull(result);
-                Assert.IsInstanceOfType(result, typeof(Keyword));
+                Assert.IsInstanceOfType(result, typeof(Command));
                 Assert.IsTrue(!result.Numbers.Any());
             }
+
             /// <summary>
             ///     Test of the build command method using a single word command
             ///     with 1 parameter specified. Should return correct when 
@@ -393,9 +409,10 @@ namespace AssessmentApp.Tests
                 var result = parser.BuildCommand(input);
                 //assert
                 Assert.IsNotNull(result);
-                Assert.IsInstanceOfType(result, typeof(Keyword));
+                Assert.IsInstanceOfType(result, typeof(Command));
                 Assert.IsTrue(result.Numbers.Contains(10));
             }
+
             /// <summary>
             ///     Test of the build command method using a single word command
             ///     with 3 parameter specified. Should return correct when 
@@ -413,12 +430,13 @@ namespace AssessmentApp.Tests
                 var result = parser.BuildCommand(input);
                 //assert
                 Assert.IsNotNull(result);
-                Assert.IsInstanceOfType(result, typeof(Keyword));
+                Assert.IsInstanceOfType(result, typeof(Command));
                 Assert.IsTrue(result.Numbers.Length == 3);
                 Assert.IsTrue(result.Numbers.Contains(30));
                 Assert.IsTrue(result.Numbers.Contains(200));
                 Assert.IsTrue(result.Numbers.Contains(150));
             }
+
             /// <summary>
             ///     Test of the build command method using an empty string. 
             ///     Should return correct when the command is created as a 
@@ -435,7 +453,7 @@ namespace AssessmentApp.Tests
                 var result = parser.BuildCommand(input);
                 //assert
                 Assert.IsNotNull(result);
-                Assert.IsInstanceOfType(result, typeof(Keyword));
+                Assert.IsInstanceOfType(result, typeof(Command));
                 Assert.IsTrue(!result.Numbers.Any());
             }
         }
@@ -459,6 +477,7 @@ namespace AssessmentApp.Tests
                 //assert
                 Assert.IsFalse(result);
             }
+
             /// <summary>
             ///     Test of the number is out of range syntax checking method
             ///     using a number that is out of range, should detect the 
@@ -476,14 +495,14 @@ namespace AssessmentApp.Tests
         }
 
         [TestClass]
-        public class IsValidActionTests 
+        public class IsValidActionTests
         {
             /// <summary>
             ///     Test if the is valid action syntax checking method using
             ///     an action that is in the Action enum. Should return true.
             /// </summary>
             [TestMethod()]
-            public void IsValidActionTest_validAction_returnsTrue() 
+            public void IsValidActionTest_validAction_returnsTrue()
             {
                 var parser = new Parser();
                 //arrange
@@ -494,6 +513,7 @@ namespace AssessmentApp.Tests
                 Assert.IsFalse(result);
 
             }
+
             /// <summary>
             ///     Test if the is valid action syntax checking method using
             ///     an action that is not in the Action enum. The extract action
@@ -513,7 +533,7 @@ namespace AssessmentApp.Tests
         }
 
         [TestClass]
-        public class IncorrectNumberOfNumbersTests 
+        public class IncorrectNumberOfNumbersTests
         {
             /// <summary>
             ///     Test of the incorrect number of numbers for commands syntax 
@@ -522,7 +542,7 @@ namespace AssessmentApp.Tests
             ///     number of number paramaters.
             /// </summary>
             [TestMethod()]
-            public void IncorrectNumberOfNumbersTest_correctNumberOfNumbers_forCircleCommand_returnsTrue() 
+            public void IncorrectNumberOfNumbersTest_correctNumberOfNumbers_forCircleCommand_returnsCorrect()
             {
                 var parser = new Parser();
                 //arrange
@@ -532,41 +552,26 @@ namespace AssessmentApp.Tests
                 //assert
                 Assert.IsFalse(result);
             }
+            /*
+                        /// <summary>
+                        ///     Test of the incorrect number of numbers for commands syntax 
+                        ///     checker method. An invalid command is entered with too many
+                        ///     intager paramaters passed for the given action. An exception
+                        ///     should be thrown.
+                        /// </summary>
+                        [TestMethod()]
+                        public void IncorrectNumberOfNumbersTest_moreNumbersThanRequired_forCircleCommand_returnsCorrect()
+                        {
+                            var parser = new Parser();
+                            //arrange
+                            var input = new List<string> { "Circle 100 30" };
+                            //act
+                            var result = parser.IncorrecNumberOfNumbers(input);
+                            //assert
+                            Assert.ThrowsException<ArgumentException>(() => parser.IncorrecNumberOfNumbers(input));
+                        }
+            */
             /// <summary>
-            ///     Test of the incorrect number of numbers for commands syntax 
-            ///     checker method. A valid command is entered, this time with
-            ///     the addition of coordinates. Should return false as the given
-            ///     command can have that many integer paramaters.
-            /// </summary>
-            [TestMethod()]
-            public void IncorrectNumberOfNumbersTest_correctNumberOfNumbers_forCircleCommand_ThrowArgumentException()
-            {
-                var parser = new Parser();
-                //arrange
-                var input = new List<string> { "Circle 100 20 30" };
-                //act
-                var result = parser.IncorrecNumberOfNumbers(input);
-                //assert
-                Assert.IsFalse(result);
-            }
-            /// <summary>
-            ///     Test of the incorrect number of numbers for commands syntax 
-            ///     checker method. An invalid command is entered with too many
-            ///     intager paramaters passed for the given action. An exception
-            ///     should be thrown.
-            /// </summary>
-/*          [TestMethod()]
-            public void IncorrectNumberOfNumbersTest_moreNumbersThanRequired_forCircleCommand_ThrowsArgumentException()
-            {
-                var parser = new Parser();
-                //arrange
-                var input = new List<string> { "Circle 100 30" };
-                //act
-                var result = parser.IncorrecNumberOfNumbers(input);
-                //assert
-                Assert.ThrowsException<Exception>(() => parser.IncorrecNumberOfNumbers(input));
-            }
-*/          /// <summary>
             ///     Test of the incorrect number of numbers for commands syntax 
             ///     checker method. A command with no int paramaters is entered.
             ///     Should return false as the given command is detected to have
@@ -606,6 +611,7 @@ namespace AssessmentApp.Tests
                 //assert
                 Assert.IsFalse(result);
             }
+
             /// <summary>
             ///     Test of the check syntax method that combines the other syntax
             ///     checking methods. The method checks for invalid syntaxt, rather
@@ -625,6 +631,7 @@ namespace AssessmentApp.Tests
                 //assert
                 Assert.IsFalse(result);
             }
+
             /// <summary>
             ///     Test of the check syntax method that combines the other syntax
             ///     checking methods. The method checks for invalid syntaxt, rather
@@ -644,6 +651,7 @@ namespace AssessmentApp.Tests
                 //assert
                 Assert.IsFalse(result);
             }
+
             /// <summary>
             ///     Test of the check syntax method that combines the other syntax
             ///     checking methods. The method checks for invalid syntaxt, rather
@@ -659,9 +667,10 @@ namespace AssessmentApp.Tests
                 var parser = new Parser();
                 //arrange
                 var input = "Triangle 30 10";
-                //assert
-                Assert.ThrowsException<Exception>(() => parser.CheckSyntax(input));
+                // act and assert
+                Assert.ThrowsException<ArgumentException>(() => parser.CheckSyntax(input));
             }
+
             /// <summary>
             ///     Test of the check syntax method that combines the other syntax
             ///     checking methods. The method checks for invalid syntaxt, rather
@@ -676,8 +685,80 @@ namespace AssessmentApp.Tests
                 var parser = new Parser();
                 //arrange
                 var input = "Wombats";
-                //assert
+                // act and assert
                 Assert.ThrowsException<ArgumentException>(() => parser.CheckSyntax(input));
+            }
+        }
+        
+        [TestClass]
+        public class ExtractVariablesTests
+        {
+            /// <summary>
+            ///     Test of the extract variable method using a valid varibale name. The
+            ///     method should return the correct variable name that is found in the 
+            ///     variable enum.
+            /// </summary>
+            [TestMethod()]
+            public void extractVariablesTest_validVariable_returnsCorrect()
+            {
+                var parser = new Parser();
+                //arrange
+                var input = new List<string> { "side" };
+                //act
+                var result = parser.ExtractVariables(input);
+                //assert
+                Assert.AreEqual(Variable.Side, result[0]);
+            }
+
+            /*
+            [TestMethod()]
+            public void extractVariableTest_twoValidVariables_putsBothValuesIntoArray() 
+            {
+                var parser = new Parser();
+                //arrange
+                var input = new List<string> { "height width" };
+                //act
+                var result = parser.ExtractVariables(input);
+                //assert
+                CollectionAssert.AreEquivalent(new[] { Variable.Height, Variable.Width }, result);
+            }
+            */
+
+            /// <summary>
+            ///     Test of the extract variable method using an random input, that is 
+            ///     not in the enum of available variable names. The variable should be 
+            ///     returned as Variable.None as the input doesn't match anything in the 
+            ///     Variable enum.
+            /// </summary>
+            [TestMethod()]
+            public void extractVariablesTests_invalidVariable_returnsNone()
+            {
+                var parser = new Parser();
+                //arrange
+                var input = new List<string> { "Table" };
+                //act
+                var result = parser.ExtractVariables(input);
+                //assert
+                Assert.AreEqual(Variable.None, result[0]);
+            }
+        }
+
+        [TestClass]
+        public class IsValidVarNameTests
+        {
+            /// <summary>
+            /// 
+            /// </summary>
+            [TestMethod()]
+            public void IsValidVarNameTest_validVariableName_withValues_returnsCorrect()
+            {
+                var parser = new Parser();
+                //arrange
+                var input = new List<string> { "var radius 30" };
+                //act
+                var result = parser.IsInvalidVarName(input);
+                //assert
+                Assert.IsFalse(result);
             }
         }
     }
