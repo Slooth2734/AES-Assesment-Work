@@ -160,7 +160,7 @@ namespace AssessmentApp
             
             
             // Commands without paramaters
-            if (numbers.Length == 0)
+            if (numbers.Length == 0 && variable.Length == 0)
             {
                 // Default Rectangle
                 if ("Rectangle".Equals(action.ToString()))
@@ -202,7 +202,7 @@ namespace AssessmentApp
                 }
             }
             // Commands with parameters
-            else if (numbers.Length > 0 && action != Action.None)
+            else if (action != Action.None)
             {
                 // Rectangle with parameters
                 if ("Rectangle".Equals(action.ToString()))
@@ -213,10 +213,16 @@ namespace AssessmentApp
                     {
                         r.Width = numbers[0];
                         r.Height = numbers[1];
-                        if (graphicsHandler.onOff == true)
-                        { r.Fill(graphics); }
-                        else { r.Draw(graphics); }
                     }
+                    // Rectnagle with the parameters being used saved as variables
+                    else if (numbers.Length == 0 && variable.Length == 2) 
+                    { 
+                        r.Width = variableHandler.Width;
+                        r.Height = variableHandler.Height;
+                    }
+                    if (graphicsHandler.onOff == true)
+                    { r.Fill(graphics); }
+                    else { r.Draw(graphics); }
                 }
                 // Circle with parameters
                 else if ("Circle".Equals(action.ToString()))
@@ -226,10 +232,15 @@ namespace AssessmentApp
                     if (numbers.Length == 1)
                     {
                         c.Radius = numbers[0];
-                        if (graphicsHandler.onOff == true)
-                        { c.Fill(graphics); }
-                        else { c.Draw(graphics); }
                     }
+                    // Circle with the parameters being used saved as variables
+                    else if (numbers.Length == 0 && variable.Length == 1)
+                    {
+                        c.Radius = variableHandler.Radius;
+                    }
+                    if (graphicsHandler.onOff == true)
+                    { c.Fill(graphics); }
+                    else { c.Draw(graphics); }
                 }
                 // Square with parameters
                 else if ("Square".Equals(action.ToString()))
@@ -239,10 +250,15 @@ namespace AssessmentApp
                     if (numbers.Length == 1)
                     {
                         s.Side = numbers[0];
-                        if (graphicsHandler.onOff == true)
-                        { s.Fill(graphics); }
-                        else { s.Draw(graphics); }
                     }
+                    // Square with the parameters being used saved as variables
+                    else if (numbers.Length == 0 && variable.Length == 1)
+                    {
+                        s.Side = variableHandler.Side;
+                    }
+                    if (graphicsHandler.onOff == true)
+                    { s.Fill(graphics); }
+                    else { s.Draw(graphics); }
                 }
                 // Line with just destination parameters
                 else if ("Drawto".Equals(action.ToString()))
@@ -260,8 +276,13 @@ namespace AssessmentApp
                     if (numbers.Length == 1)
                     {
                         t.Side = numbers[0];
-                        t.Draw(graphics);
                     }
+                    // Triangle with the parameters being used saved as variables
+                    else if (numbers.Length == 0 && variable.Length == 1)
+                    {
+                        t.Side = variableHandler.Side;
+                    }
+                    t.Draw(graphics);
                 }
                 // Polygon with paramaters
                 else if ("Polygon".Equals(action.ToString()))
@@ -414,27 +435,29 @@ namespace AssessmentApp
             */
             if ("Var".Equals(action.ToString()))
             {
-                if ("Radius".Equals(variable.ToString()))
+                string firstVariable = variable.Length > 0 ? variable[0].ToString() : "";
+
+                if ("Radius".Equals(firstVariable))
                 {
                     variableHandler.Radius = numbers[0];
                 }
-                else if ("Width".Equals(variable.ToString()))
+                else if ("Width".Equals(firstVariable))
                 {
                     variableHandler.Width = numbers[0];
                 }
-                else if ("Height".Equals(variable.ToString()))
+                else if ("Height".Equals(firstVariable))
                 {
                     variableHandler.Height = numbers[0];
                 }
-                else if ("Side".Equals(variable.ToString()))
+                else if ("Side".Equals(firstVariable))
                 {
                     variableHandler.Side = numbers[0];
                 }
-                else if ("Count".Equals(variable.ToString()))
+                else if ("Count".Equals(firstVariable))
                 {
                     variableHandler.Count = numbers[0];
                 }
-                else if ("None".Equals(variable.ToString()))
+                else if ("None".Equals(firstVariable))
                 {
                     throw new ArgumentException($"Invalid command resulted in process: {variable} ");
                 }
