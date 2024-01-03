@@ -78,7 +78,6 @@ namespace AssessmentApp
         public readonly Color color;
         private readonly GraphicsHandler graphicsHandler;
         private readonly VariableHandler variableHandler;
-        readonly bool onOff;
         readonly int otherX, otherY, width, height, radius, side, sideCount;
 
         internal Action Action { get; set; }
@@ -102,7 +101,7 @@ namespace AssessmentApp
         {
             Action = action;
             Operation = operations;
-            Oper = oper; 
+            Oper = oper;
             this.Variables = variable;
             this.Numbers = numbers;
             this.graphics = graphics;
@@ -111,7 +110,28 @@ namespace AssessmentApp
             variableHandler ??= VariableHandler.getInstance();
 
 
+            // Check if a loop is ending first
+            if (operations != Operations.None && oper == Operators.None)
+            {
+                if ("Endif".Equals(operations.ToString()))
+                {
+                    variableHandler.ExecuteFlag = true;
+                    return;
+                }
+                else if ("Endloop".Equals(operations.ToString()))
+                {
+                    throw new NotImplementedException();
+                    return;
+                }
+            }
 
+            // Check if the code need to be executed
+            if (variableHandler.ExecuteFlag == false)
+            {
+                return;
+            }
+
+            // Check to see if the fill option is being changed
             if ("Fill".Equals(action.ToString()) || "On".Equals(action.ToString()))
             {
                 graphicsHandler.onOff = true;
@@ -161,7 +181,7 @@ namespace AssessmentApp
                     graphicsHandler.color = System.Drawing.Color.White;
                 }
             }
-            
+
             // Commands without paramaters
             if (numbers.Length == 0 && variable.Length == 0 && action != Action.None)
             {
@@ -204,7 +224,7 @@ namespace AssessmentApp
                     graphicsHandler.onOff = false;
                 }
             }
-            // Commands with parameters
+            // Commands with parameters, numerical and stored as variables
             else if (action != Action.None)
             {
                 // Rectangle with parameters
@@ -218,8 +238,8 @@ namespace AssessmentApp
                         r.Height = numbers[1];
                     }
                     // Rectnagle with the parameters being used saved as variables
-                    else if (numbers.Length == 0 && variable.Length == 2) 
-                    { 
+                    else if (numbers.Length == 0 && variable.Length == 2)
+                    {
                         r.Width = variableHandler.Width;
                         r.Height = variableHandler.Height;
                     }
@@ -312,160 +332,110 @@ namespace AssessmentApp
                     graphicsHandler.x = numbers[0];
                     graphicsHandler.y = numbers[1];
                 }
-            }
-            /*
-            else if (graphicsHandler.onOff == false)
-            {
-                // Commands without paramaters
-                if (numbers.Length == 0)
+                // Section that handles the assignment of variables
+                else if ("Var".Equals(action.ToString()))
                 {
-                    // Default Rectangle
-                    if ("Rectangle".Equals(action.ToString()))
-                    {
-                        Rectangle r = new Rectangle(width, height);
-                        r.Draw(graphics);
-                    }
-                    // Default Circle
-                    else if ("Circle".Equals(action.ToString()))
-                    {
-                        Circle c = new Circle(radius);
-                        c.Draw(graphics);
-                    }
-                    // Default Sqaure
-                    else if ("Square".Equals(action.ToString()))
-                    {
-                        Square s = new Square(side);
-                        s.Draw(graphics);
-                    }
-                    // Default Triangle
-                    else if ("Triangle".Equals(action.ToString()))
-                    {
-                        Triangle t = new Triangle(side);
-                        t.Draw(graphics);
-                    }
-                    // Reset position to 0, 0
-                    else if ("Reset".Equals(action.ToString()))
-                    {
-                        graphicsHandler.x = 0;
-                        graphicsHandler.y = 0;
-                        graphicsHandler.color = System.Drawing.Color.Black;
-                        graphicsHandler.onOff = false;
-                    }
-                }
-                // Commands with parameters
-                else if (numbers.Length > 0 && action != Action.None)
-                {
-                    // Rectangle with parameters
-                    if ("Rectangle".Equals(action.ToString()))
-                    {
-                        Rectangle r = new Rectangle(width, height);
-                        // Rectangle with size parameter
-                        if (numbers.Length == 2)
-                        {
-                            r.Width = numbers[0];
-                            r.Height = numbers[1];
-                            r.Draw(graphics);
-                        }
-                    }
-                    // Circle with parameters
-                    else if ("Circle".Equals(action.ToString()))
-                    {
-                        Circle c = new Circle(radius);
-                        // Circle with size parameter
-                        if (numbers.Length == 1)
-                        {
-                            c.Radius = numbers[0];
-                            c.Draw(graphics);
-                        }
-                    }
-                    // Square with parameters
-                    else if ("Square".Equals(action.ToString()))
-                    {
-                        Square s = new Square(side);
-                        // Square with size parameter
-                        if (numbers.Length == 1)
-                        {
-                            s.Side = numbers[0];
-                            s.Draw(graphics);
-                        }
-                    }
-                    // Line with just destination parameters
-                    else if ("Drawto".Equals(action.ToString()))
-                    {
-                        Line l = new Line(otherX, otherY);
-                        l.otherX = numbers[0];
-                        l.otherY = numbers[1];
-                        l.Draw(graphics);
-                    }
-                    // Triangle with parameters
-                    else if ("Triangle".Equals(action.ToString()))
-                    {
-                        Triangle t = new Triangle(side);
-                        // Triangle with size parameter
-                        if (numbers.Length == 1)
-                        {
-                            t.Side = numbers[0];
-                            t.Draw(graphics);
-                        }
-                    }
-                    // Polygon with paramaters
-                    else if ("Polygon".Equals(action.ToString()))
-                    {
-                        // Polygon with number of sides specified
-                        if (numbers.Length == 1)
-                        {
-                            Polygon p = new Polygon(side);
-                            p.SideCount = numbers[0];
-                            p.Draw(graphics);
-                        }
-                        // Polygon with number of sides and their length specified
-                        else if (numbers.Length == 2)
-                        {
-                            Polygon p = new Polygon(side, sideCount);
-                            p.SideCount = numbers[0];
-                            p.SideLength = numbers[1];
-                            p.Draw(graphics);
-                        }
-                    }
-                    // Move starting position
-                    else if ("Moveto".Equals(action.ToString()))
-                    {
-                        graphicsHandler.x = numbers[0];
-                        graphicsHandler.y = numbers[1];
-                    }
-                }
-            }
-            */
-            if ("Var".Equals(action.ToString()))
-            {
-                string firstVariable = variable.Length > 0 ? variable[0].ToString() : "";
+                    string firstVariable = variable.Length > 0 ? variable[0].ToString() : "";
 
-                if ("Radius".Equals(firstVariable))
-                {
-                    variableHandler.Radius = numbers[0];
-                }
-                else if ("Width".Equals(firstVariable))
-                {
-                    variableHandler.Width = numbers[0];
-                }
-                else if ("Height".Equals(firstVariable))
-                {
-                    variableHandler.Height = numbers[0];
-                }
-                else if ("Side".Equals(firstVariable))
-                {
-                    variableHandler.Side = numbers[0];
-                }
-                else if ("Count".Equals(firstVariable))
-                {
-                    variableHandler.Count = numbers[0];
-                }
-                else if ("None".Equals(firstVariable))
-                {
-                    throw new ArgumentException($"Invalid command resulted in process: {variable} ");
+                    if ("Radius".Equals(firstVariable))
+                    {
+                        variableHandler.Radius = numbers[0];
+                    }
+                    else if ("Width".Equals(firstVariable))
+                    {
+                        variableHandler.Width = numbers[0];
+                    }
+                    else if ("Height".Equals(firstVariable))
+                    {
+                        variableHandler.Height = numbers[0];
+                    }
+                    else if ("Side".Equals(firstVariable))
+                    {
+                        variableHandler.Side = numbers[0];
+                    }
+                    else if ("Count".Equals(firstVariable))
+                    {
+                        variableHandler.Count = numbers[0];
+                    }
+                    else if ("None".Equals(firstVariable))
+                    {
+                        throw new ArgumentException($"Invalid command resulted in process: {variable} ");
+                    }
                 }
             }
 
+            // Section that handles the if statements and loops
+            if (operations != Operations.None && oper != Operators.None)
+            {
+                if ("If".Equals(operations.ToString()))
+                {
+                    // Get the numerical value corrisponding to the variable name used
+                    var variableValue = GetVarValue(variable);
+
+                    if ("Equal".Equals(oper.ToString()))
+                    {
+                        if (variableValue == numbers[0]) 
+                        {
+                            variableHandler.ExecuteFlag = false;
+                        }
+                    }
+                    else if ("LessThan".Equals(Oper.ToString()))
+                    {
+                        if (variableValue > numbers[0])
+                        {
+                            variableHandler.ExecuteFlag = false;
+                        }
+                    }
+                    else if ("GreaterThan".Equals(oper.ToString()))
+                    {
+                        if (variableValue < numbers[0])
+                        {
+                            variableHandler.ExecuteFlag = false;
+                        }
+                    }
+
+                }
+                else if ("While".Equals(operations.ToString()))
+                {
+                    throw new NotImplementedException();
+                }
+            }
+        }
+
+        /// <summary>
+        ///     Method used to extract the value of the variable from the variable
+        ///     handler class based on the variable name specified.
+        /// </summary>
+        /// <param name="variable"></param>
+        /// <returns></returns>
+        /// <exception cref="InvalidOperationException"></exception>
+        public int GetVarValue(Variable[] variable)
+        {
+            var firstVar = variable[0];
+            if (Variables.Length > 0)
+            {
+                string variableName = firstVar.ToString();
+
+                switch (variableName)
+                {
+                    case "Radius":
+                        return variableHandler.Radius;
+                    case "Width":
+                        return variableHandler.Width;
+                    case "Height":
+                        return variableHandler.Height;
+                    case "Side":
+                        return variableHandler.Side;
+                    case "Count":
+                        return variableHandler.Count;
+                    default:
+                        throw new InvalidOperationException($"Unknown variable: {variableName}");
+                }
+            }
+            else
+            {
+                throw new InvalidOperationException("No variable specified in the command");
+            }
         }
         /*
         public Command(Operations operation, int[] numbers)
