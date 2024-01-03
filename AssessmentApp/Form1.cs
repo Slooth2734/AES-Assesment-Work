@@ -64,7 +64,7 @@ namespace AssessmentApp
                 }
                 catch (Exception ex)
                 {
-                    textBox2.Text = "There was a syntax error. Perhaps check syntax before running the program";
+                    textBox3.Text = ($"There was a syntax error: {ex}. Perhaps check syntax before running the program");
                 }
             }
             // When text is entered in the single-line box
@@ -76,7 +76,7 @@ namespace AssessmentApp
                 }
                 catch (Exception ex)
                 {
-                    textBox1.Text = "There was a syntax error. Perhaps check syntax before running the program";
+                    textBox3.Text = ($"There was a syntax error: {ex}. Perhaps check syntax before running the program");
                 }
             }
             else if (programTyped != null || programTyped != "" && lineTyped != null || lineTyped != "")
@@ -110,25 +110,35 @@ namespace AssessmentApp
             if (lineTyped == null || lineTyped == "")
             {
                 string[] lines = programTyped.Split('\n');
-                foreach (var line in lines)
+                List<string> linesWithErrors = new List<string>();
+                int errorLinesCounter = 0;
+
+                for (int lineNumber = 1; lineNumber <= lines.Length; lineNumber++)
                 {
+                    var line = lines[lineNumber - 1].Trim();
                     try
                     {
                         bool syntax = parser.CheckSyntax(line);
-                        if (syntax == false)
+                        if (syntax == true)
                         {
-                            textBox3.Text = "";
-                            textBox3.Text = ("All program syntax is valid");
+                            textBox3.Text = ($"ERROR on line {lineNumber} ({line})");
+                            errorLinesCounter++;
+                            break;
                         }
                     }
                     catch (Exception ex)
                     {
-                        textBox2.Text = "";
-                        textBox3.Text = "";
-                        textBox3.Text = (line + ": " + ex.Message);
+                        textBox3.Text = ($"ERROR on line {lineNumber} ({line}): {ex.Message}");
+                        errorLinesCounter++;
+                        break;
                     }
                 }
+                if (errorLinesCounter == 0)
+                {
+                    textBox3.Text = "All program syntax is valid";
+                }
             }
+
             // When text is entered in the single-line box
             else if (programTyped == null || programTyped == "")
             {

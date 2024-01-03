@@ -13,6 +13,7 @@ namespace AssessmentApp
         public int Height { get; set; }
         public int Side { get; set; }
         public int Count { get; set; }
+        public bool ExecuteFlag { get; set; }
 
         private static VariableHandler? variableHandlerInstance;
 
@@ -25,13 +26,15 @@ namespace AssessmentApp
         /// <param name="Height"></param>
         /// <param name="Side"></param>
         /// <param name="Count"></param>
-        private VariableHandler(int Radius, int Width, int Height, int Side, int Count)
+        /// <param name="executeFlag"></param>
+        private VariableHandler(int Radius, int Width, int Height, int Side, int Count, bool executeFlag)
         {
             this.Radius = Radius;
             this.Width = Width;
             this.Height = Height;
-            this.Side= Side;
+            this.Side = Side;
             this.Count = Count;
+            this.ExecuteFlag = executeFlag;
         }
 
         /// <summary>
@@ -43,7 +46,7 @@ namespace AssessmentApp
         /// <returns>An instance of the variable handler</returns>
         public static VariableHandler getInstance()
         {
-            variableHandlerInstance ??= new VariableHandler(0, 0, 0, 0, 0);
+            variableHandlerInstance ??= new VariableHandler(0, 0, 0, 0, 0, true);
             return variableHandlerInstance;
         }
 

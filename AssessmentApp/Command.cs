@@ -69,7 +69,8 @@ namespace AssessmentApp
         [StringValue("<")]
         LessThan,
         [StringValue(">")]
-        GreaterThan
+        GreaterThan,
+        None
     }
     public class Command
     {
@@ -84,6 +85,7 @@ namespace AssessmentApp
         internal Colors Color { get; set; }
         internal Variable[] Variables { get; set; }
         internal Operations Operation { get; set; }
+        internal Operators Oper { get; set; }
 
         public int[] Numbers { get; set; }
 
@@ -96,16 +98,18 @@ namespace AssessmentApp
         /// <param name="numbers"></param>
         /// <param name="onoff"></param>
         /// <param name="graphics"></param>
-        public Command(Action action, Variable[] variable, Operations operations, int[] numbers, Colors color, bool onoff, Graphics graphics)
+        public Command(Action action, Variable[] variable, Operations operations, Operators oper, int[] numbers, Colors color, bool onoff, Graphics graphics)
         {
             Action = action;
             Operation = operations;
+            Oper = oper; 
             this.Variables = variable;
             this.Numbers = numbers;
             this.graphics = graphics;
 
             graphicsHandler ??= GraphicsHandler.getInstance();
             variableHandler ??= VariableHandler.getInstance();
+
 
 
             if ("Fill".Equals(action.ToString()) || "On".Equals(action.ToString()))
@@ -158,9 +162,8 @@ namespace AssessmentApp
                 }
             }
             
-            
             // Commands without paramaters
-            if (numbers.Length == 0 && variable.Length == 0)
+            if (numbers.Length == 0 && variable.Length == 0 && action != Action.None)
             {
                 // Default Rectangle
                 if ("Rectangle".Equals(action.ToString()))

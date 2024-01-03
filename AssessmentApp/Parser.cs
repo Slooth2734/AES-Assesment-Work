@@ -56,9 +56,9 @@ namespace AssessmentApp
 
             var variable = ExtractVariables(token);
             var operation = ExtractOperation(token);
-            // var operator = ExtractOperator(token);
+            var oper = ExtractOperator(token);
 
-            return new Command(action, variable, operation, numbers, color, onoff, graphics);
+            return new Command(action, variable, operation, oper, numbers, color, onoff, graphics);
         }
 
         /// <summary>
@@ -77,10 +77,10 @@ namespace AssessmentApp
         }
 
         /// <summary>
-        ///     Gets the list of Keywords, proccesses the input and then checks to see if the
-        ///     input is in the Keywords enum. If the input evalutes to be null or empty then
+        ///     Gets the list of operations, proccesses the input and then checks to see if the
+        ///     input is in the operations enum. If the input evalutes to be null or empty then
         ///     the keyword "None" is passed and nothing happens.
-        ///     If not it tries to pass the token as a Keyword form the enum.
+        ///     If not it tries to pass the token as a operations form the enum.
         /// </summary>
         /// <param name="token"></param>
         /// <returns></returns>
@@ -89,6 +89,33 @@ namespace AssessmentApp
             var operation = Enum.GetNames(typeof(Operations));
             var firstOperation = tokens.Select(TitleCase).FirstOrDefault(token => operation.Contains(token));
             return string.IsNullOrEmpty(firstOperation) ? Operations.None : (Operations)Enum.Parse(typeof(Operations), firstOperation);
+        }
+
+        /// <summary>
+        ///     This method uses a switch case to check the tokens against the four possible
+        ///     operators that have a function. When one is found, that corrolating enum
+        ///     value is returned.
+        ///     If one is not found, Operations.None is returned.
+        /// </summary>
+        /// <param name="tokens"></param>
+        /// <returns></returns>
+        public Operators ExtractOperator(IEnumerable<string> tokens)
+        {
+            foreach (var token in tokens)
+            {
+                switch (token)
+                {
+                    case "=":
+                        return Operators.Assign;
+                    case "==":
+                        return Operators.Equal;
+                    case "<":
+                        return Operators.LessThan;
+                    case ">":
+                        return Operators.GreaterThan;
+                }
+            }
+            return Operators.None;
         }
 
         /// <summary>
@@ -182,6 +209,7 @@ namespace AssessmentApp
             }
             return commands;
         }
+
         /// <summary>
         ///     Is ued by the syntaxt button to check that the numbers passed are within the range
         ///     of the set values of what is allowed
@@ -192,7 +220,7 @@ namespace AssessmentApp
         public bool NumbersIsOutOfRange(IEnumerable<string> input)
         {
             bool isOutOfRange = false;
-            var numbers = ExtractNumbers(input);
+            int[] numbers = ExtractNumbers(input);
             foreach (int number in numbers)
             {
                 if (number < 0 || number > 1000)
@@ -203,6 +231,7 @@ namespace AssessmentApp
             }
             return isOutOfRange;
         }
+
         /// <summary>
         ///     Used by the syntax button and checks to see that the passed action is valid.
         ///     Because the ExtractAction method will return "None" if the passed value is
