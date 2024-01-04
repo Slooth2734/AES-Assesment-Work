@@ -639,11 +639,11 @@ namespace AssessmentApp.Tests
         ///     coordianted specified.
         /// </summary>
         [TestMethod()]
-        public void CheckSyntaxTest_correctSyntax_forSizeAndCoordinatesSpecifiedCircleCommand_returnsFlase()
+        public void CheckSyntaxTest_correctSyntax_forSizeSpecifiedCircleCommand_returnsFlase()
         {
             var parser = new Parser();
             //arrange
-            var input = "Circle 30";
+            var input = "CIRCLE 30";
             //act
             var result = parser.CheckSyntax(input);
             //assert
@@ -742,7 +742,7 @@ namespace AssessmentApp.Tests
     }
 
     [TestClass]
-    public class IsValidVarNameTests
+    public class IsInvalidVarNameTests
     {
         /// <summary>
         ///     Test of the is valid var name syntax checking method using
@@ -836,6 +836,80 @@ namespace AssessmentApp.Tests
             var result = parser.ExtractOperator(input);
             //assert
             Assert.AreEqual(Operators.None, result);
+        }
+    }
+
+    [TestClass]
+    public class IsInvalidOperatorTests
+    {
+        /// <summary>
+        ///     Test of the is invalid opertaor method using a valid operator.
+        ///     The test should return correctly and pass as the method should
+        ///     find that the operator is one of the possible operators and so
+        ///     can be used.
+        /// </summary>
+        [TestMethod()]
+        public void IsInvalidOperatorTest_validOperator_returnsCorrect() 
+        {
+            var parser = new Parser();
+            //arrange
+            var input = new List<string> { ">" };
+            //act
+            var result = parser.IsInvalidOperator(input);
+            //assert
+            Assert.IsFalse(result);
+        }
+
+        /// <summary>
+        ///     Test of the is invalid opertaor method using an invalid operator.
+        ///     The test should throw an exception as the input operator is not 
+        ///     an available operator which the method will detect.
+        /// </summary>
+        [TestMethod()]
+        public void IsInvalidOperatorTest_inValidOperator_throwsException() 
+        {
+            var parser = new Parser();
+            //arrange
+            var input = new List<string> { "&" };
+            //assert
+            Assert.ThrowsException<ArgumentException>(() => parser.IsInvalidOperator(input));
+        }
+    }
+
+    [TestClass]
+    public class IsInvalidOperationTests
+    {
+        /// <summary>
+        ///     Test of the is invalid operation method using a valid operation.
+        ///     The test should return correctly and pass as the method should
+        ///     find that the operation input is in the operations enum.
+        /// </summary>
+        [TestMethod()]
+        public void IsInvalidOperationTest_validOperation_returnsCorrect() 
+        {
+            var parser = new Parser();
+            //arrange
+            var input = new List<string> { "Endif" };
+            //act
+            var result = parser.IsInvalidOperation(input);
+            //assert
+            Assert.IsFalse(result);
+        }
+
+        /// <summary>
+        ///     Test of the is invlad operaiton method using an invalid operation.
+        ///     The test should throw an exception as the input operation is not
+        ///     in the operations enum and so will be found to be invlad due to
+        ///     Operations.None will be returned.
+        /// </summary>
+        [TestMethod()]
+        public void IsInvalidOperationTest_invalidOperation_throwsException() 
+        {
+            var parsert = new Parser();
+            //arrange
+            var input = new List<string> { "StartLoop" };
+            //assert
+            Assert.ThrowsException<ArgumentException>(()=> parsert.IsInvalidOperation(input));
         }
     }
 }

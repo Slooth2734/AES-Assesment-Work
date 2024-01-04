@@ -97,7 +97,8 @@ namespace AssessmentApp
         /// <param name="numbers"></param>
         /// <param name="onoff"></param>
         /// <param name="graphics"></param>
-        public Command(Action action, Variable[] variable, Operations operations, Operators oper, int[] numbers, Colors color, bool onoff, Graphics graphics)
+        public Command(Action action, Variable[] variable, Operations operations, Operators oper, 
+            int[] numbers, Colors color, bool onoff, Graphics graphics)
         {
             Action = action;
             Operation = operations;

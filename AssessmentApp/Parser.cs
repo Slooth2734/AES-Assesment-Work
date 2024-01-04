@@ -379,10 +379,15 @@ namespace AssessmentApp
             var isInvalidColor = IsInvalidColor(token);
             var isOutOfRanges = NumbersIsOutOfRange(token);
             var incorrectNumber = IncorrecNumberOfNumbers(token);
+
             var isInvalidVarName = IsInvalidVarName(token);
+            var isInvalidOperator = IsInvalidOperator(token);
+            var isInvalidOperation = IsInvalidOperation(token);
+
             bool isInvalidSyntax;
             if (isInvalidAction == false && isInvalidColor == false && isOutOfRanges == false 
-                && incorrectNumber == false && isInvalidVarName == false)
+                && incorrectNumber == false && isInvalidVarName == false && isInvalidOperator == false
+                && isInvalidOperation == false)
             {
                 isInvalidSyntax = false;
             }
@@ -435,6 +440,75 @@ namespace AssessmentApp
                 }
             }            
             return isInvalidVarName;
+        }
+
+        /// <summary>
+        ///     Used by the syntax button and checks to see that the passed operator is valid.
+        ///     Because the ExtractOperator method will return "None" if the passed value is
+        ///     not in the Operators enum, this checks to see if "None" has been returned and 
+        ///     this will mean that the operator parsed was not valid.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public bool IsInvalidOperator(IEnumerable<string> input)
+        {
+            bool isInvalidOperator = false;
+            var operations = ExtractOperation(input);
+            var oper = ExtractOperator(input);
+
+
+            if (!typeof(Operators).IsEnum)
+            {
+                throw new ArgumentException("ERROR: Enumerated type not used");
+            }
+            else if (oper == Operators.None)
+            {
+                isInvalidOperator = true;
+                throw new ArgumentException($"Invalid operator resulted in action: {oper}");
+            }
+            else if (Enum.IsDefined(typeof(Operators), oper))
+            {
+                isInvalidOperator = false;
+            }
+            return isInvalidOperator;
+        }
+
+        /// <summary>
+        ///     Used by the syntax button and checks to see that the passed operation is valid.
+        ///     Because the ExtractOperation method will return "None" if the passed value is
+        ///     not in the Operations enum, this checks to see if "None" has been returned and 
+        ///     this will mean that the operation parsed was not valid.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public bool IsInvalidOperation(IEnumerable<string> input) 
+        {
+            bool isInvalidOperation = false;
+            var action = ExtractAction(input);
+            var operations = ExtractOperation(input);
+            if (!"None".Equals(action.ToString()))
+            {
+                return isInvalidOperation;
+            }
+            else
+            {
+                if (!typeof(Operations).IsEnum)
+                {
+                    throw new ArgumentException("ERROR: Enumerated type not used");
+                }
+                else if ("None".Equals(operations.ToString()))
+                {
+                    isInvalidOperation = true;
+                    throw new ArgumentException($"Invalid operator resulted in action: {operations}");
+                }
+                else if (Enum.IsDefined(typeof(Operations), operations))
+                {
+                    isInvalidOperation = false;
+                }
+            }
+            return isInvalidOperation;
         }
     }
 }

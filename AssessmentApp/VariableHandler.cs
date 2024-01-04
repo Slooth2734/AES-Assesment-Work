@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AssessmentApp
 {
-    internal class VariableHandler
+    public class VariableHandler
     {
         public int Radius { get; set; }
         public int Width { get; set; }
