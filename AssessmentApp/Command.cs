@@ -70,6 +70,10 @@ namespace AssessmentApp
         LessThan,
         [StringValue(">")]
         GreaterThan,
+        [StringValue("+")]
+        Add,
+        [StringValue ("-")]
+        Subtract,
         None
     }
     public class Command
@@ -107,6 +111,9 @@ namespace AssessmentApp
             this.Numbers = numbers;
             this.graphics = graphics;
 
+            int whileLine;
+            int endLoopLine;
+
             graphicsHandler ??= GraphicsHandler.getInstance();
             variableHandler ??= VariableHandler.getInstance();
 
@@ -121,8 +128,8 @@ namespace AssessmentApp
                 }
                 else if ("Endloop".Equals(operations.ToString()))
                 {
-                    throw new NotImplementedException();
-                    return;
+
+                    variableHandler.LoopFlag = false;
                 }
             }
 
@@ -394,9 +401,117 @@ namespace AssessmentApp
                             variableHandler.ExecuteFlag = false;
                         }
                     }
+                    else
+                    {
+                        throw new NotImplementedException();
+                    }
 
                 }
                 else if ("While".Equals(operations.ToString()))
+                {
+                    var variableValue = GetVarValue(variable);
+
+                    if (variableValue < numbers[0])
+                    {
+                        variableHandler.LoopVal = numbers[0] - variableValue;
+                    }
+                    else
+                    {
+                        variableHandler.LoopVal = variableValue - numbers[0];
+                    }
+
+                    if ("Equal".Equals(oper.ToString()))
+                    {
+                        if (variableValue != numbers[0])
+                        {
+                            variableHandler.LoopFlag = true;
+                            
+                        }
+                    }
+                    else if ("LessThan".Equals(Oper.ToString()))
+                    {
+                        if (variableValue < numbers[0])
+                        {
+                            variableHandler.LoopFlag = true;
+                        }
+                    }
+                    else if ("GreaterThan".Equals(oper.ToString()))
+                    {
+                        if (variableValue > numbers[0])
+                        {
+                            variableHandler.LoopFlag = true;
+                        }
+                    }
+                    else
+                    {
+                        throw new NotImplementedException();
+                    }
+                }
+            }
+            if (operations == Operations.None && oper != Operators.None && action == Action.None)
+            {
+                string firstVariable = variable.Length > 0 ? variable[0].ToString() : "";
+                var variableValue = GetVarValue(variable);
+
+                if ("Add".Equals(Oper.ToString()))
+                {
+                    if ("Radius".Equals(firstVariable))
+                    {
+                        variableHandler.Radius += numbers[0];
+                    }
+                    else if ("Width".Equals(firstVariable))
+                    {
+                        variableHandler.Width += numbers[0];
+                    }
+                    else if ("Height".Equals(firstVariable))
+                    {
+                        variableHandler.Height += numbers[0];
+                    }
+                    else if ("Side".Equals(firstVariable))
+                    {
+                        variableHandler.Side += numbers[0];
+                    }
+                    else if ("Count".Equals(firstVariable))
+                    {
+                        variableHandler.Count += numbers[0];
+                    }
+                    else if ("None".Equals(firstVariable))
+                    {
+                        throw new ArgumentException($"Invalid command resulted in process: {variable} ");
+                    }
+                }
+                else if ("Subract".Equals(oper.ToString()))
+                {
+                    if (variableValue > numbers[0])
+                    {
+                        throw new ArgumentOutOfRangeException($"Attempted to set variable to negative vlaue: {variable}");
+                    }
+                    else if ("Radius".Equals(firstVariable))
+                    {
+                        variableHandler.Radius -= numbers[0];
+                    }
+                    else if ("Width".Equals(firstVariable))
+                    {
+                        variableHandler.Width -= numbers[0];
+                    }
+                    else if ("Height".Equals(firstVariable))
+                    {
+                        variableHandler.Height -= numbers[0];
+                    }
+                    else if ("Side".Equals(firstVariable))
+                    {
+                        variableHandler.Side -= numbers[0];
+                    }
+                    else if ("Count".Equals(firstVariable))
+                    {
+                        variableHandler.Count -= numbers[0];
+                    }
+                    else if ("None".Equals(firstVariable))
+                    {
+                        throw new ArgumentException($"Invalid command resulted in process: {variable} ");
+                    }
+                }
+                else
                 {
                     throw new NotImplementedException();
                 }

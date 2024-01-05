@@ -14,6 +14,8 @@ namespace AssessmentApp
     public class Parser
     {
         private Graphics? graphics;
+        private readonly VariableHandler variableHandler;
+
 
         /// <summary>
         ///     Parses a single line input into the textbox1 on the form
@@ -113,6 +115,10 @@ namespace AssessmentApp
                         return Operators.LessThan;
                     case ">":
                         return Operators.GreaterThan;
+                    case "+":
+                        return Operators.Add;
+                    case "-":
+                        return Operators.Subtract;
                 }
             }
             return Operators.None;
@@ -202,8 +208,10 @@ namespace AssessmentApp
             this.graphics = graphics;
             string[] lines = input.Split('\n');
             List<Command> commands = new List<Command>();
+
             foreach (var line in lines)
             {
+                variableHandler.LineNum++;
                 Command command = ParseLine(line, graphics);
                 commands.Add(command);
             }
@@ -457,19 +465,25 @@ namespace AssessmentApp
             var operations = ExtractOperation(input);
             var oper = ExtractOperator(input);
 
-
-            if (!typeof(Operators).IsEnum)
+            if (!"None".Equals(operations.ToString()))
             {
-                throw new ArgumentException("ERROR: Enumerated type not used");
+                if (!typeof(Operators).IsEnum)
+                {
+                    throw new ArgumentException("ERROR: Enumerated type not used");
+                }
+                else if (oper == Operators.None)
+                {
+                    isInvalidOperator = true;
+                    throw new ArgumentException($"Invalid operator resulted in action: {oper}");
+                }
+                else if (Enum.IsDefined(typeof(Operators), oper))
+                {
+                    isInvalidOperator = false;
+                }
             }
-            else if (oper == Operators.None)
+            else
             {
-                isInvalidOperator = true;
-                throw new ArgumentException($"Invalid operator resulted in action: {oper}");
-            }
-            else if (Enum.IsDefined(typeof(Operators), oper))
-            {
-                isInvalidOperator = false;
+                return isInvalidOperator;
             }
             return isInvalidOperator;
         }
