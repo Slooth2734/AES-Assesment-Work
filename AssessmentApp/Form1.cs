@@ -14,7 +14,6 @@ namespace AssessmentApp
     {
         private Graphics graphics;
         private readonly Parser parser;
-
         /// <summary>
         ///     The maine form object that is used to instialize the form
         ///     to be used by the user
@@ -64,7 +63,7 @@ namespace AssessmentApp
                 }
                 catch (Exception ex)
                 {
-                    textBox3.Text = ($"There was a syntax error: {ex}. Perhaps check syntax before running the program");
+                    textBox3.Text = ($"{ex.Message}");
                 }
             }
             // When text is entered in the single-line box
@@ -76,7 +75,7 @@ namespace AssessmentApp
                 }
                 catch (Exception ex)
                 {
-                    textBox3.Text = ($"There was a syntax error: {ex}. Perhaps check syntax before running the program");
+                    textBox3.Text = ($"{ex.Message}");
                 }
             }
             else if (programTyped != null || programTyped != "" && lineTyped != null || lineTyped != "")

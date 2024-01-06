@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Security.Policy;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 
 namespace AssessmentApp
@@ -79,9 +80,12 @@ namespace AssessmentApp
     public class Command
     {
         private readonly Graphics graphics;
+        private readonly Parser parser;
+        private readonly Form1 form;
         public readonly Color color;
         private readonly GraphicsHandler graphicsHandler;
         private readonly VariableHandler variableHandler;
+        private readonly LoopHandler loopHandler;
         readonly int otherX, otherY, width, height, radius, side, sideCount;
 
         internal Action Action { get; set; }
@@ -101,8 +105,8 @@ namespace AssessmentApp
         /// <param name="numbers"></param>
         /// <param name="onoff"></param>
         /// <param name="graphics"></param>
-        public Command(Action action, Variable[] variable, Operations operations, Operators oper, 
-            int[] numbers, Colors color, bool onoff, Graphics graphics)
+        public Command(Action action, Variable[] variable, Operations operations, 
+            Operators oper, int[] numbers, Colors color, bool onoff, Graphics graphics)
         {
             Action = action;
             Operation = operations;
@@ -116,27 +120,36 @@ namespace AssessmentApp
 
             graphicsHandler ??= GraphicsHandler.getInstance();
             variableHandler ??= VariableHandler.getInstance();
+            loopHandler ??= LoopHandler.getInstance();
 
+            loopHandler.LineNum++;
 
             // Check if a loop is ending first
             if (operations != Operations.None && oper == Operators.None)
             {
                 if ("Endif".Equals(operations.ToString()))
                 {
-                    variableHandler.ExecuteFlag = true;
+                    loopHandler.ExecuteFlag = true;
                     return;
                 }
                 else if ("Endloop".Equals(operations.ToString()))
                 {
-
-                    variableHandler.LoopFlag = false;
+                    endLoopLine = loopHandler.LineNum;
+                    loopHandler.LoopFlag = false;
                 }
             }
 
             // Check if the code need to be executed
-            if (variableHandler.ExecuteFlag == false)
+            if (loopHandler.ExecuteFlag == false)
             {
                 return;
+            }
+
+            if (action == Action.None && variable[0] == Variable.None && operations == Operations.None 
+                && oper == Operators.None && numbers.Length == 0)
+            {
+                throw new ArgumentException($"Something seems to be wrong, maybe it's your syntax? Try hitting" +
+                    $" the syntax button to check before you run or have a look at the help form.");
             }
 
             // Check to see if the fill option is being changed
@@ -384,21 +397,21 @@ namespace AssessmentApp
                     {
                         if (variableValue == numbers[0]) 
                         {
-                            variableHandler.ExecuteFlag = false;
+                            loopHandler.ExecuteFlag = false;
                         }
                     }
                     else if ("LessThan".Equals(Oper.ToString()))
                     {
                         if (variableValue > numbers[0])
                         {
-                            variableHandler.ExecuteFlag = false;
+                            loopHandler.ExecuteFlag = false;
                         }
                     }
                     else if ("GreaterThan".Equals(oper.ToString()))
                     {
                         if (variableValue < numbers[0])
                         {
-                            variableHandler.ExecuteFlag = false;
+                            loopHandler.ExecuteFlag = false;
                         }
                     }
                     else
@@ -409,43 +422,47 @@ namespace AssessmentApp
                 }
                 else if ("While".Equals(operations.ToString()))
                 {
+                    whileLine = loopHandler.LineNum;
                     var variableValue = GetVarValue(variable);
-
                     if (variableValue < numbers[0])
                     {
-                        variableHandler.LoopVal = numbers[0] - variableValue;
+                        loopHandler.LoopVal = numbers[0] - variableValue;
                     }
                     else
                     {
-                        variableHandler.LoopVal = variableValue - numbers[0];
+                        loopHandler.LoopVal = variableValue - numbers[0];
                     }
 
                     if ("Equal".Equals(oper.ToString()))
                     {
                         if (variableValue != numbers[0])
                         {
-                            variableHandler.LoopFlag = true;
-                            
+                            loopHandler.LoopFlag = true;
                         }
                     }
                     else if ("LessThan".Equals(Oper.ToString()))
                     {
                         if (variableValue < numbers[0])
                         {
-                            variableHandler.LoopFlag = true;
+                            loopHandler.LoopFlag = true;
                         }
                     }
                     else if ("GreaterThan".Equals(oper.ToString()))
                     {
                         if (variableValue > numbers[0])
                         {
-                            variableHandler.LoopFlag = true;
+                            loopHandler.LoopFlag = true;
                         }
                     }
                     else
                     {
                         throw new NotImplementedException();
                     }
+
+                    //while (loopHandler.LoopVal != 0)
+                    //{
+                        //IEnumerable<Command> command = parser.ParseProgram(textBox2.Text, graphics);
+                    //}
                 }
             }
             if (operations == Operations.None && oper != Operators.None && action == Action.None)
