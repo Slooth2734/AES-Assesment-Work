@@ -145,12 +145,14 @@ namespace AssessmentApp
                 return;
             }
 
+            /*
             if (action == Action.None && variable[0] == Variable.None && operations == Operations.None 
                 && oper == Operators.None && numbers.Length == 0)
             {
                 throw new ArgumentException($"Something seems to be wrong, maybe it's your syntax? Try hitting" +
                     $" the syntax button to check before you run or have a look at the help form.");
             }
+            */
 
             // Check to see if the fill option is being changed
             if ("Fill".Equals(action.ToString()) || "On".Equals(action.ToString()))
@@ -204,7 +206,7 @@ namespace AssessmentApp
             }
 
             // Commands without paramaters
-            if (numbers.Length == 0 && variable.Length == 0 && action != Action.None)
+            if (numbers.Length == 0 && variable[0] == Variable.None && action != Action.None)
             {
                 // Default Rectangle
                 if ("Rectangle".Equals(action.ToString()))
@@ -246,7 +248,7 @@ namespace AssessmentApp
                 }
             }
             // Commands with parameters, numerical and stored as variables
-            else if (action != Action.None)
+            else if (!"None".Equals(action.ToString()))
             {
                 // Rectangle with parameters
                 if ("Rectangle".Equals(action.ToString()))
@@ -395,7 +397,7 @@ namespace AssessmentApp
 
                     if ("Equal".Equals(oper.ToString()))
                     {
-                        if (variableValue == numbers[0]) 
+                        if (variableValue != numbers[0]) 
                         {
                             loopHandler.ExecuteFlag = false;
                         }

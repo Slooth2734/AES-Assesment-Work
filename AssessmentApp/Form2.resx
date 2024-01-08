@@ -117,34 +117,58 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="label2.Text" xml:space="preserve">
+  <data name="textBox1.Text" xml:space="preserve">
     <value>Buttons:
-	Draw - Once a valid command has been enetered, pressinjg this button will cause the command to be drawn on the canvas
-	Syntax - This button can be used to check the syntaxt of your command before you run it to make sure that it will run correctly.
-	Clear - this will clear the canvas and the input feilds
-	Save - This button can be used to save the current contents of the multi-line text box so that next time you use the studio, you can pic up from where you left off!
-	Load - This button can be used to load previuosly saved drawings
-
-Drawing shapes:
-	The four shapes can all be used in similar ways. Youy can either just say the shape you want, and a preset sized version of that shape will be drawn at the last saved position. 
-Or, you can say the shape and specify the size of the shape you'd like to draw and a shape of that size will be drawn!
-
-	Circle &lt;radius&gt; 
-	Square &lt;side length&gt;
-	Rectangle &lt;width&gt; &lt;height&gt;
-	Triangle &lt;side length&gt;
-	DrawTo &lt;x&gt; &lt;y&gt; - To draw a line, just specify wehre you want the line to end
-
-Other Commands:
-	Reset - Reset the art studio back to its begining state
-	MoveTo - Move they cursor for where to begin drawing from
+     Draw –    Once a valid command has been entered, pressing this button will cause the command to be drawn on the canvas
+     Syntax –  This button can be used to check the syntax of your command before you run it to make sure that it will run correctly.
+     Clear –    This will clear the canvas and the input fields.
+     Save –     This button can be used to save the current contents of the multi-line text box so that next time you use the studio, 
+                    you can pick up from where you left off!
+     Load –    This button can be used to load previously saved drawings
 
 Text boxes:
-	Single Line - This is the input box just above the run, syntax and clear buttons. This ise used for executing one command at a time.
-	Mulit-line - This is the input box bellow the save and load button. This is used to enter longer lists of commands that will be 	executed one after another, line after line.
-	Output box - This is the text box at the bottom. This is where any errors may be repoted.
+     Single Line -   This is the input box just above the run, syntax, and clear buttons. This is used for executing one command at a time.
+     Multi-line -     This is the input box bellow the save and load button. This is used to enter longer lists of commands that will be executed one 
+                           after another, line after line.
+     Output box -  This is the text box at the bottom. This is where any errors may be reported.
 
-HINT: If your commands arent working to draw anything, try checking the syntaxt of them first!
-Have fun making a masterpice!</value>
+Drawing shapes:
+The five shapes can all be used in similar ways. You can either just say the shape you want, and a preset sized version of that shape will be drawn at the last saved position. Or, you can say the shape and specify the size of the shape you'd like to draw, and a shape of that size will be drawn!
+     Circle &lt;radius&gt; 
+     Square &lt;side length&gt;
+     Rectangle &lt;width&gt; &lt;height&gt;
+     Triangle &lt;side length&gt;
+     Polygon &lt;number of sizes&gt; &lt;side length&gt; - Optionally, you don’t need to specify the sides’ length 
+     DrawTo &lt;x&gt; &lt;y&gt; - To draw a line, just specify where you want the line to end
+
+Fill and Colour Options:
+You don’t want to just be drawing in black and white, do you? You can change a few settings to be able to draw in a selection of colours, and also, decide if you want to draw in solid filled shapes or just their outlines using the following commands:
+     Fill/On – Either of these words can be used to toggle the filled shapes be drawn
+     Draw/Off – Either of these words can be used toggle the outlines shapes to be drawn 
+     Pen &lt;colour&gt; - You can modify the pen colour by preceding the desired colour with the action word "Pen." 
+                              This allows you to set the pen colour to one of the following options:
+Black, Blue, Green, Orange, Pink, Purple, Red, Yellow, or White
+
+Other Commands:
+     Reset – Reset the art studio back to its beginning state
+     MoveTo &lt;x&gt; &lt;y&gt; – Move the cursor for where to begin drawing from
+
+Variables:
+If you’d like to set values to the available variable names, you can build a command like the following:
+     Var &lt;variable name&gt; &lt;variable int value&gt;
+This will save the numerical value to the corresponding variable name. The following is a list of available variable names:
+Count, Side, Height, Width, Radius
+
+If Statements (Advanced):
+When creating a multi-line program, you can add an “if condition” in your code. This looks like the following example:
+     Count 30
+     If count &lt; 20
+     Pen blue
+     Square
+     Endif
+With any if statement that you may chose to use, if the statement evaluates to be true, then the code within the if statement block will be executed, otherwise, it will be ignored. The if statement must be started with “if” and be ended with “endif”, but and variable name can be used and any of the three following operators can be used: “==”, “&lt;”, “&gt;”
+
+HINT: If your commands aren’t working to draw anything, try checking the syntax of them first!
+Have fun making a masterpiece!</value>
   </data>
 </root>
